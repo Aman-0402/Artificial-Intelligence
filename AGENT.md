@@ -67,21 +67,38 @@ Full design spec: `docs/superpowers/specs/2026-05-24-ai-ebook-platform-design.md
 
 ## Build Phases
 
-| # | Phase | Status |
-|---|-------|--------|
-| 1 | Folder structure + CSS variables + base styles | ⬜ |
-| 2 | Shell `index.html` + header + layout grid | ⬜ |
-| 3 | Sidebar navigation + accordion + `topics.js` data | ⬜ |
-| 4 | Mobile responsive layout + hamburger + overlay | ⬜ |
-| 5 | Theme toggle system (dark/light + localStorage) | ⬜ |
-| 6 | Hero / welcome page + particles + Typed.js | ⬜ |
-| 7 | `_template.html` + 3 sample content topic pages | ⬜ |
-| 8 | MCQ system (`mcq.js` + questions in all topics) | ⬜ |
-| 9 | Quiz challenge page + timer + scoring | ⬜ |
-| 10 | Interview questions + remaining topic pages | ⬜ |
-| 11 | TTS + reading progress + scroll-to-top | ⬜ |
-| 12 | Animations polish + AOS + glow effects | ⬜ |
-| 13 | Final QA: mobile test, file:// verify, cleanup | ⬜ |
+| # | Phase | Status | Commit |
+|---|-------|--------|--------|
+| 1 | Folder structure + CSS variables + base styles | ✅ Done | `6c20b80` |
+| 2 | Shell `index.html` + all JS modules | ✅ Done | `d4cde2b` |
+| 3 | Welcome hero page + `_template.html` + MCQ engine | ✅ Done | `2373ac6` |
+| 4 | All 13 topic content pages (AI content + 5 MCQs each) | 🔲 Next | — |
+| 5 | Quiz challenge page + timer + scoring | 🔲 Todo | — |
+| 6 | Interview questions page | 🔲 Todo | — |
+| 7 | MCQ Bank aggregated page | 🔲 Todo | — |
+| 8 | Animations polish + AOS + glow effects | 🔲 Todo | — |
+| 9 | Final QA: mobile test, file:// verify, cleanup | 🔲 Todo | — |
+
+### Phase 1 delivered
+- `css/variables.css` — all design tokens
+- `css/base.css` — reset, Google Fonts, typography
+- `css/animations.css` — 12 keyframes
+- `css/header.css`, `sidebar.css`, `content.css`, `components.css`, `theme-light.css`
+
+### Phase 2 delivered
+- `index.html` — full shell (header, sidebar, iframe wrapper, overlays)
+- `data/topics.js` — 5 groups / 16 topics + `getTopicById` / `getAdjacentTopics`
+- `js/theme.js` — dark/light toggle, localStorage, postMessage to iframe
+- `js/sidebar.js` — accordion render, search filter, mobile open/close, active highlight
+- `js/navigation.js` — iframe src swap, loader, hash routing, scroll-progress listener
+- `js/app.js` — boot orchestrator, search overlay
+- `js/tts.js` — Web Speech API
+- `js/particles.js` — neural network canvas (`initCanvas()` for topic pages)
+
+### Phase 3 delivered
+- `topics/welcome.html` — hero, particle canvas, Typed.js, stats strip, feature cards, topic preview
+- `topics/_template.html` — base template (breadcrumb, TTS, reading time, MCQ mount, prev/next nav, scroll-top, Prism.js, AOS)
+- `js/mcq.js` — MCQ engine (reads inline JSON, interactive scoring, explanation, retry)
 
 ## Design Tokens
 ```
@@ -115,4 +132,46 @@ Children with `file` property = leaf nodes = loadable topics.
 5 questions per topic. `answer` = 0-indexed.
 
 ## Current Phase
-Starting Phase 1.
+**Phase 4** — All 13 topic content pages with real AI content + 5 MCQs each.
+
+Topics remaining to build:
+- `what-is-ai.html`
+- `history-of-ai.html`
+- `applications-ai.html`
+- `supervised-learning.html`
+- `unsupervised-learning.html`
+- `reinforcement-learning.html`
+- `neural-networks.html`
+- `cnn-basics.html`
+- `rnn-lstm.html`
+- `nlp-intro.html`
+- `transformers.html`
+- `llms-chatgpt.html`
+- `interview-questions.html`
+- `mcq-bank.html`
+- `quiz-challenge.html`
+
+## postMessage Protocol (shell ↔ iframe)
+
+| Direction | type | data |
+|-----------|------|------|
+| iframe → shell | `scroll-progress` | `{ percent: 0-100 }` |
+| iframe → shell | `navigate` | `{ id: topicId }` |
+| shell → iframe | `theme-change` | `{ theme: 'dark'|'light' }` |
+| shell → iframe | `topic-context` | `{ id, theme, prev, next }` |
+
+## Key JS APIs
+
+```js
+// Shell globals (available in index.html scope)
+NavigationManager.loadTopic(id, file)   // load topic into iframe
+NavigationManager.loadById(id)          // load by topic id
+SidebarManager.setActive(id)            // highlight sidebar item
+ThemeManager.applyTheme('dark'|'light') // set theme
+
+// data/topics.js globals
+TOPICS                   // full nav tree array
+TOPICS_FLAT              // flat array of all leaf topics
+getTopicById(id)         // → topic object
+getAdjacentTopics(id)    // → { prev, next }
+```
