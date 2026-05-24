@@ -9,13 +9,9 @@
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
   <style>
     *{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body)}
-    .topic-wrapper{max-width:860px;margin:0 auto;padding:var(--space-8) var(--space-8) var(--space-16)}
+    .topic-wrapper{width:100%;padding:var(--space-8) clamp(1.5rem,4vw,5rem) var(--space-16)}
     .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
-    .topic-breadcrumb{display:flex;align-items:center;gap:var(--space-2);font-family:var(--font-nav);font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--space-4)}
-    .topic-breadcrumb__sep{color:var(--border-glow)}.topic-breadcrumb__current{color:var(--accent-cyan)}
     .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
-    .topic-meta{display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap}
-    .topic-meta__item{font-family:var(--font-nav);font-size:var(--text-xs);color:var(--text-muted)}
     .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
     .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
     .topic-content h4{font-size:var(--text-lg);margin-top:var(--space-6);margin-bottom:var(--space-2);color:var(--text-secondary)}
@@ -34,15 +30,7 @@
 <body>
 <article class="topic-wrapper">
   <header class="topic-header">
-    <nav class="topic-breadcrumb">
-      <span>AI.learn</span><span class="topic-breadcrumb__sep">›</span>
-      <span>NLP &amp; Transformers</span><span class="topic-breadcrumb__sep">›</span>
-      <span class="topic-breadcrumb__current">LLMs &amp; ChatGPT</span>
-    </nav>
     <h1 class="topic-title">Large Language Models &amp; ChatGPT</h1>
-    <div class="topic-meta">
-      <span class="topic-meta__item">⏱ 10 min read</span>
-    </div>
   </header>
 
   <div class="topic-content" id="topic-content">

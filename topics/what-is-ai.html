@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>What is AI? — AI.learn</title>
+  <title>What is Artificial Intelligence? — AI.learn</title>
   <link rel="stylesheet" href="../css/variables.css" />
   <link rel="stylesheet" href="../css/base.css" />
   <link rel="stylesheet" href="../css/animations.css" />
@@ -13,25 +13,28 @@
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body)}
-    .topic-wrapper{max-width:860px;margin:0 auto;padding:var(--space-8) var(--space-8) var(--space-16)}
+    .topic-wrapper{width:100%;padding:var(--space-8) clamp(1.5rem,4vw,5rem) var(--space-16)}
     .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
-    .topic-breadcrumb{display:flex;align-items:center;gap:var(--space-2);font-family:var(--font-nav);font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--space-4)}
-    .topic-breadcrumb__sep{color:var(--border-glow)}
-    .topic-breadcrumb__current{color:var(--accent-cyan)}
-    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
-    .topic-meta{display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap}
-    .topic-meta__item{display:flex;align-items:center;gap:var(--space-2);font-family:var(--font-nav);font-size:var(--text-xs);color:var(--text-muted);letter-spacing:.06em}
+    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);line-height:1.2}
     .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
     .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
     .topic-content h4{font-size:var(--text-lg);margin-top:var(--space-6);margin-bottom:var(--space-2);color:var(--text-secondary)}
     .topic-content p{font-size:var(--text-base);line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
     .topic-content ul,.topic-content ol{margin-bottom:var(--space-4);padding-left:var(--space-6)}
     .topic-content li{margin-bottom:var(--space-2);line-height:var(--leading-relaxed);color:var(--text-secondary)}
-    .topic-content pre[class*="language-"]{border-radius:var(--radius-lg);border:1px solid var(--border-default);font-size:var(--text-sm);margin-bottom:var(--space-6)}
+    .topic-content strong{color:var(--text-primary)}
     .topic-content table{width:100%;border-collapse:collapse;margin-bottom:var(--space-6);font-size:var(--text-sm)}
     .topic-content th{background:var(--bg-secondary);color:var(--accent-cyan);font-family:var(--font-nav);font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:var(--space-3) var(--space-4);text-align:left;border-bottom:1px solid var(--border-glow)}
     .topic-content td{padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);vertical-align:top}
     .topic-content tr:hover td{background:rgba(0,212,255,.03)}
+    .topic-image{width:100%;max-width:700px;display:block;margin:var(--space-6) auto;border-radius:var(--radius-xl);border:1px solid var(--border-default)}
+    .image-caption{text-align:center;font-size:var(--text-xs);color:var(--text-muted);font-family:var(--font-nav);margin-top:calc(-1 * var(--space-3));margin-bottom:var(--space-6);letter-spacing:.06em}
+    .scenario-block{background:var(--bg-card);border:1px solid var(--border-default);border-left:3px solid var(--accent-purple);border-radius:var(--radius-lg);padding:var(--space-5);margin-bottom:var(--space-5)}
+    .scenario-block h4{color:var(--accent-purple);margin-top:0;margin-bottom:var(--space-3)}
+    .scenario-block p,.scenario-block ul{margin-bottom:var(--space-2)}
+    .question-list{counter-reset:q-counter;list-style:none;padding-left:0}
+    .question-list li{counter-increment:q-counter;padding:var(--space-3) var(--space-4);margin-bottom:var(--space-2);background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);color:var(--text-secondary);position:relative;padding-left:var(--space-10)}
+    .question-list li::before{content:counter(q-counter);position:absolute;left:var(--space-3);top:50%;transform:translateY(-50%);font-family:var(--font-nav);font-size:var(--text-xs);font-weight:700;color:var(--accent-cyan);background:rgba(0,212,255,.1);border:1px solid var(--accent-cyan-border);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;line-height:1}
     .scroll-top-btn{position:fixed;bottom:var(--space-6);right:var(--space-6);width:42px;height:42px;background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-md);cursor:pointer;color:var(--accent-cyan);font-size:1.2rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-md),var(--glow-cyan-sm);opacity:0;transform:translateY(10px);pointer-events:none;transition:all .3s ease;z-index:50}
     .scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:all}
     .scroll-top-btn:hover{background:var(--accent-cyan-glow);transform:translateY(-3px)}
@@ -40,193 +43,294 @@
 </head>
 <body>
 <article class="topic-wrapper">
+
   <header class="topic-header">
-    <nav class="topic-breadcrumb">
-      <span>AI.learn</span><span class="topic-breadcrumb__sep">›</span>
-      <span>Introduction to AI</span><span class="topic-breadcrumb__sep">›</span>
-      <span class="topic-breadcrumb__current">What is AI?</span>
-    </nav>
     <h1 class="topic-title">What is Artificial Intelligence?</h1>
-    <div class="topic-meta">
-      <span class="topic-meta__item">⏱ <span id="reading-time">8 min read</span></span>
-    </div>
   </header>
 
   <div class="topic-content" id="topic-content">
 
-    <p data-aos="fade-up">Artificial Intelligence (AI) is the simulation of human intelligence in machines programmed to think, learn, reason, and solve problems. The term was coined by John McCarthy in 1956, who defined it as <em>"the science and engineering of making intelligent machines."</em></p>
+    <p data-aos="fade-up">Artificial Intelligence (AI) is the ability of machines or computers to behave in a way that appears <strong>"intelligent."</strong></p>
+
+    <p data-aos="fade-up">It means a machine can:</p>
+    <ul data-aos="fade-up">
+      <li>Learn</li>
+      <li>Think logically</li>
+      <li>Make decisions</li>
+      <li>Understand patterns</li>
+      <li>Solve problems</li>
+      <li>Improve from experience</li>
+    </ul>
+
+    <p data-aos="fade-up">Just like humans use their brain to make decisions, AI systems try to simulate some human intelligence using <strong>data and algorithms</strong>.</p>
+
+    <!-- ─── Real-Life Analogy ─── -->
+    <h2 data-aos="fade-up">Real-Life Analogy</h2>
+
+    <p data-aos="fade-up">Imagine teaching a small child how to identify a cat. You show:</p>
+    <ul data-aos="fade-up">
+      <li>1 cat</li>
+      <li>10 cats</li>
+      <li>100 cats</li>
+    </ul>
+    <p data-aos="fade-up">Eventually the child understands: <em>"Animals with whiskers, ears, tail, and certain shape are cats."</em></p>
+    <p data-aos="fade-up">AI learns similarly:</p>
+    <ul data-aos="fade-up">
+      <li>We feed data</li>
+      <li>AI finds patterns</li>
+      <li>AI makes predictions / decisions</li>
+    </ul>
+
+    <!-- ─── Definition ─── -->
+    <h2 data-aos="fade-up">Definition</h2>
 
     <div class="alert alert-info" data-aos="fade-up">
-      <span class="alert__icon">💡</span>
+      <span class="alert__icon">📖</span>
       <div class="alert__content">
-        <div class="alert__title">Core Definition</div>
-        AI = Any technique that enables machines to mimic human cognitive functions such as learning, problem-solving, perception, and language understanding.
+        <div class="alert__title">Formal Definition</div>
+        Artificial Intelligence is a branch of computer science focused on building systems capable of performing tasks that normally require human intelligence.
       </div>
     </div>
 
-    <h2 data-aos="fade-up">Types of Artificial Intelligence</h2>
-
-    <h3 data-aos="fade-up">1. Narrow AI (Weak AI)</h3>
-    <p data-aos="fade-up">Designed to perform a <strong>single specific task</strong>. This is the only type of AI that exists today. It cannot perform tasks outside its trained domain.</p>
+    <p data-aos="fade-up">These tasks include:</p>
     <ul data-aos="fade-up">
-      <li>Google Search algorithm</li>
-      <li>Netflix recommendation engine</li>
-      <li>Face recognition systems</li>
-      <li>Spam email filters</li>
-      <li>Chess-playing programs (Deep Blue)</li>
+      <li>Vision</li>
+      <li>Speech recognition</li>
+      <li>Language understanding</li>
+      <li>Decision making</li>
+      <li>Prediction</li>
+      <li>Planning</li>
+      <li>Creativity</li>
     </ul>
 
-    <h3 data-aos="fade-up">2. General AI (Strong AI)</h3>
-    <p data-aos="fade-up">A hypothetical AI that can perform <strong>any intellectual task</strong> a human can. It would have reasoning, planning, learning, and creativity across all domains. Does not yet exist.</p>
+    <!-- ─── Visual Understanding ─── -->
+    <h2 data-aos="fade-up">Visual Understanding</h2>
 
-    <h3 data-aos="fade-up">3. Super AI</h3>
-    <p data-aos="fade-up">A theoretical AI that <strong>surpasses all human intelligence</strong>. Purely speculative — the subject of philosophical and ethical debate.</p>
+    <p data-aos="fade-up">Think of AI as a huge umbrella — everything else sits underneath it:</p>
+
+    <img
+      src="../assets/images/Think of AI as a huge umbrella.png"
+      alt="AI as an umbrella — ML, DL, NLP, Computer Vision underneath"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption" data-aos="fade-up">We will slowly learn every layer in this roadmap.</p>
+
+    <!-- ─── Real-World Examples ─── -->
+    <h2 data-aos="fade-up">Real-World AI Examples</h2>
+
+    <h3 data-aos="fade-up">Example 1 — YouTube Recommendations</h3>
+    <p data-aos="fade-up">When YouTube suggests <em>"Videos you may like"</em>, that's AI analyzing:</p>
+    <ul data-aos="fade-up">
+      <li>Your watch history</li>
+      <li>Likes</li>
+      <li>Search history</li>
+      <li>Viewing time</li>
+    </ul>
+
+    <h3 data-aos="fade-up">Example 2 — Google Maps</h3>
+    <p data-aos="fade-up">AI helps:</p>
+    <ul data-aos="fade-up">
+      <li>Predict traffic</li>
+      <li>Find fastest route</li>
+      <li>Estimate arrival time</li>
+    </ul>
+
+    <h3 data-aos="fade-up">Example 3 — Netflix</h3>
+    <p data-aos="fade-up">AI recommends movies based on:</p>
+    <ul data-aos="fade-up">
+      <li>Genre preference</li>
+      <li>Watch patterns</li>
+      <li>User similarity</li>
+    </ul>
+
+    <h3 data-aos="fade-up">Example 4 — ChatGPT</h3>
+    <p data-aos="fade-up">OpenAI created AI systems that understand and generate human language. ChatGPT uses:</p>
+    <ul data-aos="fade-up">
+      <li>Deep Learning</li>
+      <li>Transformers</li>
+      <li>Large Language Models (LLMs)</li>
+    </ul>
+    <p data-aos="fade-up">We will learn <strong>ALL</strong> of these later.</p>
+
+    <!-- ─── Industry Use-Cases ─── -->
+    <h2 data-aos="fade-up">Industry Use-Cases</h2>
+
+    <h3 data-aos="fade-up">Healthcare</h3>
+    <p data-aos="fade-up">AI helps doctors:</p>
+    <ul data-aos="fade-up">
+      <li>Detect cancer</li>
+      <li>Analyze X-rays</li>
+      <li>Predict diseases</li>
+    </ul>
+    <p data-aos="fade-up"><em>Example: Google DeepMind developed AI systems for protein structure prediction.</em></p>
+
+    <h3 data-aos="fade-up">Banking</h3>
+    <p data-aos="fade-up">AI detects:</p>
+    <ul data-aos="fade-up">
+      <li>Fraud transactions</li>
+      <li>Credit risks</li>
+      <li>Spending patterns</li>
+    </ul>
+
+    <h3 data-aos="fade-up">E-Commerce</h3>
+    <p data-aos="fade-up">Amazon uses AI for:</p>
+    <ul data-aos="fade-up">
+      <li>Product recommendations</li>
+      <li>Smart warehouses</li>
+      <li>Delivery prediction</li>
+    </ul>
+
+    <h3 data-aos="fade-up">Self-Driving Cars</h3>
+    <p data-aos="fade-up">Companies like Tesla and Waymo use AI for:</p>
+    <ul data-aos="fade-up">
+      <li>Lane detection</li>
+      <li>Object detection</li>
+      <li>Decision making</li>
+    </ul>
+
+    <!-- ─── Important Understanding ─── -->
+    <h2 data-aos="fade-up">Important Understanding</h2>
+
+    <div class="alert alert-warning" data-aos="fade-up">
+      <span class="alert__icon">⚠️</span>
+      <div class="alert__content">
+        <div class="alert__title">AI does NOT "think" like humans</div>
+        AI finds patterns, learns from data, and makes predictions mathematically. It does <strong>not</strong> have emotions, consciousness, or human understanding. Even advanced AI is still pattern prediction at a massive scale.
+      </div>
+    </div>
+
+    <!-- ─── Types of Tasks ─── -->
+    <h2 data-aos="fade-up">Types of Tasks AI Can Perform</h2>
 
     <table data-aos="fade-up">
       <thead>
-        <tr><th>Type</th><th>Capability</th><th>Status</th><th>Example</th></tr>
+        <tr><th>Task</th><th>Example</th></tr>
       </thead>
       <tbody>
-        <tr><td>Narrow AI</td><td>Single task</td><td>✅ Exists</td><td>Siri, AlphaGo</td></tr>
-        <tr><td>General AI</td><td>Any cognitive task</td><td>❌ Not yet</td><td>—</td></tr>
-        <tr><td>Super AI</td><td>Beyond human</td><td>❌ Theoretical</td><td>—</td></tr>
+        <tr><td>Prediction</td><td>Weather forecast</td></tr>
+        <tr><td>Recognition</td><td>Face unlock</td></tr>
+        <tr><td>Recommendation</td><td>Netflix suggestions</td></tr>
+        <tr><td>Language Understanding</td><td>Chatbots</td></tr>
+        <tr><td>Decision Making</td><td>Self-driving cars</td></tr>
+        <tr><td>Generation</td><td>AI image / video / text creation</td></tr>
       </tbody>
     </table>
 
-    <h2 data-aos="fade-up">Core Branches of AI</h2>
+    <!-- ─── Practical Mini Example ─── -->
+    <h2 data-aos="fade-up">Practical Mini Example</h2>
 
-    <h3 data-aos="fade-up">Machine Learning (ML)</h3>
-    <p data-aos="fade-up">Systems that learn from data without being explicitly programmed. Instead of hardcoded rules, ML models find patterns from examples.</p>
+    <p data-aos="fade-up">Suppose we build an AI system to detect spam emails.</p>
+    <p data-aos="fade-up"><strong>Input:</strong> Thousands of emails. AI learns patterns like <em>"Win money"</em>, <em>"Free offer"</em>, suspicious links.</p>
+    <p data-aos="fade-up"><strong>Output:</strong> Spam or Not Spam — one of the simplest AI applications.</p>
 
-    <h3 data-aos="fade-up">Deep Learning (DL)</h3>
-    <p data-aos="fade-up">A subset of ML using multi-layered neural networks. Excels at unstructured data like images, audio, and text.</p>
-
-    <h3 data-aos="fade-up">Natural Language Processing (NLP)</h3>
-    <p data-aos="fade-up">Enables machines to understand, interpret, and generate human language. Powers chatbots, translators, and sentiment analysis.</p>
-
-    <h3 data-aos="fade-up">Computer Vision</h3>
-    <p data-aos="fade-up">Enables machines to interpret visual information from images and videos. Used in self-driving cars, medical imaging, and face detection.</p>
-
-    <h2 data-aos="fade-up">How AI Works — A Simple Example</h2>
-    <p data-aos="fade-up">Here's a minimal rule-based AI (pre-ML era style) and a simple ML approach:</p>
-
-    <pre data-aos="fade-up"><code class="language-python"># Rule-based AI (Old approach — explicit rules)
-def classify_email_old(subject, body):
-    spam_words = ["free", "winner", "prize", "click here"]
-    text = (subject + " " + body).lower()
-    for word in spam_words:
-        if word in text:
-            return "SPAM"
-    return "NOT SPAM"
-
-# ML approach (Modern — learned from data)
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.feature_extraction.text import CountVectorizer
-
-# Training data
-emails = ["Win a free prize!", "Meeting at 3pm", "Click here free money"]
-labels = [1, 0, 1]  # 1 = spam, 0 = not spam
-
-vectorizer = CountVectorizer()
-X = vectorizer.fit_transform(emails)
-
-model = MultinomialNB()
-model.fit(X, labels)
-
-# Predict new email
-new_email = ["Free offer just for you"]
-X_new = vectorizer.transform(new_email)
-print(model.predict(X_new))  # Output: [1] → SPAM
-</code></pre>
-
-    <h2 data-aos="fade-up">AI vs Human Intelligence</h2>
-
-    <table data-aos="fade-up">
-      <thead>
-        <tr><th>Aspect</th><th>Human Intelligence</th><th>Artificial Intelligence</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Learning</td><td>From experience &amp; environment</td><td>From data &amp; algorithms</td></tr>
-        <tr><td>Speed</td><td>Relatively slow</td><td>Extremely fast</td></tr>
-        <tr><td>Creativity</td><td>High — novel ideas</td><td>Limited — pattern recombination</td></tr>
-        <tr><td>Emotion</td><td>Present</td><td>Absent (simulated only)</td></tr>
-        <tr><td>Adaptability</td><td>High — general purpose</td><td>Low — task-specific</td></tr>
-        <tr><td>Energy</td><td>~20 watts</td><td>Kilowatts to megawatts</td></tr>
-      </tbody>
-    </table>
-
-    <h2 data-aos="fade-up">Why AI Matters Now</h2>
-    <p data-aos="fade-up">Three key forces converged to make modern AI possible:</p>
-    <ul data-aos="fade-up">
-      <li><strong>Big Data</strong> — massive datasets from the internet, sensors, and devices</li>
-      <li><strong>Computational Power</strong> — GPUs and cloud computing enabling fast training</li>
-      <li><strong>Algorithmic Advances</strong> — breakthroughs like backpropagation, attention mechanisms, and transformers</li>
-    </ul>
+    <!-- ─── Notes ─── -->
+    <h2 data-aos="fade-up">Key Notes</h2>
 
     <div class="alert alert-tip" data-aos="fade-up">
-      <span class="alert__icon">🚀</span>
+      <span class="alert__icon">📝</span>
       <div class="alert__content">
-        <div class="alert__title">Key Takeaway</div>
-        AI is not magic — it is statistics and optimization applied at scale. Every AI system learns by minimizing error over large amounts of data.
+        <ul style="margin:0;padding-left:var(--space-5)">
+          <li>AI = Machines simulating intelligent behavior</li>
+          <li>AI learns patterns from data</li>
+          <li>AI is a broad field</li>
+          <li>ML and DL are subsets of AI</li>
+          <li>Generative AI is a subset of Deep Learning</li>
+          <li>AI powers recommendations, chatbots, predictions, automation</li>
+        </ul>
       </div>
     </div>
+
+    <!-- ─── Scenario-Based Questions ─── -->
+    <h2 data-aos="fade-up">Scenario-Based Questions</h2>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <h4>Scenario 1 — Spotify Recommendations</h4>
+      <p>You open Spotify and it recommends songs similar to your taste.</p>
+      <p><strong>Question:</strong> What is the AI system analyzing?</p>
+      <p>Think about:</p>
+      <ul>
+        <li>User behavior</li>
+        <li>Listening history</li>
+        <li>Similar users</li>
+      </ul>
+    </div>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <h4>Scenario 2 — Bank Fraud Detection</h4>
+      <p>A bank blocks a suspicious transaction automatically.</p>
+      <p><strong>Question:</strong> How might AI detect fraud?</p>
+    </div>
+
+    <!-- ─── Interview-Style Questions ─── -->
+    <h2 data-aos="fade-up">Interview-Style Questions</h2>
+    <ol class="question-list" data-aos="fade-up">
+      <li>What is Artificial Intelligence?</li>
+      <li>Give real-world examples of AI.</li>
+      <li>Difference between normal programming and AI systems?</li>
+      <li>Why is data important in AI?</li>
+    </ol>
+
+    <!-- ─── Reflection Questions ─── -->
+    <h2 data-aos="fade-up">Think About It</h2>
+    <ol class="question-list" data-aos="fade-up">
+      <li>In your own words, what is AI?</li>
+      <li>Can you give 3 real-life AI examples?</li>
+      <li>Why do you think data is important for AI?</li>
+      <li>What daily app do you think uses AI the most?</li>
+    </ol>
 
   </div>
 
   <!-- MCQ SECTION -->
   <section class="mcq-section">
     <h2 class="mcq-section__title">🧩 Practice MCQs</h2>
-    <p class="mcq-section__subtitle">Test your understanding — 5 questions</p>
+    <p class="mcq-section__subtitle">Test your understanding — 4 questions</p>
     <div id="mcq-mount"></div>
   </section>
 
   <script type="application/json" id="mcq-data">
   [
     {
-      "q": "Who coined the term 'Artificial Intelligence' and in what year?",
-      "options": ["Alan Turing, 1950", "John McCarthy, 1956", "Marvin Minsky, 1960", "Geoffrey Hinton, 1986"],
+      "q": "What does AI stand for?",
+      "options": ["Automated Internet", "Artificial Intelligence", "Advanced Interface", "Artificial Interaction"],
       "answer": 1,
-      "explanation": "John McCarthy coined the term 'Artificial Intelligence' at the Dartmouth Conference in 1956, which is considered the birth of AI as a formal discipline."
+      "explanation": "AI stands for Artificial Intelligence — the ability of machines to simulate human-like intelligent behavior such as learning, reasoning, and decision making."
     },
     {
-      "q": "Which type of AI exists today and powers real-world applications like Siri and recommendation engines?",
-      "options": ["General AI", "Super AI", "Narrow AI", "Conscious AI"],
+      "q": "Which of the following is an AI application?",
+      "options": ["Netflix recommendations", "Face unlock", "Chatbots", "All of the above"],
+      "answer": 3,
+      "explanation": "All three are AI applications. Netflix uses collaborative filtering, face unlock uses computer vision, and chatbots use Natural Language Processing — all branches of AI."
+    },
+    {
+      "q": "AI mainly works by:",
+      "options": ["Magic", "Human emotions", "Pattern recognition from data", "Guessing randomly"],
       "answer": 2,
-      "explanation": "Narrow AI (also called Weak AI) is the only type that currently exists. It is designed for specific tasks and cannot generalize outside its training domain."
+      "explanation": "AI works by finding patterns in large amounts of data using mathematical algorithms. It does not have emotions or consciousness — it predicts based on statistical patterns."
     },
     {
-      "q": "What are the three key forces that made modern AI possible?",
-      "options": ["Robots, sensors, and cameras", "Big Data, computational power, and algorithmic advances", "Internet, smartphones, and GPS", "Python, Java, and C++"],
-      "answer": 1,
-      "explanation": "The AI revolution was enabled by: Big Data (massive training datasets), Computational Power (GPUs/cloud), and Algorithmic Advances (backpropagation, attention, transformers)."
-    },
-    {
-      "q": "Which branch of AI uses multi-layered neural networks and excels at image and speech recognition?",
-      "options": ["Expert Systems", "Fuzzy Logic", "Deep Learning", "Genetic Algorithms"],
-      "answer": 2,
-      "explanation": "Deep Learning uses multi-layered (deep) neural networks. It is especially powerful for unstructured data like images, audio, and text, outperforming traditional ML on these tasks."
-    },
-    {
-      "q": "What is the fundamental difference between rule-based AI and Machine Learning?",
-      "options": [
-        "Rule-based AI is faster than ML",
-        "ML requires more memory than rule-based AI",
-        "Rule-based AI uses explicit human-written rules; ML learns rules from data",
-        "ML only works for image data"
-      ],
-      "answer": 2,
-      "explanation": "Rule-based AI requires humans to explicitly program every decision rule. Machine Learning instead learns patterns and rules automatically from training data, making it scalable to complex problems."
+      "q": "Which company is famous for autonomous driving AI?",
+      "options": ["Tesla", "Adobe", "Canva", "Spotify"],
+      "answer": 0,
+      "explanation": "Tesla is known for its Autopilot and Full Self-Driving (FSD) AI systems. Waymo (Google) is another major player. Both use AI for lane detection, object detection, and real-time decision making."
     }
   ]
   </script>
 
   <!-- TOPIC NAV -->
-  <nav class="topic-nav">
-    <button class="topic-nav__btn topic-nav__btn--next" id="btn-next">
-      <span><span class="topic-nav__label">Next</span><span class="topic-nav__title" id="next-title">History of AI</span></span>
+  <nav class="topic-nav" id="topic-nav">
+    <button class="topic-nav__btn topic-nav__btn--prev" id="btn-prev" style="display:none">
+      <span>←</span>
+      <span><span class="topic-nav__label">Previous</span><span class="topic-nav__title" id="prev-title"></span></span>
+    </button>
+    <button class="topic-nav__btn topic-nav__btn--next" id="btn-next" style="display:none">
+      <span><span class="topic-nav__label">Next</span><span class="topic-nav__title" id="next-title"></span></span>
       <span>→</span>
     </button>
   </nav>
+
 </article>
 
 <button class="scroll-top-btn" id="scroll-top" aria-label="Scroll to top">↑</button>
@@ -236,23 +340,39 @@ print(model.predict(X_new))  # Output: [1] → SPAM
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script src="../js/mcq.js"></script>
 <script>
-  AOS.init({duration:500,once:true,offset:40});
-  window.addEventListener('message',e=>{
-    if(e.data?.type==='topic-context'){
-      const {prev,next}=e.data;
-      if(prev){const b=document.getElementById('btn-prev');if(b){document.getElementById('prev-title').textContent=prev.label;b.style.display='flex';b.onclick=()=>window.parent.postMessage({type:'navigate',data:{id:prev.id}},'*');}}
-      if(next){const b=document.getElementById('btn-next');if(b){document.getElementById('next-title').textContent=next.label;b.style.display='flex';b.onclick=()=>window.parent.postMessage({type:'navigate',data:{id:next.id}},'*');}}
+  AOS.init({ duration: 500, once: true, offset: 40 });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const data = JSON.parse(document.getElementById('mcq-data').textContent || '[]');
+    if (data.length) MCQEngine.init('mcq-mount', data);
+  });
+
+  window.addEventListener('message', e => {
+    if (e.data?.type === 'topic-context') {
+      const { prev, next } = e.data;
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      if (prev && btnPrev) {
+        document.getElementById('prev-title').textContent = prev.label;
+        btnPrev.style.display = 'flex';
+        btnPrev.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: prev.id } }, '*');
+      }
+      if (next && btnNext) {
+        document.getElementById('next-title').textContent = next.label;
+        btnNext.style.display = 'flex';
+        btnNext.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: next.id } }, '*');
+      }
     }
   });
-  window.addEventListener('scroll',()=>{
-    const el=document.documentElement;
-    const pct=(el.scrollTop/(el.scrollHeight-el.clientHeight))*100;
-    window.parent.postMessage({type:'scroll-progress',data:{percent:pct||0}},'*');
-    document.getElementById('scroll-top')?.classList.toggle('visible',window.scrollY>300);
-  },{passive:true});
-  document.getElementById('scroll-top')?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-  document.getElementById('btn-next')?.addEventListener('click',()=>window.parent.postMessage({type:'navigate',data:{id:'history-of-ai'}},'*'));
-  });
+
+  window.addEventListener('scroll', () => {
+    const el = document.documentElement;
+    const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+    window.parent.postMessage({ type: 'scroll-progress', data: { percent: pct || 0 } }, '*');
+    document.getElementById('scroll-top')?.classList.toggle('visible', window.scrollY > 300);
+  }, { passive: true });
+
+  document.getElementById('scroll-top')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 </script>
 </body>
 </html>

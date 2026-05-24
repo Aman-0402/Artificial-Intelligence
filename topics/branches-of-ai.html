@@ -11,15 +11,9 @@
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body);overflow-x:hidden}
-    .topic-wrapper{max-width:860px;margin:0 auto;padding:var(--space-8) var(--space-8) var(--space-16)}
+    .topic-wrapper{width:100%;padding:var(--space-8) clamp(1.5rem,4vw,5rem) var(--space-16)}
     .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
-    .topic-breadcrumb{display:flex;align-items:center;gap:var(--space-2);font-family:var(--font-nav);font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--space-4)}
-    .topic-breadcrumb__sep{color:var(--border-glow)}.topic-breadcrumb__current{color:var(--accent-cyan)}
-    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
-    .topic-meta{display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap}
-    .topic-meta__item{display:flex;align-items:center;gap:var(--space-2);font-family:var(--font-nav);font-size:var(--text-xs);color:var(--text-muted)}
-    .topic-meta__item svg{color:var(--accent-cyan)}
-    .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
+    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}    .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
     .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
     .topic-content p{font-size:var(--text-base);line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
     .topic-content ul,.topic-content ol{margin-bottom:var(--space-4);padding-left:var(--space-6)}
@@ -33,18 +27,7 @@
 <body>
 <article class="topic-wrapper">
   <header class="topic-header">
-    <nav class="topic-breadcrumb">
-      <span>AI.learn</span><span class="topic-breadcrumb__sep">›</span>
-      <span>Introduction to AI</span><span class="topic-breadcrumb__sep">›</span>
-      <span class="topic-breadcrumb__current">Branches of Artificial Intelligence</span>
-    </nav>
     <h1 class="topic-title">Branches of Artificial Intelligence</h1>
-    <div class="topic-meta">
-      <span class="topic-meta__item">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span id="reading-time">5 min read</span>
-      </span>
-    </div>
   </header>
 
   <div class="topic-content" id="topic-content">
@@ -92,13 +75,7 @@
       if (prev && btnPrev) { document.getElementById('prev-title').textContent = prev.label; btnPrev.style.display = 'flex'; btnPrev.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: prev.id } }, '*'); }
       if (next && btnNext) { document.getElementById('next-title').textContent = next.label; btnNext.style.display = 'flex'; btnNext.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: next.id } }, '*'); }
     }
-  });
-  window.addEventListener('DOMContentLoaded', () => {
-    const words = document.getElementById('topic-content')?.innerText.trim().split(/\s+/).length || 0;
-    const el = document.getElementById('reading-time');
-    if (el) el.textContent = Math.max(1, Math.ceil(words / 200)) + ' min read';
-  });
-</script>
+  });</script>
 </body>
 </html>
 
