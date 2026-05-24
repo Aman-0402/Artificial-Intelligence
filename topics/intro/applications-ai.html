@@ -2,221 +2,505 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Applications of AI — AI.learn</title>
-  <link rel="stylesheet" href="../../css/variables.css" /><link rel="stylesheet" href="../../css/base.css" />
-  <link rel="stylesheet" href="../../css/animations.css" /><link rel="stylesheet" href="../../css/components.css" />
+  <title>Real-World Applications of AI — AI.learn</title>
+  <link rel="stylesheet" href="../../css/variables.css" />
+  <link rel="stylesheet" href="../../css/base.css" />
+  <link rel="stylesheet" href="../../css/animations.css" />
+  <link rel="stylesheet" href="../../css/components.css" />
   <link rel="stylesheet" href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
-    body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body)}
+    body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body);overflow-x:hidden}
     .topic-wrapper{width:100%;padding:var(--space-8) clamp(1.5rem,4vw,5rem) var(--space-16)}
     .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
     .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
     .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
     .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
-    .topic-content p{line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
-    .topic-content ul{margin-bottom:var(--space-4);padding-left:var(--space-6)}
+    .topic-content h4{font-size:var(--text-lg);margin-top:var(--space-6);margin-bottom:var(--space-2);color:var(--text-secondary)}
+    .topic-content p{font-size:var(--text-base);line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
+    .topic-content ul,.topic-content ol{margin-bottom:var(--space-4);padding-left:var(--space-6)}
     .topic-content li{margin-bottom:var(--space-2);line-height:var(--leading-relaxed);color:var(--text-secondary)}
-    .app-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--space-4);margin:var(--space-6) 0}
-    .app-card{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-xl);padding:var(--space-5);transition:all .3s ease}
-    .app-card:hover{border-color:var(--accent-cyan-border);box-shadow:var(--glow-cyan-sm);transform:translateY(-3px)}
-    .app-card__icon{font-size:2rem;margin-bottom:var(--space-3)}
-    .app-card__title{font-family:var(--font-nav);font-size:var(--text-base);font-weight:600;color:var(--text-primary);margin-bottom:var(--space-2);letter-spacing:.03em}
-    .app-card__desc{font-size:var(--text-sm);color:var(--text-muted);line-height:1.6}
-    .app-card__examples{margin-top:var(--space-2);font-size:var(--text-xs);color:var(--accent-cyan);font-family:var(--font-nav)}
-    .scroll-top-btn{position:fixed;bottom:var(--space-6);right:var(--space-6);width:42px;height:42px;background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-md);cursor:pointer;color:var(--accent-cyan);font-size:1.2rem;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);pointer-events:none;transition:all .3s ease;z-index:50}
+
+    /* Table */
+    .topic-content table{width:100%;border-collapse:collapse;margin-bottom:var(--space-6);font-size:var(--text-sm)}
+    .topic-content th{background:var(--bg-card);color:var(--accent-cyan);text-align:left;padding:var(--space-3) var(--space-4);border:1px solid var(--border-default);font-weight:600}
+    .topic-content td{padding:var(--space-3) var(--space-4);border:1px solid var(--border-default);color:var(--text-secondary);vertical-align:top}
+    .topic-content tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+
+    /* Image */
+    .topic-image{width:100%;max-width:720px;border-radius:var(--radius-lg);border:1px solid var(--border-default);margin:var(--space-6) auto;display:block;object-fit:contain}
+    .image-caption{text-align:center;font-size:var(--text-sm);color:var(--text-muted);margin-top:calc(-1 * var(--space-4));margin-bottom:var(--space-6)}
+
+    /* Compare grid */
+    .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);margin-bottom:var(--space-6)}
+    @media(max-width:640px){.compare-grid{grid-template-columns:1fr}}
+    .compare-card{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-lg);padding:var(--space-5)}
+    .compare-card__label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.1em;color:var(--accent-cyan);margin-bottom:var(--space-2);font-weight:600}
+    .compare-card p{font-size:var(--text-sm);color:var(--text-secondary);margin-bottom:0}
+
+    /* Scenario block */
+    .scenario-block{background:var(--bg-card);border-left:3px solid var(--accent-cyan);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:var(--space-4) var(--space-5);margin-bottom:var(--space-4)}
+    .scenario-block__label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.1em;color:var(--accent-cyan);margin-bottom:var(--space-2);font-weight:600}
+    .scenario-block p{margin-bottom:var(--space-2);font-size:var(--text-sm)}
+    .scenario-block p:last-child{margin-bottom:0}
+
+    /* Question list */
+    .question-list{list-style:none;padding-left:0;counter-reset:q-counter}
+    .question-list li{counter-increment:q-counter;padding-left:var(--space-8);position:relative;margin-bottom:var(--space-3)}
+    .question-list li::before{content:counter(q-counter) ".";position:absolute;left:0;color:var(--accent-cyan);font-weight:700;font-family:var(--font-mono)}
+
+    /* Highlight box */
+    .highlight-box{background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-lg);padding:var(--space-5);margin-bottom:var(--space-6)}
+    .highlight-box p{margin-bottom:0;font-size:var(--text-sm)}
+
+    /* Industry cards grid */
+    .industry-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-3);margin-bottom:var(--space-6)}
+    .industry-card{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-lg);padding:var(--space-4);text-align:center;transition:all .3s ease}
+    .industry-card:hover{border-color:var(--accent-cyan-border);box-shadow:var(--glow-cyan-sm);transform:translateY(-3px)}
+    .industry-card__icon{font-size:1.8rem;margin-bottom:var(--space-2)}
+    .industry-card__name{font-size:var(--text-sm);font-weight:600;color:var(--text-primary)}
+
+    /* Thinking flow */
+    .thinking-flow{display:flex;flex-direction:column;gap:var(--space-2);margin-bottom:var(--space-6)}
+    .thinking-flow__step{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);font-size:var(--text-sm);color:var(--text-secondary);display:flex;align-items:center;gap:var(--space-3)}
+    .thinking-flow__step span:first-child{color:var(--accent-cyan);font-weight:700;font-family:var(--font-mono);min-width:1.5rem}
+    .thinking-flow__arrow{text-align:center;color:var(--accent-cyan);font-size:1.2rem;line-height:1}
+
+    /* Scroll to top */
+    .scroll-top-btn{position:fixed;bottom:var(--space-6);right:var(--space-6);width:42px;height:42px;background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-md);cursor:pointer;color:var(--accent-cyan);font-size:1.2rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-md),var(--glow-cyan-sm);opacity:0;transform:translateY(10px);pointer-events:none;transition:all .3s ease;z-index:50}
     .scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:all}
-    @media(max-width:600px){.topic-wrapper{padding:var(--space-5) var(--space-4) var(--space-12)}.app-grid{grid-template-columns:1fr}}
+    @media(max-width:600px){.topic-wrapper{padding:var(--space-5) var(--space-4) var(--space-12)}}
   </style>
 </head>
 <body>
 <article class="topic-wrapper">
   <header class="topic-header">
-    <h1 class="topic-title">Real-World Applications of AI</h1>
+    <h1 class="topic-title">Real-World Applications of Artificial Intelligence</h1>
   </header>
 
   <div class="topic-content" id="topic-content">
 
-    <p data-aos="fade-up">AI is no longer a futuristic concept — it is embedded in everyday life. From the moment you unlock your phone with your face to receiving personalised recommendations on streaming platforms, AI works silently behind the scenes.</p>
-
-    <h2 data-aos="fade-up">Key Application Domains</h2>
-
-    <div class="app-grid">
-      <div class="app-card" data-aos="fade-up" data-aos-delay="0">
-        <div class="app-card__icon">🏥</div>
-        <div class="app-card__title">Healthcare</div>
-        <div class="app-card__desc">Disease diagnosis, drug discovery, medical imaging analysis, and personalised treatment planning.</div>
-        <div class="app-card__examples">Examples: IBM Watson Health, DeepMind AlphaFold, radiology AI</div>
+    <!-- Why AI Became Powerful -->
+    <h2 data-aos="fade-up">Why AI Became So Powerful</h2>
+    <p data-aos="fade-up">AI became revolutionary because it can do things humans struggle with at scale.</p>
+    <div class="compare-grid" data-aos="fade-up">
+      <div class="compare-card">
+        <div class="compare-card__label">AI Capabilities</div>
+        <ul style="margin:0;padding-left:1.2rem;margin-top:0.5rem">
+          <li>Process huge amounts of data</li>
+          <li>Detect hidden patterns</li>
+          <li>Automate decisions</li>
+          <li>Work continuously 24/7</li>
+          <li>Improve over time</li>
+        </ul>
       </div>
-      <div class="app-card" data-aos="fade-up" data-aos-delay="80">
-        <div class="app-card__icon">💰</div>
-        <div class="app-card__title">Finance</div>
-        <div class="app-card__desc">Fraud detection, algorithmic trading, credit scoring, and risk assessment at millisecond speed.</div>
-        <div class="app-card__examples">Examples: PayPal fraud detection, robo-advisors, credit scoring</div>
-      </div>
-      <div class="app-card" data-aos="fade-up" data-aos-delay="160">
-        <div class="app-card__icon">🚗</div>
-        <div class="app-card__title">Transportation</div>
-        <div class="app-card__desc">Self-driving vehicles, traffic flow optimisation, ride-sharing algorithms, and predictive maintenance.</div>
-        <div class="app-card__examples">Examples: Tesla Autopilot, Waymo, Google Maps ETA</div>
-      </div>
-      <div class="app-card" data-aos="fade-up" data-aos-delay="240">
-        <div class="app-card__icon">🎯</div>
-        <div class="app-card__title">Marketing</div>
-        <div class="app-card__desc">Personalised ads, customer segmentation, churn prediction, sentiment analysis of reviews.</div>
-        <div class="app-card__examples">Examples: Google Ads targeting, Netflix recommendations</div>
-      </div>
-      <div class="app-card" data-aos="fade-up" data-aos-delay="320">
-        <div class="app-card__icon">🔒</div>
-        <div class="app-card__title">Cybersecurity</div>
-        <div class="app-card__desc">Intrusion detection, malware classification, phishing detection, and anomaly identification.</div>
-        <div class="app-card__examples">Examples: Darktrace, CrowdStrike, email spam filters</div>
-      </div>
-      <div class="app-card" data-aos="fade-up" data-aos-delay="400">
-        <div class="app-card__icon">🎮</div>
-        <div class="app-card__title">Gaming</div>
-        <div class="app-card__desc">NPC behaviour, procedural content generation, difficulty adjustment, and game testing automation.</div>
-        <div class="app-card__examples">Examples: OpenAI Five (Dota 2), AlphaStar (StarCraft)</div>
-      </div>
-    </div>
-
-    <h2 data-aos="fade-up">AI in Natural Language Processing</h2>
-    <p data-aos="fade-up">NLP applications are among the most visible uses of AI in daily life:</p>
-    <ul data-aos="fade-up">
-      <li><strong>Virtual Assistants</strong> — Siri, Alexa, Google Assistant understand and respond to spoken queries</li>
-      <li><strong>Machine Translation</strong> — Google Translate, DeepL translate between 100+ languages in real time</li>
-      <li><strong>Chatbots</strong> — Customer service bots handle millions of queries without human agents</li>
-      <li><strong>Sentiment Analysis</strong> — Brands analyse social media to understand public opinion</li>
-      <li><strong>Text Summarisation</strong> — AI condenses long documents into key points</li>
-    </ul>
-
-    <h2 data-aos="fade-up">AI in Computer Vision</h2>
-    <ul data-aos="fade-up">
-      <li><strong>Face Recognition</strong> — Unlocking phones, surveillance, attendance systems</li>
-      <li><strong>Medical Imaging</strong> — Detecting tumours in X-rays, MRIs with >90% accuracy</li>
-      <li><strong>Quality Control</strong> — Manufacturing defect detection on assembly lines</li>
-      <li><strong>Agriculture</strong> — Crop health monitoring via drone imagery</li>
-      <li><strong>Retail</strong> — Amazon Go cashierless stores use computer vision to track items</li>
-    </ul>
-
-    <h2 data-aos="fade-up">Practical Code: Sentiment Analysis</h2>
-    <pre data-aos="fade-up"><code class="language-python">from transformers import pipeline
-
-# Load a pre-trained sentiment analysis model
-classifier = pipeline("sentiment-analysis")
-
-texts = [
-    "This AI course is absolutely amazing!",
-    "I struggled to understand this concept.",
-    "The explanation was clear and helpful."
-]
-
-results = classifier(texts)
-for text, result in zip(texts, results):
-    print(f"Text: {text}")
-    print(f"Label: {result['label']} | Confidence: {result['score']:.2%}\n")
-
-# Output:
-# Text: This AI course is absolutely amazing!
-# Label: POSITIVE | Confidence: 99.87%
-
-# Text: I struggled to understand this concept.
-# Label: NEGATIVE | Confidence: 98.12%
-</code></pre>
-
-    <h2 data-aos="fade-up">AI Ethics and Concerns</h2>
-    <div class="alert alert-warning" data-aos="fade-up">
-      <span class="alert__icon">⚠️</span>
-      <div class="alert__content">
-        <div class="alert__title">Important Considerations</div>
-        <ul style="margin:0;padding-left:1.2rem">
-          <li><strong>Bias</strong> — AI trained on biased data perpetuates discrimination (hiring, lending, criminal justice)</li>
-          <li><strong>Privacy</strong> — Mass surveillance and data collection concerns</li>
-          <li><strong>Job Displacement</strong> — Automation may replace routine cognitive and physical jobs</li>
-          <li><strong>Deepfakes</strong> — Synthetic media used for misinformation</li>
-          <li><strong>Accountability</strong> — Who is responsible when AI makes harmful decisions?</li>
+      <div class="compare-card">
+        <div class="compare-card__label">Human Limitations AI Overcomes</div>
+        <ul style="margin:0;padding-left:1.2rem;margin-top:0.5rem">
+          <li>Limited by time and speed</li>
+          <li>Limited memory</li>
+          <li>Fatigues with repetition</li>
+          <li>Inconsistent under pressure</li>
+          <li>Can't process millions of inputs at once</li>
         </ul>
       </div>
     </div>
 
-    <div class="alert alert-tip" data-aos="fade-up">
-      <span class="alert__icon">🌐</span>
-      <div class="alert__content">
-        <div class="alert__title">The Opportunity</div>
-        AI has the potential to accelerate scientific discovery, democratise access to expertise (medical, legal, educational), combat climate change, and solve problems at a scale impossible for humans alone.
-      </div>
+    <!-- Major Industries -->
+    <h2 data-aos="fade-up">Major Industries Using AI</h2>
+    <p data-aos="fade-up">Almost every modern industry now uses AI. It is no longer a future technology — it is already running behind the scenes of apps and services you use every day.</p>
+
+    <img
+      src="../../assets/images/Artificial Intelligence as the central core with multiple connected branches.png"
+      alt="Artificial Intelligence as central core with connected industry branches"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">AI as the central core powering every major industry</p>
+
+    <div class="industry-grid" data-aos="fade-up">
+      <div class="industry-card"><div class="industry-card__icon">🏥</div><div class="industry-card__name">Healthcare</div></div>
+      <div class="industry-card"><div class="industry-card__icon">🏦</div><div class="industry-card__name">Banking & Finance</div></div>
+      <div class="industry-card"><div class="industry-card__icon">🛒</div><div class="industry-card__name">E-Commerce</div></div>
+      <div class="industry-card"><div class="industry-card__icon">📱</div><div class="industry-card__name">Social Media</div></div>
+      <div class="industry-card"><div class="industry-card__icon">🚗</div><div class="industry-card__name">Self-Driving Cars</div></div>
+      <div class="industry-card"><div class="industry-card__icon">📚</div><div class="industry-card__name">Education</div></div>
+      <div class="industry-card"><div class="industry-card__icon">🔒</div><div class="industry-card__name">Cybersecurity</div></div>
+      <div class="industry-card"><div class="industry-card__icon">🎬</div><div class="industry-card__name">Entertainment</div></div>
+      <div class="industry-card"><div class="industry-card__icon">🌾</div><div class="industry-card__name">Agriculture</div></div>
+      <div class="industry-card"><div class="industry-card__icon">✨</div><div class="industry-card__name">Generative AI</div></div>
     </div>
 
-  </div>
+    <!-- 1. Healthcare -->
+    <h2 data-aos="fade-up">1. AI in Healthcare</h2>
+    <p data-aos="fade-up">Healthcare is one of the biggest and most impactful AI industries. AI assists doctors, speeds up diagnosis, and accelerates drug discovery.</p>
 
-  <section class="mcq-section">
+    <h3 data-aos="fade-up">AI Applications</h3>
+    <table data-aos="fade-up">
+      <thead><tr><th>Application</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>Disease Detection</td><td>Detect illnesses from patient data and scans</td></tr>
+        <tr><td>Medical Imaging</td><td>Analyse X-rays and MRI scans for abnormalities</td></tr>
+        <tr><td>Drug Discovery</td><td>Find new medicines faster using molecular prediction</td></tr>
+        <tr><td>Virtual Assistants</td><td>Help patients with symptom checks and appointments</td></tr>
+        <tr><td>Predictive Analytics</td><td>Predict disease risk before symptoms appear</td></tr>
+      </tbody>
+    </table>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Real-Life Example</div>
+      <p>Google DeepMind developed AI systems capable of detecting eye diseases from retinal scans — matching the accuracy of world-leading ophthalmologists.</p>
+    </div>
+
+    <img
+      src="../../assets/images/medical diagnosis process.png"
+      alt="AI-assisted medical diagnosis process flow"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">AI-assisted medical diagnosis: data input → pattern detection → diagnosis support</p>
+
+    <h3 data-aos="fade-up">Why AI Helps Here</h3>
+    <p data-aos="fade-up">Doctors may miss tiny patterns due to fatigue, time pressure, and human limitations. AI can analyse thousands of scans rapidly without tiring.</p>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">Important:</strong> AI <em>assists</em> doctors. It does NOT completely replace them. Clinical judgment, ethics, and human empathy remain irreplaceable.</p>
+    </div>
+
+    <!-- 2. Banking -->
+    <h2 data-aos="fade-up">2. AI in Banking &amp; Finance</h2>
+    <p data-aos="fade-up">Banks heavily depend on AI for security, efficiency, and customer service.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Application</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Fraud Detection</td><td>Flag suspicious transactions instantly</td></tr>
+        <tr><td>Credit Scoring</td><td>Automate loan approval decisions</td></tr>
+        <tr><td>Risk Analysis</td><td>Predict investment and default risk</td></tr>
+        <tr><td>Chatbots</td><td>24/7 customer support without human agents</td></tr>
+        <tr><td>Algorithmic Trading</td><td>Automated stock trading at millisecond speed</td></tr>
+      </tbody>
+    </table>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Practical Example — Fraud Detection</div>
+      <p>Suppose a user usually spends ₹500–₹2,000 in India. Suddenly a ₹2 lakh transaction appears from another country.</p>
+      <p>AI flags this immediately as <strong>possible fraud</strong> and blocks the transaction — often before the user even notices.</p>
+    </div>
+
+    <!-- 3. E-Commerce -->
+    <h2 data-aos="fade-up">3. AI in E-Commerce</h2>
+    <p data-aos="fade-up">Companies like Amazon and Flipkart use AI across every layer — from search to delivery.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Feature</th><th>AI Use</th></tr></thead>
+      <tbody>
+        <tr><td>Recommendations</td><td>Suggest products based on browsing history</td></tr>
+        <tr><td>Search Ranking</td><td>Return more relevant search results</td></tr>
+        <tr><td>Dynamic Pricing</td><td>Adjust prices in real time based on demand</td></tr>
+        <tr><td>Inventory Prediction</td><td>Forecast stock needs before they run out</td></tr>
+        <tr><td>Customer Support</td><td>AI chatbots handle returns and queries</td></tr>
+      </tbody>
+    </table>
+
+    <img
+      src="../../assets/images/product recommendation workflow.png"
+      alt="Product recommendation workflow showing user data feeding into AI model"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">"Customers who bought this also bought…" — powered by AI recommendation models</p>
+
+    <!-- 4. Social Media -->
+    <h2 data-aos="fade-up">4. AI in Social Media</h2>
+    <p data-aos="fade-up">Platforms like Instagram, YouTube, and TikTok use AI to maximise engagement and safety.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Application</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>Feed Recommendation</td><td>Show personalised content based on behaviour</td></tr>
+        <tr><td>Face Filters</td><td>Real-time image processing with deep learning</td></tr>
+        <tr><td>Spam Detection</td><td>Remove fake accounts and bot content</td></tr>
+        <tr><td>Ad Targeting</td><td>Show highly personalised advertisements</td></tr>
+        <tr><td>Content Moderation</td><td>Detect and remove harmful or violating posts</td></tr>
+      </tbody>
+    </table>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">How YouTube AI Works</div>
+      <p>YouTube analyses watch time, likes, search history, and click behaviour together to recommend the next video. The goal: keep you watching longer.</p>
+      <p><strong>More engagement → More ad revenue.</strong> AI makes this possible at billions-of-users scale.</p>
+    </div>
+
+    <!-- 5. Self-Driving Cars -->
+    <h2 data-aos="fade-up">5. AI in Self-Driving Cars</h2>
+    <p data-aos="fade-up">Companies like Tesla and Waymo use advanced AI systems to navigate roads without human drivers.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Task</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Object Detection</td><td>Identify vehicles, pedestrians, cyclists</td></tr>
+        <tr><td>Lane Detection</td><td>Stay within lane markings</td></tr>
+        <tr><td>Traffic Sign Recognition</td><td>Read and respond to road signs and signals</td></tr>
+        <tr><td>Decision Making</td><td>Choose when to brake, turn, or overtake</td></tr>
+      </tbody>
+    </table>
+
+    <img
+      src="../../assets/images/self-driving car decision-making process.png"
+      alt="Self-driving car decision-making process diagram"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">Sensors → Perception → Decision → Action: the AI loop inside every self-driving car</p>
+
+    <h3 data-aos="fade-up">Technologies Used</h3>
+    <ul data-aos="fade-up">
+      <li>Computer Vision — to see the environment</li>
+      <li>Deep Learning — to understand what is seen</li>
+      <li>Sensors (LiDAR, RADAR, cameras) — to gather data</li>
+      <li>Reinforcement Learning — to improve driving decisions over time</li>
+    </ul>
+    <p data-aos="fade-up">We will explore each of these technologies in later topics.</p>
+
+    <!-- 6. Education -->
+    <h2 data-aos="fade-up">6. AI in Education</h2>
+    <p data-aos="fade-up">AI is transforming how people learn — making education more personalised, accessible, and efficient.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Application</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>AI Tutors</td><td>Personalised teaching that adapts to the learner's pace</td></tr>
+        <tr><td>Automatic Grading</td><td>Evaluate essays and assignments instantly</td></tr>
+        <tr><td>Learning Recommendations</td><td>Suggest next topics based on progress</td></tr>
+        <tr><td>Language Learning</td><td>AI conversation partners (Duolingo, ChatGPT)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Real-Life Example</div>
+      <p>ChatGPT acts as a tutor, research assistant, coding helper, and concept explainer — available 24/7, infinitely patient, at no cost.</p>
+    </div>
+
+    <!-- 7. Cybersecurity -->
+    <h2 data-aos="fade-up">7. AI in Cybersecurity</h2>
+    <p data-aos="fade-up">AI detects hacking attempts, malware, and suspicious behaviour — often before humans notice anything wrong.</p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">What AI Detects</div>
+      <p>Unusual login locations, strange user behaviour, and abnormal network traffic — all in real time, 24/7, across millions of users simultaneously.</p>
+    </div>
+
+    <!-- 8. Entertainment -->
+    <h2 data-aos="fade-up">8. AI in Entertainment</h2>
+    <p data-aos="fade-up">Netflix and Spotify use AI to keep users engaged with perfectly personalised content.</p>
+    <ul data-aos="fade-up">
+      <li>Movie and show recommendations based on watch history</li>
+      <li>Music suggestions tailored to mood and listening patterns</li>
+      <li>AI-generated content (trailers, summaries, artwork)</li>
+      <li>AI-assisted video editing and post-production</li>
+    </ul>
+
+    <!-- 9. Agriculture -->
+    <h2 data-aos="fade-up">9. AI in Agriculture</h2>
+    <p data-aos="fade-up">Modern farming now uses AI to feed more people with fewer resources.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Application</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>Crop Monitoring</td><td>Detect plant diseases and pest infestations early</td></tr>
+        <tr><td>Weather Prediction</td><td>Better timing for planting and harvesting decisions</td></tr>
+        <tr><td>Smart Irrigation</td><td>Optimise water usage based on soil and weather data</td></tr>
+        <tr><td>Yield Prediction</td><td>Forecast harvest output to reduce waste</td></tr>
+      </tbody>
+    </table>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Example</div>
+      <p>Drones with AI cameras fly over fields and detect plant diseases, water shortages, and soil problems — covering in minutes what would take farmers days to walk.</p>
+    </div>
+
+    <!-- 10. Generative AI -->
+    <h2 data-aos="fade-up">10. AI in Generative Content Creation</h2>
+    <p data-aos="fade-up">This is today's fastest-growing AI industry. Generative AI creates entirely new content — not just analyses existing data.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Tool</th><th>Generates</th></tr></thead>
+      <tbody>
+        <tr><td>ChatGPT</td><td>Text, essays, summaries, explanations</td></tr>
+        <tr><td>Midjourney / DALL·E</td><td>Images and artwork from text prompts</td></tr>
+        <tr><td>GitHub Copilot</td><td>Code suggestions and completions</td></tr>
+        <tr><td>Sora (OpenAI)</td><td>Videos from text descriptions</td></tr>
+      </tbody>
+    </table>
+
+    <p data-aos="fade-up">Generative AI is rapidly changing marketing, design, film production, education, and software engineering.</p>
+
+    <!-- Important Understanding -->
+    <h2 data-aos="fade-up">Important Understanding</h2>
+    <div class="highlight-box" data-aos="fade-up">
+      <p>AI is NOT just one technology. AI combines <strong>data</strong>, <strong>algorithms</strong>, <strong>mathematics</strong>, <strong>hardware</strong>, and <strong>human problem-solving</strong> — working together across every field.</p>
+    </div>
+
+    <!-- Future -->
+    <h2 data-aos="fade-up">Future of AI</h2>
+    <p data-aos="fade-up">AI will likely become deeply integrated into daily life, businesses, smart cities, healthcare systems, robotics, and personal assistants. We are at the very beginning of this shift.</p>
+
+    <!-- Notes -->
+    <h2 data-aos="fade-up">Key Notes</h2>
+    <ul data-aos="fade-up">
+      <li>AI is used in almost every industry today.</li>
+      <li>Recommendation systems are one of the biggest and most widespread AI applications.</li>
+      <li>Healthcare AI assists doctors — it does not replace them.</li>
+      <li>Banks use AI for fraud detection, credit scoring, and trading.</li>
+      <li>Self-driving cars rely on Computer Vision and Deep Learning.</li>
+      <li>Generative AI creates new content — text, images, video, code.</li>
+      <li>AI improves automation and decision-making across every domain.</li>
+    </ul>
+
+    <!-- Scenario-Based Questions -->
+    <h2 data-aos="fade-up">Scenario-Based Questions</h2>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Scenario 1</div>
+      <p>A hospital wants AI to detect cancer early from patient scans before symptoms appear.</p>
+      <p><strong>Question:</strong> Which AI field is most suitable here — and why?</p>
+    </div>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Scenario 2</div>
+      <p>An online store recommends products based on what a user viewed, bought, and searched for previously.</p>
+      <p><strong>Question:</strong> What AI technique is most likely involved?</p>
+    </div>
+
+    <!-- Interview Questions -->
+    <h2 data-aos="fade-up">Interview Questions</h2>
+    <ol class="question-list" data-aos="fade-up">
+      <li>Give five real-world applications of AI across different industries.</li>
+      <li>How is AI used in banking? Give two specific examples.</li>
+      <li>Explain two AI applications in healthcare and why they matter.</li>
+      <li>Why are recommendation systems considered one of the most important AI applications?</li>
+      <li>How does AI help self-driving cars navigate roads?</li>
+    </ol>
+
+    <!-- Practical Thinking Exercise -->
+    <h2 data-aos="fade-up">Practical Thinking Exercise</h2>
+    <p data-aos="fade-up">Whenever you use any app, train yourself to think like an AI engineer:</p>
+
+    <div class="thinking-flow" data-aos="fade-up">
+      <div class="thinking-flow__step"><span>1</span><span>What data is being collected from me?</span></div>
+      <div class="thinking-flow__arrow">↓</div>
+      <div class="thinking-flow__step"><span>2</span><span>What patterns is the system analysing in that data?</span></div>
+      <div class="thinking-flow__arrow">↓</div>
+      <div class="thinking-flow__step"><span>3</span><span>What prediction or decision is the AI making?</span></div>
+    </div>
+
+    <p data-aos="fade-up">This habit helps you build an engineer's mindset — seeing the AI layer beneath every digital surface.</p>
+
+    <!-- Think About It -->
+    <h2 data-aos="fade-up">Think About It</h2>
+    <ol class="question-list" data-aos="fade-up">
+      <li>Which AI application impressed you most — and why?</li>
+      <li>Which industry do you think AI will transform the most over the next decade?</li>
+      <li>Can you identify at least three AI features in apps you use daily?</li>
+      <li>Which AI field interests you most for your future career?</li>
+    </ol>
+
+  </div><!-- /topic-content -->
+
+  <!-- MCQ Section -->
+  <section class="mcq-section" id="mcq-section" aria-label="Practice Questions">
     <h2 class="mcq-section__title">🧩 Practice MCQs</h2>
-    <p class="mcq-section__subtitle">Test your understanding — 5 questions</p>
+    <p class="mcq-section__subtitle">Test your understanding — 4 questions</p>
     <div id="mcq-mount"></div>
   </section>
 
   <script type="application/json" id="mcq-data">
   [
     {
-      "q": "Which AI system by DeepMind solved the protein folding problem, a 50-year-old biology challenge?",
-      "options": ["AlphaGo", "AlphaFold", "AlphaZero", "AlphaStar"],
+      "q": "Which industry uses AI primarily for fraud detection?",
+      "options": ["Agriculture", "Banking & Finance", "Construction", "Tourism"],
       "answer": 1,
-      "explanation": "AlphaFold (DeepMind, 2020) predicted 3D protein structures from amino acid sequences with remarkable accuracy, solving a 50-year grand challenge in biology. It has since predicted structures for ~200 million proteins."
+      "explanation": "Banks use ML models trained on transaction history to detect unusual patterns in real time — flagging or blocking suspicious transactions before they complete."
     },
     {
-      "q": "What type of AI is primarily used in fraud detection systems at financial institutions?",
-      "options": ["Generative AI", "Expert Systems", "Anomaly Detection / Supervised ML", "Reinforcement Learning"],
+      "q": "Which AI application is most common in e-commerce platforms like Amazon?",
+      "options": ["Crop monitoring", "Traffic signal prediction", "Product recommendation", "Weather forecasting"],
       "answer": 2,
-      "explanation": "Fraud detection uses supervised machine learning (e.g., Random Forest, XGBoost) trained on historical transactions labelled as fraudulent or legitimate, combined with anomaly detection for new fraud patterns."
+      "explanation": "Recommendation systems analyse browsing history, purchase patterns, and similar user behaviour to suggest relevant products — driving a significant portion of e-commerce revenue."
     },
     {
-      "q": "Which company operates fully cashierless grocery stores using computer vision and AI?",
-      "options": ["Google", "Apple", "Amazon (Amazon Go)", "Walmart"],
-      "answer": 2,
-      "explanation": "Amazon Go stores use a combination of computer vision, sensor fusion, and deep learning to track which items customers pick up, automatically charging them upon exit — no cashiers needed."
-    },
-    {
-      "q": "What is a major ethical concern with AI systems trained on historical human data?",
-      "options": [
-        "AI runs too slowly",
-        "AI requires too much electricity",
-        "AI can perpetuate and amplify existing biases from training data",
-        "AI cannot learn from new data"
-      ],
-      "answer": 2,
-      "explanation": "AI systems trained on historical human data inherit societal biases present in that data. For example, hiring algorithms trained on historical records may systematically disadvantage certain demographic groups."
-    },
-    {
-      "q": "Which NLP application enables Amazon Alexa to understand spoken commands?",
-      "options": ["Computer Vision", "Automatic Speech Recognition (ASR) + NLU", "Reinforcement Learning", "Generative Adversarial Networks"],
+      "q": "Self-driving cars rely primarily on which combination of AI technologies?",
+      "options": ["Rule-based logic only", "Deep Learning and Computer Vision", "Paper maps and GPS alone", "Human remote control"],
       "answer": 1,
-      "explanation": "Voice assistants like Alexa use Automatic Speech Recognition (ASR) to convert speech to text, followed by Natural Language Understanding (NLU) to parse intent, and then Text-to-Speech (TTS) to respond."
+      "explanation": "Self-driving cars use Computer Vision to perceive the environment and Deep Learning to interpret what is seen and make driving decisions — supported by LiDAR, RADAR, and cameras."
+    },
+    {
+      "q": "Which company and product is known for AI-powered personalised content recommendation in streaming?",
+      "options": ["Netflix — recommendation engine", "Tesla — Autopilot", "Intel — chipsets", "Cisco — networking"],
+      "answer": 0,
+      "explanation": "Netflix's recommendation engine uses machine learning to analyse viewing history, ratings, and similar users' behaviour — personalising the home screen for each of its 200M+ subscribers."
     }
   ]
   </script>
 
-  <nav class="topic-nav">
-    <button class="topic-nav__btn" id="btn-prev" onclick="window.parent.postMessage({type:'navigate',data:{id:'history-of-ai'}},'*')">
-      <span>←</span><span><span class="topic-nav__label">Previous</span><span class="topic-nav__title">History of AI</span></span>
+  <!-- Topic Navigation -->
+  <nav class="topic-nav" id="topic-nav" aria-label="Topic navigation">
+    <button class="topic-nav__btn topic-nav__btn--prev" id="btn-prev" style="display:none">
+      <span>←</span><span><span class="topic-nav__label">Previous</span><span class="topic-nav__title" id="prev-title"></span></span>
     </button>
-    <button class="topic-nav__btn topic-nav__btn--next" id="btn-next" onclick="window.parent.postMessage({type:'navigate',data:{id:'supervised'}},'*')">
-      <span><span class="topic-nav__label">Next</span><span class="topic-nav__title">Supervised Learning</span></span><span>→</span>
+    <button class="topic-nav__btn topic-nav__btn--next" id="btn-next" style="display:none">
+      <span><span class="topic-nav__label">Next</span><span class="topic-nav__title" id="next-title"></span></span><span>→</span>
     </button>
   </nav>
 </article>
 
-<button class="scroll-top-btn" id="scroll-top">↑</button>
+<button class="scroll-top-btn" id="scroll-top" aria-label="Back to top">↑</button>
+
 <script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
 <script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script src="../../js/mcq.js"></script>
 <script>
-  AOS.init({duration:500,once:true,offset:40});
-  window.addEventListener('scroll',()=>{const el=document.documentElement;window.parent.postMessage({type:'scroll-progress',data:{percent:(el.scrollTop/(el.scrollHeight-el.clientHeight))*100||0}},'*');document.getElementById('scroll-top')?.classList.toggle('visible',window.scrollY>300);},{passive:true});
-  document.getElementById('scroll-top')?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-  const ttsBtn=document.getElementById('tts-btn');let speaking=false;
-  ttsBtn?.addEventListener('click',()=>{if(!window.speechSynthesis)return;if(speaking){window.speechSynthesis.cancel();speaking=false;ttsBtn.textContent='🔊 Read Aloud';return;}const u=new SpeechSynthesisUtterance(document.getElementById('topic-content')?.innerText||'');u.rate=0.95;u.onend=()=>{speaking=false;ttsBtn.textContent='🔊 Read Aloud';};window.speechSynthesis.speak(u);speaking=true;ttsBtn.textContent='⏹ Stop';});
+  AOS.init({ duration: 500, once: true, offset: 40 });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const data = JSON.parse(document.getElementById('mcq-data').textContent || '[]');
+    if (data.length) MCQEngine.init('mcq-mount', data);
+  });
+
+  window.addEventListener('scroll', () => {
+    const btn = document.getElementById('scroll-top');
+    btn?.classList.toggle('visible', window.scrollY > 300);
+    const el = document.documentElement;
+    const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+    window.parent.postMessage({ type: 'scroll-progress', data: { percent: pct || 0 } }, '*');
+  }, { passive: true });
+
+  document.getElementById('scroll-top')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  window.addEventListener('message', (e) => {
+    if (e.data?.type === 'topic-context') {
+      const { prev, next } = e.data;
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      if (prev && btnPrev) {
+        document.getElementById('prev-title').textContent = prev.label;
+        btnPrev.style.display = 'flex';
+        btnPrev.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: prev.id } }, '*');
+      }
+      if (next && btnNext) {
+        document.getElementById('next-title').textContent = next.label;
+        btnNext.style.display = 'flex';
+        btnNext.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: next.id } }, '*');
+      }
+    }
+  });
 </script>
 </body>
 </html>
