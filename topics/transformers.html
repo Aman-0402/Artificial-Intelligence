@@ -5,7 +5,6 @@
   <title>Transformers & Attention — AI.learn</title>
   <link rel="stylesheet" href="../css/variables.css" /><link rel="stylesheet" href="../css/base.css" />
   <link rel="stylesheet" href="../css/animations.css" /><link rel="stylesheet" href="../css/components.css" />
-  <link rel="stylesheet" href="../css/theme-light.css" />
   <link rel="stylesheet" href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
   <style>
@@ -17,8 +16,6 @@
     .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
     .topic-meta{display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap}
     .topic-meta__item{font-family:var(--font-nav);font-size:var(--text-xs);color:var(--text-muted)}
-    .tts-topic-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:var(--bg-secondary);border:1px solid var(--border-default);border-radius:var(--radius-md);cursor:pointer;color:var(--text-muted);font-family:var(--font-nav);font-size:var(--text-xs);transition:all .25s ease}
-    .tts-topic-btn:hover{border-color:var(--accent-purple);color:var(--accent-purple)}
     .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
     .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
     .topic-content h4{font-size:var(--text-lg);margin-top:var(--space-6);margin-bottom:var(--space-2);color:var(--text-secondary)}
@@ -45,7 +42,6 @@
     <h1 class="topic-title">Transformers &amp; Attention Mechanism</h1>
     <div class="topic-meta">
       <span class="topic-meta__item">⏱ 11 min read</span>
-      <button class="tts-topic-btn" id="tts-btn">🔊 Read Aloud</button>
     </div>
   </header>
 
@@ -248,8 +244,6 @@ print(f"PE shape: {PE.shape}")   # (10, 512)
 <script src="../js/mcq.js"></script>
 <script>
   AOS.init({duration:500,once:true,offset:40});
-  const saved=localStorage.getItem('ai-theme');if(saved)document.documentElement.setAttribute('data-theme',saved);
-  window.addEventListener('message',e=>{if(e.data?.type==='theme-change')document.documentElement.setAttribute('data-theme',e.data.theme);});
   window.addEventListener('scroll',()=>{const el=document.documentElement;window.parent.postMessage({type:'scroll-progress',data:{percent:(el.scrollTop/(el.scrollHeight-el.clientHeight))*100||0}},'*');document.getElementById('scroll-top')?.classList.toggle('visible',window.scrollY>300);},{passive:true});
   document.getElementById('scroll-top')?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
   const ttsBtn=document.getElementById('tts-btn');let speaking=false;

@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="../css/base.css" />
   <link rel="stylesheet" href="../css/animations.css" />
   <link rel="stylesheet" href="../css/components.css" />
-  <link rel="stylesheet" href="../css/theme-light.css" />
 
   <!-- Prism.js — Syntax Highlighting -->
   <link rel="stylesheet" href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
@@ -187,36 +186,6 @@
     }
 
     /* -----------------------------------------------
-       TTS BUTTON (in topic header)
-    ----------------------------------------------- */
-    .tts-topic-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      color: var(--text-muted);
-      font-family: var(--font-nav);
-      font-size: var(--text-xs);
-      letter-spacing: 0.06em;
-      transition: all 0.25s ease;
-    }
-
-    .tts-topic-btn:hover {
-      border-color: var(--accent-purple);
-      color: var(--accent-purple);
-    }
-
-    .tts-topic-btn.speaking {
-      border-color: var(--accent-purple);
-      color: var(--accent-purple);
-      animation: glowPulse 1.5s ease-in-out infinite;
-    }
-
-    /* -----------------------------------------------
        RESPONSIVE
     ----------------------------------------------- */
     @media (max-width: 600px) {
@@ -249,9 +218,6 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           <span id="reading-time">5 min read</span>
         </span>
-        <button class="tts-topic-btn" id="tts-btn" type="button">
-          🔊 Read Aloud
-        </button>
       </div>
 
     </header>
@@ -324,20 +290,8 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // ------------------------------------------------
-    // THEME SYNC
-    // ------------------------------------------------
-    function applyTheme(theme) {
-      document.documentElement.setAttribute('data-theme', theme || 'dark');
-    }
-
-    const savedTheme = localStorage.getItem('ai-theme');
-    if (savedTheme) applyTheme(savedTheme);
-
     window.addEventListener('message', (e) => {
-      if (e.data?.type === 'theme-change') applyTheme(e.data.theme);
       if (e.data?.type === 'topic-context') {
-        applyTheme(e.data.theme);
         // Wire prev/next nav from context
         const { prev, next } = e.data;
         const btnPrev = document.getElementById('btn-prev');
@@ -358,37 +312,6 @@
           };
         }
       }
-    });
-
-    // ------------------------------------------------
-    // TTS (in-topic button)
-    // ------------------------------------------------
-    const ttsBtn   = document.getElementById('tts-btn');
-    let ttsSpeaking = false;
-    let ttsUtterance = null;
-
-    ttsBtn?.addEventListener('click', () => {
-      if (!window.speechSynthesis) return;
-      if (ttsSpeaking) {
-        window.speechSynthesis.cancel();
-        ttsSpeaking = false;
-        ttsBtn.classList.remove('speaking');
-        ttsBtn.textContent = '🔊 Read Aloud';
-        return;
-      }
-      const text = document.getElementById('topic-content')?.innerText || '';
-      ttsUtterance = new SpeechSynthesisUtterance(text);
-      ttsUtterance.rate  = 0.95;
-      ttsUtterance.lang  = 'en-US';
-      ttsUtterance.onend = () => {
-        ttsSpeaking = false;
-        ttsBtn.classList.remove('speaking');
-        ttsBtn.textContent = '🔊 Read Aloud';
-      };
-      window.speechSynthesis.speak(ttsUtterance);
-      ttsSpeaking = true;
-      ttsBtn.classList.add('speaking');
-      ttsBtn.textContent = '⏹ Stop Reading';
     });
 
     // ------------------------------------------------

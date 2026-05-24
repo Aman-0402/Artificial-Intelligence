@@ -5,7 +5,6 @@
   <title>Interview Questions — AI.learn</title>
   <link rel="stylesheet" href="../css/variables.css" /><link rel="stylesheet" href="../css/base.css" />
   <link rel="stylesheet" href="../css/animations.css" /><link rel="stylesheet" href="../css/components.css" />
-  <link rel="stylesheet" href="../css/theme-light.css" />
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
   <style>
     *{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body)}
@@ -550,7 +549,6 @@
 <script>
   AOS.init({duration:500,once:true,offset:40});
   const saved=localStorage.getItem('ai-theme');if(saved)document.documentElement.setAttribute('data-theme',saved);
-  window.addEventListener('message',e=>{if(e.data?.type==='theme-change')document.documentElement.setAttribute('data-theme',e.data.theme);});
   window.addEventListener('scroll',()=>{const el=document.documentElement;window.parent.postMessage({type:'scroll-progress',data:{percent:(el.scrollTop/(el.scrollHeight-el.clientHeight))*100||0}},'*');document.getElementById('scroll-top')?.classList.toggle('visible',window.scrollY>300);},{passive:true});
   document.getElementById('scroll-top')?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 

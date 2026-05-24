@@ -116,37 +116,6 @@ const SidebarManager = (() => {
   }
 
   /* ------------------------------------------------
-     SEARCH FILTER
-  ------------------------------------------------ */
-  function initSearch() {
-    const input = document.getElementById('sidebar-search');
-    if (!input) return;
-
-    input.addEventListener('input', () => {
-      const query = input.value.toLowerCase().trim();
-
-      document.querySelectorAll('.nav-group').forEach(group => {
-        let groupHasMatch = false;
-
-        group.querySelectorAll('.nav-leaf').forEach(leaf => {
-          const label = leaf.textContent.toLowerCase();
-          const match = !query || label.includes(query);
-          leaf.classList.toggle('is-hidden', !match);
-          if (match) groupHasMatch = true;
-        });
-
-        group.classList.toggle('is-hidden', !groupHasMatch);
-
-        // Auto-expand groups with matches when searching
-        if (query && groupHasMatch) {
-          group.classList.add('is-open');
-          group.querySelector('.nav-group__toggle')?.setAttribute('aria-expanded', 'true');
-        }
-      });
-    });
-  }
-
-  /* ------------------------------------------------
      MOBILE OPEN / CLOSE
   ------------------------------------------------ */
   function openSidebar() {
@@ -199,7 +168,6 @@ const SidebarManager = (() => {
   ------------------------------------------------ */
   function init() {
     render();
-    initSearch();
 
     // Hamburger click
     document.getElementById('hamburger')?.addEventListener('click', () => {
