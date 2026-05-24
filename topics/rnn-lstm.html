@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RNNs &amp; LSTMs — AI.learn</title>
+  <link rel="stylesheet" href="../css/variables.css" /><link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/animations.css" /><link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/theme-light.css" />
+  <link rel="stylesheet" href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body)}
+    .topic-wrapper{max-width:860px;margin:0 auto;padding:var(--space-8) var(--space-8) var(--space-16)}
+    .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
+    .topic-breadcrumb{display:flex;align-items:center;gap:var(--space-2);font-family:var(--font-nav);font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--space-4)}
+    .topic-breadcrumb__sep{color:var(--border-glow)}.topic-breadcrumb__current{color:var(--accent-cyan)}
+    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
+    .topic-meta{display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap}
+    .topic-meta__item{font-family:var(--font-nav);font-size:var(--text-xs);color:var(--text-muted)}
+    .tts-topic-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:var(--bg-secondary);border:1px solid var(--border-default);border-radius:var(--radius-md);cursor:pointer;color:var(--text-muted);font-family:var(--font-nav);font-size:var(--text-xs);transition:all .25s ease}
+    .tts-topic-btn:hover{border-color:var(--accent-purple);color:var(--accent-purple)}
+    .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
+    .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
+    .topic-content h4{font-size:var(--text-lg);margin-top:var(--space-6);margin-bottom:var(--space-2);color:var(--text-secondary)}
+    .topic-content p{line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
+    .topic-content ul,.topic-content ol{margin-bottom:var(--space-4);padding-left:var(--space-6)}
+    .topic-content li{margin-bottom:var(--space-2);line-height:var(--leading-relaxed);color:var(--text-secondary)}
+    .topic-content pre[class*="language-"]{border-radius:var(--radius-lg);border:1px solid var(--border-default);font-size:var(--text-sm);margin-bottom:var(--space-6)}
+    .topic-content table{width:100%;border-collapse:collapse;margin-bottom:var(--space-6);font-size:var(--text-sm)}
+    .topic-content th{background:var(--bg-secondary);color:var(--accent-cyan);font-family:var(--font-nav);font-weight:600;padding:var(--space-3) var(--space-4);text-align:left;border-bottom:1px solid var(--border-glow)}
+    .topic-content td{padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--border-subtle);color:var(--text-secondary)}
+    .scroll-top-btn{position:fixed;bottom:var(--space-6);right:var(--space-6);width:42px;height:42px;background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-md);cursor:pointer;color:var(--accent-cyan);font-size:1.2rem;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);pointer-events:none;transition:all .3s ease;z-index:50}
+    .scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:all}
+    @media(max-width:600px){.topic-wrapper{padding:var(--space-5) var(--space-4) var(--space-12)}}
+  </style>
+</head>
+<body>
+<article class="topic-wrapper">
+  <header class="topic-header">
+    <nav class="topic-breadcrumb">
+      <span>AI.learn</span><span class="topic-breadcrumb__sep">›</span>
+      <span>Deep Learning</span><span class="topic-breadcrumb__sep">›</span>
+      <span class="topic-breadcrumb__current">RNNs &amp; LSTMs</span>
+    </nav>
+    <h1 class="topic-title">Recurrent Neural Networks &amp; LSTMs</h1>
+    <div class="topic-meta">
+      <span class="topic-meta__item">⏱ 12 min read</span>
+      <button class="tts-topic-btn" id="tts-btn">🔊 Read Aloud</button>
+    </div>
+  </header>
+
+  <div class="topic-content" id="topic-content">
+
+    <p data-aos="fade-up">Standard feedforward neural networks process each input independently — they have no memory of what came before. But language, audio, time series, and video are all <strong>sequential</strong>: the meaning of a word depends on the words before it; tomorrow's stock price depends on yesterday's. <strong>Recurrent Neural Networks (RNNs)</strong> are designed specifically for this kind of data, maintaining a hidden state that carries information from step to step.</p>
+
+    <div class="alert alert-info" data-aos="fade-up">
+      <span class="alert__icon">🔁</span>
+      <div class="alert__content">
+        <div class="alert__title">The Key Idea</div>
+        At each time step <code>t</code>, an RNN receives the current input <code>xₜ</code> and the previous hidden state <code>hₜ₋₁</code>, then produces a new hidden state <code>hₜ = f(W·xₜ + U·hₜ₋₁ + b)</code>. The hidden state acts as a compressed memory of everything seen so far.
+      </div>
+    </div>
+
+    <h2 data-aos="fade-up">Use Cases for Sequential Models</h2>
+    <ul data-aos="fade-up">
+      <li><strong>Natural Language Processing</strong> — sentiment analysis, named entity recognition, machine translation</li>
+      <li><strong>Speech Recognition</strong> — converting audio waveforms (sequences of amplitudes) to text</li>
+      <li><strong>Time Series Forecasting</strong> — stock prices, weather, energy demand, sensor readings</li>
+      <li><strong>Music Generation</strong> — predicting the next note given a sequence of previous notes</li>
+      <li><strong>Video Analysis</strong> — understanding temporal dynamics across frames</li>
+    </ul>
+
+    <h2 data-aos="fade-up">The Vanishing Gradient Problem in RNNs</h2>
+    <p data-aos="fade-up">Vanilla RNNs struggle with <strong>long-range dependencies</strong> — connections between elements far apart in a sequence. During backpropagation through time (BPTT), gradients must flow backwards through every time step. Because the same weight matrix is applied repeatedly, gradients are multiplied by that matrix over and over. With many time steps, small values shrink exponentially to zero (vanishing) or large values explode (exploding).</p>
+
+    <div class="alert alert-warning" data-aos="fade-up">
+      <span class="alert__icon">⚠️</span>
+      <div class="alert__content">
+        <div class="alert__title">Consequence</div>
+        A vanilla RNN reading "The cat that sat on the mat was..." forgets "cat" by the time it needs to predict "was hungry." It simply cannot retain information over 20+ steps. This is the fundamental limitation that LSTMs were invented to solve.
+      </div>
+    </div>
+
+    <h2 data-aos="fade-up">Long Short-Term Memory (LSTM)</h2>
+    <p data-aos="fade-up">Proposed by Hochreiter &amp; Schmidhuber in 1997, the <strong>LSTM</strong> solves the vanishing gradient problem with a carefully designed architecture that maintains two separate states:</p>
+    <ul data-aos="fade-up">
+      <li><strong>Cell State (Cₜ)</strong> — the long-term memory. A highway running through the entire sequence with only minor linear interactions, so gradients can flow back many steps without vanishing.</li>
+      <li><strong>Hidden State (hₜ)</strong> — the short-term working memory passed to the next step and used for output.</li>
+    </ul>
+    <p data-aos="fade-up">Three learned <strong>gates</strong> control what information is stored, discarded, or output at each step:</p>
+
+    <h3 data-aos="fade-up">The Three LSTM Gates</h3>
+
+    <h4 data-aos="fade-up">1. Forget Gate</h4>
+    <p data-aos="fade-up">Decides what to <em>erase</em> from the cell state. Outputs a value between 0 (forget everything) and 1 (keep everything) for each element of the cell state:</p>
+    <p data-aos="fade-up"><code>fₜ = σ(Wf · [hₜ₋₁, xₜ] + bf)</code></p>
+    <p data-aos="fade-up">Example: when processing a new subject in a sentence, the forget gate discards the previous subject's gender information from memory.</p>
+
+    <h4 data-aos="fade-up">2. Input Gate</h4>
+    <p data-aos="fade-up">Decides what <em>new</em> information to write into the cell state. Two sub-components: the input gate selects which values to update, and a tanh layer creates candidate values:</p>
+    <p data-aos="fade-up"><code>iₜ = σ(Wi · [hₜ₋₁, xₜ] + bi)</code><br />
+    <code>C̃ₜ = tanh(Wc · [hₜ₋₁, xₜ] + bc)</code><br />
+    <code>Cₜ = fₜ ⊙ Cₜ₋₁ + iₜ ⊙ C̃ₜ</code></p>
+
+    <h4 data-aos="fade-up">3. Output Gate</h4>
+    <p data-aos="fade-up">Decides what part of the cell state to <em>expose</em> as the hidden state (output) for this time step:</p>
+    <p data-aos="fade-up"><code>oₜ = σ(Wo · [hₜ₋₁, xₜ] + bo)</code><br />
+    <code>hₜ = oₜ ⊙ tanh(Cₜ)</code></p>
+
+    <div class="alert alert-info" data-aos="fade-up">
+      <span class="alert__icon">💡</span>
+      <div class="alert__content">
+        <div class="alert__title">Intuition Summary</div>
+        <strong>Forget gate:</strong> "What old info is no longer relevant?"<br />
+        <strong>Input gate:</strong> "What new info should I store?"<br />
+        <strong>Output gate:</strong> "What should I reveal to the next step?"<br /><br />
+        The cell state is the long-term memory notebook. Gates selectively read, write, and erase — like a smart clipboard that knows what to keep.
+      </div>
+    </div>
+
+    <h2 data-aos="fade-up">GRU — Gated Recurrent Unit</h2>
+    <p data-aos="fade-up">The <strong>GRU</strong> (Cho et al., 2014) is a simplified alternative to the LSTM. It merges the cell state and hidden state into one, and replaces the three LSTM gates with just two:</p>
+    <ul data-aos="fade-up">
+      <li><strong>Reset Gate</strong> — controls how much of the past hidden state to forget when computing the new candidate state</li>
+      <li><strong>Update Gate</strong> — controls how much of the previous hidden state to carry forward vs how much to replace with new content (combines the LSTM's forget and input gates)</li>
+    </ul>
+    <p data-aos="fade-up">With fewer parameters, GRUs train faster and often match LSTM performance on many tasks — especially with limited data. They are a strong default choice when you need a recurrent model but want lower compute cost.</p>
+
+    <table data-aos="fade-up">
+      <thead>
+        <tr>
+          <th>Property</th>
+          <th>Vanilla RNN</th>
+          <th>LSTM</th>
+          <th>GRU</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>States</td>
+          <td>1 (hidden)</td>
+          <td>2 (cell + hidden)</td>
+          <td>1 (hidden)</td>
+        </tr>
+        <tr>
+          <td>Gates</td>
+          <td>None</td>
+          <td>3 (forget, input, output)</td>
+          <td>2 (reset, update)</td>
+        </tr>
+        <tr>
+          <td>Long-range memory</td>
+          <td>Poor</td>
+          <td>Excellent</td>
+          <td>Good</td>
+        </tr>
+        <tr>
+          <td>Parameters</td>
+          <td>Fewest</td>
+          <td>Most</td>
+          <td>Fewer than LSTM</td>
+        </tr>
+        <tr>
+          <td>Training speed</td>
+          <td>Fastest</td>
+          <td>Slowest</td>
+          <td>Faster than LSTM</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 data-aos="fade-up">LSTM Code Example</h2>
+    <p data-aos="fade-up">Below is a complete example using an LSTM for sentiment classification on the IMDB movie review dataset (binary: positive/negative):</p>
+
+    <pre data-aos="fade-up"><code class="language-python">import tensorflow as tf
+from tensorflow import keras
+
+# IMDB: 25,000 training reviews, 25,000 test reviews
+# Vocabulary limited to top 10,000 words; pad/truncate to 200 tokens
+MAX_FEATURES = 10_000
+MAX_LEN      = 200
+EMBED_DIM    = 64
+
+(x_train, y_train), (x_test, y_test) = keras.datasets.imdb.load_data(
+    num_words=MAX_FEATURES
+)
+
+x_train = keras.preprocessing.sequence.pad_sequences(x_train, maxlen=MAX_LEN)
+x_test  = keras.preprocessing.sequence.pad_sequences(x_test,  maxlen=MAX_LEN)
+
+# Build LSTM model
+model = keras.Sequential([
+    keras.layers.Embedding(MAX_FEATURES, EMBED_DIM, input_length=MAX_LEN),
+    keras.layers.LSTM(128, return_sequences=True, dropout=0.2),
+    keras.layers.LSTM(64,  dropout=0.2),
+    keras.layers.Dense(32, activation="relu"),
+    keras.layers.Dense(1,  activation="sigmoid")   # binary classification
+])
+
+model.compile(
+    optimizer="adam",
+    loss="binary_crossentropy",
+    metrics=["accuracy"]
+)
+
+model.summary()
+
+history = model.fit(
+    x_train, y_train,
+    epochs=5,
+    batch_size=128,
+    validation_split=0.1
+)
+
+test_loss, test_acc = model.evaluate(x_test, y_test, verbose=0)
+print(f"Test accuracy: {test_acc:.4f}")   # ~0.87
+
+# Time-series variant: just swap the final Dense to regression output
+# model_ts = keras.Sequential([
+#     keras.layers.LSTM(64, input_shape=(timesteps, features)),
+#     keras.layers.Dense(1)   # predict next value
+# ])
+</code></pre>
+
+    <h2 data-aos="fade-up">LSTM vs Transformer — When to Use Which</h2>
+    <p data-aos="fade-up">Since the <strong>Transformer</strong> (2017) and its descendants (BERT, GPT, T5) dominated NLP benchmarks, the question arises: when should you still use an LSTM?</p>
+
+    <table data-aos="fade-up">
+      <thead>
+        <tr>
+          <th>Scenario</th>
+          <th>Prefer LSTM/GRU</th>
+          <th>Prefer Transformer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Dataset size</td>
+          <td>Small to medium (&lt;100K samples)</td>
+          <td>Large (millions of samples)</td>
+        </tr>
+        <tr>
+          <td>Sequence length</td>
+          <td>Moderate (up to ~500 tokens)</td>
+          <td>Very long or variable length</td>
+        </tr>
+        <tr>
+          <td>Compute budget</td>
+          <td>Low (runs well on CPU)</td>
+          <td>High (typically needs GPU/TPU)</td>
+        </tr>
+        <tr>
+          <td>Real-time streaming</td>
+          <td>Yes (processes one step at a time)</td>
+          <td>Harder (attention needs full context)</td>
+        </tr>
+        <tr>
+          <td>Time series / IoT</td>
+          <td>Natural fit</td>
+          <td>Temporal Fusion Transformer (specialised)</td>
+        </tr>
+        <tr>
+          <td>NLP state-of-the-art</td>
+          <td>No longer competitive</td>
+          <td>Yes — BERT, GPT-4, etc.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="alert alert-info" data-aos="fade-up">
+      <span class="alert__icon">💡</span>
+      <div class="alert__content">
+        <div class="alert__title">Practical Recommendation</div>
+        For most NLP tasks with ample data, use a pretrained Transformer (e.g., DistilBERT via Hugging Face) with transfer learning. For time series, sensor data, embedded systems, or real-time inference with limited compute, LSTMs and GRUs remain the practical, well-understood, production-proven choice.
+      </div>
+    </div>
+
+  </div>
+
+  <section class="mcq-section">
+    <h2 class="mcq-section__title">🧩 Practice MCQs</h2>
+    <p class="mcq-section__subtitle">Test your understanding — 5 questions</p>
+    <div id="mcq-mount"></div>
+  </section>
+
+  <script type="application/json" id="mcq-data">
+  [
+    {
+      "q": "Why do vanilla RNNs struggle with long sequences?",
+      "options": [
+        "They require too much memory to store the input",
+        "Gradients vanish (or explode) as they are propagated backwards through many time steps, preventing learning of long-range dependencies",
+        "They can only process fixed-length inputs",
+        "They do not use activation functions"
+      ],
+      "answer": 1,
+      "explanation": "During backpropagation through time (BPTT), gradients are multiplied by the same weight matrix at every step. With many time steps and small gradient values, these products shrink exponentially (vanishing gradient), making it impossible for the network to learn relationships between distant elements in a sequence. LSTMs solve this with their cell state and gating mechanism."
+    },
+    {
+      "q": "In an LSTM, what does the cell state represent?",
+      "options": [
+        "The current input at each time step",
+        "The short-term working memory passed only to the next layer",
+        "The long-term memory that carries information across many time steps with minimal modification",
+        "The output probability distribution"
+      ],
+      "answer": 2,
+      "explanation": "The cell state (Cₜ) is the LSTM's long-term memory. It flows through the entire sequence with only minor linear interactions (additions controlled by gates), allowing gradients to propagate backwards without vanishing. The hidden state (hₜ) is the short-term memory used for output. This two-state design is the key architectural innovation of the LSTM."
+    },
+    {
+      "q": "What is the role of the forget gate in an LSTM?",
+      "options": [
+        "It decides what new information to write into the cell state",
+        "It controls which parts of the cell state to expose as output",
+        "It decides what information from the previous cell state to erase or retain",
+        "It resets the hidden state to zero at the start of each sequence"
+      ],
+      "answer": 2,
+      "explanation": "The forget gate outputs values between 0 and 1 for each element of the cell state — 0 means 'completely forget this', 1 means 'keep this entirely'. For example, when reading a new sentence subject, the forget gate discards the previous subject's attributes from memory, making room for new information. It is the first operation applied to the cell state at each time step."
+    },
+    {
+      "q": "Compared to an LSTM, a GRU has:",
+      "options": [
+        "More parameters and three gates",
+        "Fewer parameters, two gates (reset and update), and combines cell and hidden state into one",
+        "No gating mechanism at all",
+        "Better performance on all tasks"
+      ],
+      "answer": 1,
+      "explanation": "GRU simplifies the LSTM by merging the cell state and hidden state into a single hidden state, and replacing the three LSTM gates (forget, input, output) with two gates (reset and update). This reduces the number of parameters, speeds up training, and often achieves comparable performance — making GRU a strong alternative when compute is limited or datasets are smaller."
+    },
+    {
+      "q": "For which type of data and tasks are RNNs and LSTMs best suited?",
+      "options": [
+        "Static image classification with no temporal component",
+        "Clustering of tabular data into groups",
+        "Sequential and temporal data such as text, audio, time series, and sensor streams",
+        "Generating static artwork from text prompts"
+      ],
+      "answer": 2,
+      "explanation": "RNNs and LSTMs are designed for sequential and temporal data where the order of inputs matters. This includes natural language (word sequences), audio (sample sequences), time series (stock prices, weather, IoT sensors), and any task where context from previous time steps is needed to make accurate predictions about the current or future state."
+    }
+  ]
+  </script>
+
+  <nav class="topic-nav">
+    <button class="topic-nav__btn" onclick="window.parent.postMessage({type:'navigate',data:{id:'cnn'}},'*')">
+      <span>←</span><span><span class="topic-nav__label">Previous</span><span class="topic-nav__title">CNN Basics</span></span>
+    </button>
+    <button class="topic-nav__btn topic-nav__btn--next" onclick="window.parent.postMessage({type:'navigate',data:{id:'nlp-intro'}},'*')">
+      <span><span class="topic-nav__label">Next</span><span class="topic-nav__title">NLP Introduction</span></span><span>→</span>
+    </button>
+  </nav>
+</article>
+<button class="scroll-top-btn" id="scroll-top">↑</button>
+<script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="../js/mcq.js"></script>
+<script>
+  AOS.init({duration:500,once:true,offset:40});
+  const saved=localStorage.getItem('ai-theme');if(saved)document.documentElement.setAttribute('data-theme',saved);
+  window.addEventListener('message',e=>{if(e.data?.type==='theme-change')document.documentElement.setAttribute('data-theme',e.data.theme);});
+  window.addEventListener('scroll',()=>{const el=document.documentElement;window.parent.postMessage({type:'scroll-progress',data:{percent:(el.scrollTop/(el.scrollHeight-el.clientHeight))*100||0}},'*');document.getElementById('scroll-top')?.classList.toggle('visible',window.scrollY>300);},{passive:true});
+  document.getElementById('scroll-top')?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+  const ttsBtn=document.getElementById('tts-btn');let speaking=false;
+  ttsBtn?.addEventListener('click',()=>{if(!window.speechSynthesis)return;if(speaking){window.speechSynthesis.cancel();speaking=false;ttsBtn.textContent='🔊 Read Aloud';return;}const u=new SpeechSynthesisUtterance(document.getElementById('topic-content')?.innerText||'');u.rate=0.95;u.onend=()=>{speaking=false;ttsBtn.textContent='🔊 Read Aloud';};window.speechSynthesis.speak(u);speaking=true;ttsBtn.textContent='⏹ Stop';});
+</script>
+</body>
+</html>

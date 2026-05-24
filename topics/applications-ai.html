@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Applications of AI — AI.learn</title>
+  <link rel="stylesheet" href="../css/variables.css" /><link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/animations.css" /><link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/theme-light.css" />
+  <link rel="stylesheet" href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body)}
+    .topic-wrapper{max-width:860px;margin:0 auto;padding:var(--space-8) var(--space-8) var(--space-16)}
+    .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
+    .topic-breadcrumb{display:flex;align-items:center;gap:var(--space-2);font-family:var(--font-nav);font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--space-4)}
+    .topic-breadcrumb__sep{color:var(--border-glow)}.topic-breadcrumb__current{color:var(--accent-cyan)}
+    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
+    .topic-meta{display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap}
+    .topic-meta__item{font-family:var(--font-nav);font-size:var(--text-xs);color:var(--text-muted)}
+    .tts-topic-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:var(--bg-secondary);border:1px solid var(--border-default);border-radius:var(--radius-md);cursor:pointer;color:var(--text-muted);font-family:var(--font-nav);font-size:var(--text-xs);transition:all .25s ease}
+    .tts-topic-btn:hover{border-color:var(--accent-purple);color:var(--accent-purple)}
+    .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
+    .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
+    .topic-content p{line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
+    .topic-content ul{margin-bottom:var(--space-4);padding-left:var(--space-6)}
+    .topic-content li{margin-bottom:var(--space-2);line-height:var(--leading-relaxed);color:var(--text-secondary)}
+    .app-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--space-4);margin:var(--space-6) 0}
+    .app-card{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-xl);padding:var(--space-5);transition:all .3s ease}
+    .app-card:hover{border-color:var(--accent-cyan-border);box-shadow:var(--glow-cyan-sm);transform:translateY(-3px)}
+    .app-card__icon{font-size:2rem;margin-bottom:var(--space-3)}
+    .app-card__title{font-family:var(--font-nav);font-size:var(--text-base);font-weight:600;color:var(--text-primary);margin-bottom:var(--space-2);letter-spacing:.03em}
+    .app-card__desc{font-size:var(--text-sm);color:var(--text-muted);line-height:1.6}
+    .app-card__examples{margin-top:var(--space-2);font-size:var(--text-xs);color:var(--accent-cyan);font-family:var(--font-nav)}
+    .scroll-top-btn{position:fixed;bottom:var(--space-6);right:var(--space-6);width:42px;height:42px;background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-md);cursor:pointer;color:var(--accent-cyan);font-size:1.2rem;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);pointer-events:none;transition:all .3s ease;z-index:50}
+    .scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:all}
+    @media(max-width:600px){.topic-wrapper{padding:var(--space-5) var(--space-4) var(--space-12)}.app-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<article class="topic-wrapper">
+  <header class="topic-header">
+    <nav class="topic-breadcrumb">
+      <span>AI.learn</span><span class="topic-breadcrumb__sep">›</span>
+      <span>Introduction to AI</span><span class="topic-breadcrumb__sep">›</span>
+      <span class="topic-breadcrumb__current">Applications of AI</span>
+    </nav>
+    <h1 class="topic-title">Real-World Applications of AI</h1>
+    <div class="topic-meta">
+      <span class="topic-meta__item">⏱ 8 min read</span>
+      <button class="tts-topic-btn" id="tts-btn">🔊 Read Aloud</button>
+    </div>
+  </header>
+
+  <div class="topic-content" id="topic-content">
+
+    <p data-aos="fade-up">AI is no longer a futuristic concept — it is embedded in everyday life. From the moment you unlock your phone with your face to receiving personalised recommendations on streaming platforms, AI works silently behind the scenes.</p>
+
+    <h2 data-aos="fade-up">Key Application Domains</h2>
+
+    <div class="app-grid">
+      <div class="app-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="app-card__icon">🏥</div>
+        <div class="app-card__title">Healthcare</div>
+        <div class="app-card__desc">Disease diagnosis, drug discovery, medical imaging analysis, and personalised treatment planning.</div>
+        <div class="app-card__examples">Examples: IBM Watson Health, DeepMind AlphaFold, radiology AI</div>
+      </div>
+      <div class="app-card" data-aos="fade-up" data-aos-delay="80">
+        <div class="app-card__icon">💰</div>
+        <div class="app-card__title">Finance</div>
+        <div class="app-card__desc">Fraud detection, algorithmic trading, credit scoring, and risk assessment at millisecond speed.</div>
+        <div class="app-card__examples">Examples: PayPal fraud detection, robo-advisors, credit scoring</div>
+      </div>
+      <div class="app-card" data-aos="fade-up" data-aos-delay="160">
+        <div class="app-card__icon">🚗</div>
+        <div class="app-card__title">Transportation</div>
+        <div class="app-card__desc">Self-driving vehicles, traffic flow optimisation, ride-sharing algorithms, and predictive maintenance.</div>
+        <div class="app-card__examples">Examples: Tesla Autopilot, Waymo, Google Maps ETA</div>
+      </div>
+      <div class="app-card" data-aos="fade-up" data-aos-delay="240">
+        <div class="app-card__icon">🎯</div>
+        <div class="app-card__title">Marketing</div>
+        <div class="app-card__desc">Personalised ads, customer segmentation, churn prediction, sentiment analysis of reviews.</div>
+        <div class="app-card__examples">Examples: Google Ads targeting, Netflix recommendations</div>
+      </div>
+      <div class="app-card" data-aos="fade-up" data-aos-delay="320">
+        <div class="app-card__icon">🔒</div>
+        <div class="app-card__title">Cybersecurity</div>
+        <div class="app-card__desc">Intrusion detection, malware classification, phishing detection, and anomaly identification.</div>
+        <div class="app-card__examples">Examples: Darktrace, CrowdStrike, email spam filters</div>
+      </div>
+      <div class="app-card" data-aos="fade-up" data-aos-delay="400">
+        <div class="app-card__icon">🎮</div>
+        <div class="app-card__title">Gaming</div>
+        <div class="app-card__desc">NPC behaviour, procedural content generation, difficulty adjustment, and game testing automation.</div>
+        <div class="app-card__examples">Examples: OpenAI Five (Dota 2), AlphaStar (StarCraft)</div>
+      </div>
+    </div>
+
+    <h2 data-aos="fade-up">AI in Natural Language Processing</h2>
+    <p data-aos="fade-up">NLP applications are among the most visible uses of AI in daily life:</p>
+    <ul data-aos="fade-up">
+      <li><strong>Virtual Assistants</strong> — Siri, Alexa, Google Assistant understand and respond to spoken queries</li>
+      <li><strong>Machine Translation</strong> — Google Translate, DeepL translate between 100+ languages in real time</li>
+      <li><strong>Chatbots</strong> — Customer service bots handle millions of queries without human agents</li>
+      <li><strong>Sentiment Analysis</strong> — Brands analyse social media to understand public opinion</li>
+      <li><strong>Text Summarisation</strong> — AI condenses long documents into key points</li>
+    </ul>
+
+    <h2 data-aos="fade-up">AI in Computer Vision</h2>
+    <ul data-aos="fade-up">
+      <li><strong>Face Recognition</strong> — Unlocking phones, surveillance, attendance systems</li>
+      <li><strong>Medical Imaging</strong> — Detecting tumours in X-rays, MRIs with >90% accuracy</li>
+      <li><strong>Quality Control</strong> — Manufacturing defect detection on assembly lines</li>
+      <li><strong>Agriculture</strong> — Crop health monitoring via drone imagery</li>
+      <li><strong>Retail</strong> — Amazon Go cashierless stores use computer vision to track items</li>
+    </ul>
+
+    <h2 data-aos="fade-up">Practical Code: Sentiment Analysis</h2>
+    <pre data-aos="fade-up"><code class="language-python">from transformers import pipeline
+
+# Load a pre-trained sentiment analysis model
+classifier = pipeline("sentiment-analysis")
+
+texts = [
+    "This AI course is absolutely amazing!",
+    "I struggled to understand this concept.",
+    "The explanation was clear and helpful."
+]
+
+results = classifier(texts)
+for text, result in zip(texts, results):
+    print(f"Text: {text}")
+    print(f"Label: {result['label']} | Confidence: {result['score']:.2%}\n")
+
+# Output:
+# Text: This AI course is absolutely amazing!
+# Label: POSITIVE | Confidence: 99.87%
+
+# Text: I struggled to understand this concept.
+# Label: NEGATIVE | Confidence: 98.12%
+</code></pre>
+
+    <h2 data-aos="fade-up">AI Ethics and Concerns</h2>
+    <div class="alert alert-warning" data-aos="fade-up">
+      <span class="alert__icon">⚠️</span>
+      <div class="alert__content">
+        <div class="alert__title">Important Considerations</div>
+        <ul style="margin:0;padding-left:1.2rem">
+          <li><strong>Bias</strong> — AI trained on biased data perpetuates discrimination (hiring, lending, criminal justice)</li>
+          <li><strong>Privacy</strong> — Mass surveillance and data collection concerns</li>
+          <li><strong>Job Displacement</strong> — Automation may replace routine cognitive and physical jobs</li>
+          <li><strong>Deepfakes</strong> — Synthetic media used for misinformation</li>
+          <li><strong>Accountability</strong> — Who is responsible when AI makes harmful decisions?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="alert alert-tip" data-aos="fade-up">
+      <span class="alert__icon">🌐</span>
+      <div class="alert__content">
+        <div class="alert__title">The Opportunity</div>
+        AI has the potential to accelerate scientific discovery, democratise access to expertise (medical, legal, educational), combat climate change, and solve problems at a scale impossible for humans alone.
+      </div>
+    </div>
+
+  </div>
+
+  <section class="mcq-section">
+    <h2 class="mcq-section__title">🧩 Practice MCQs</h2>
+    <p class="mcq-section__subtitle">Test your understanding — 5 questions</p>
+    <div id="mcq-mount"></div>
+  </section>
+
+  <script type="application/json" id="mcq-data">
+  [
+    {
+      "q": "Which AI system by DeepMind solved the protein folding problem, a 50-year-old biology challenge?",
+      "options": ["AlphaGo", "AlphaFold", "AlphaZero", "AlphaStar"],
+      "answer": 1,
+      "explanation": "AlphaFold (DeepMind, 2020) predicted 3D protein structures from amino acid sequences with remarkable accuracy, solving a 50-year grand challenge in biology. It has since predicted structures for ~200 million proteins."
+    },
+    {
+      "q": "What type of AI is primarily used in fraud detection systems at financial institutions?",
+      "options": ["Generative AI", "Expert Systems", "Anomaly Detection / Supervised ML", "Reinforcement Learning"],
+      "answer": 2,
+      "explanation": "Fraud detection uses supervised machine learning (e.g., Random Forest, XGBoost) trained on historical transactions labelled as fraudulent or legitimate, combined with anomaly detection for new fraud patterns."
+    },
+    {
+      "q": "Which company operates fully cashierless grocery stores using computer vision and AI?",
+      "options": ["Google", "Apple", "Amazon (Amazon Go)", "Walmart"],
+      "answer": 2,
+      "explanation": "Amazon Go stores use a combination of computer vision, sensor fusion, and deep learning to track which items customers pick up, automatically charging them upon exit — no cashiers needed."
+    },
+    {
+      "q": "What is a major ethical concern with AI systems trained on historical human data?",
+      "options": [
+        "AI runs too slowly",
+        "AI requires too much electricity",
+        "AI can perpetuate and amplify existing biases from training data",
+        "AI cannot learn from new data"
+      ],
+      "answer": 2,
+      "explanation": "AI systems trained on historical human data inherit societal biases present in that data. For example, hiring algorithms trained on historical records may systematically disadvantage certain demographic groups."
+    },
+    {
+      "q": "Which NLP application enables Amazon Alexa to understand spoken commands?",
+      "options": ["Computer Vision", "Automatic Speech Recognition (ASR) + NLU", "Reinforcement Learning", "Generative Adversarial Networks"],
+      "answer": 1,
+      "explanation": "Voice assistants like Alexa use Automatic Speech Recognition (ASR) to convert speech to text, followed by Natural Language Understanding (NLU) to parse intent, and then Text-to-Speech (TTS) to respond."
+    }
+  ]
+  </script>
+
+  <nav class="topic-nav">
+    <button class="topic-nav__btn" id="btn-prev" onclick="window.parent.postMessage({type:'navigate',data:{id:'history-of-ai'}},'*')">
+      <span>←</span><span><span class="topic-nav__label">Previous</span><span class="topic-nav__title">History of AI</span></span>
+    </button>
+    <button class="topic-nav__btn topic-nav__btn--next" id="btn-next" onclick="window.parent.postMessage({type:'navigate',data:{id:'supervised'}},'*')">
+      <span><span class="topic-nav__label">Next</span><span class="topic-nav__title">Supervised Learning</span></span><span>→</span>
+    </button>
+  </nav>
+</article>
+
+<button class="scroll-top-btn" id="scroll-top">↑</button>
+<script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="../js/mcq.js"></script>
+<script>
+  AOS.init({duration:500,once:true,offset:40});
+  const saved=localStorage.getItem('ai-theme');if(saved)document.documentElement.setAttribute('data-theme',saved);
+  window.addEventListener('message',e=>{if(e.data?.type==='theme-change')document.documentElement.setAttribute('data-theme',e.data.theme);});
+  window.addEventListener('scroll',()=>{const el=document.documentElement;window.parent.postMessage({type:'scroll-progress',data:{percent:(el.scrollTop/(el.scrollHeight-el.clientHeight))*100||0}},'*');document.getElementById('scroll-top')?.classList.toggle('visible',window.scrollY>300);},{passive:true});
+  document.getElementById('scroll-top')?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+  const ttsBtn=document.getElementById('tts-btn');let speaking=false;
+  ttsBtn?.addEventListener('click',()=>{if(!window.speechSynthesis)return;if(speaking){window.speechSynthesis.cancel();speaking=false;ttsBtn.textContent='🔊 Read Aloud';return;}const u=new SpeechSynthesisUtterance(document.getElementById('topic-content')?.innerText||'');u.rate=0.95;u.onend=()=>{speaking=false;ttsBtn.textContent='🔊 Read Aloud';};window.speechSynthesis.speak(u);speaking=true;ttsBtn.textContent='⏹ Stop';});
+</script>
+</body>
+</html>

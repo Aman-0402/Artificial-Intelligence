@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CNN Basics — AI.learn</title>
+  <link rel="stylesheet" href="../css/variables.css" /><link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/animations.css" /><link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/theme-light.css" />
+  <link rel="stylesheet" href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body)}
+    .topic-wrapper{max-width:860px;margin:0 auto;padding:var(--space-8) var(--space-8) var(--space-16)}
+    .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
+    .topic-breadcrumb{display:flex;align-items:center;gap:var(--space-2);font-family:var(--font-nav);font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--space-4)}
+    .topic-breadcrumb__sep{color:var(--border-glow)}.topic-breadcrumb__current{color:var(--accent-cyan)}
+    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
+    .topic-meta{display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap}
+    .topic-meta__item{font-family:var(--font-nav);font-size:var(--text-xs);color:var(--text-muted)}
+    .tts-topic-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:var(--bg-secondary);border:1px solid var(--border-default);border-radius:var(--radius-md);cursor:pointer;color:var(--text-muted);font-family:var(--font-nav);font-size:var(--text-xs);transition:all .25s ease}
+    .tts-topic-btn:hover{border-color:var(--accent-purple);color:var(--accent-purple)}
+    .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
+    .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
+    .topic-content h4{font-size:var(--text-lg);margin-top:var(--space-6);margin-bottom:var(--space-2);color:var(--text-secondary)}
+    .topic-content p{line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
+    .topic-content ul,.topic-content ol{margin-bottom:var(--space-4);padding-left:var(--space-6)}
+    .topic-content li{margin-bottom:var(--space-2);line-height:var(--leading-relaxed);color:var(--text-secondary)}
+    .topic-content pre[class*="language-"]{border-radius:var(--radius-lg);border:1px solid var(--border-default);font-size:var(--text-sm);margin-bottom:var(--space-6)}
+    .topic-content table{width:100%;border-collapse:collapse;margin-bottom:var(--space-6);font-size:var(--text-sm)}
+    .topic-content th{background:var(--bg-secondary);color:var(--accent-cyan);font-family:var(--font-nav);font-weight:600;padding:var(--space-3) var(--space-4);text-align:left;border-bottom:1px solid var(--border-glow)}
+    .topic-content td{padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--border-subtle);color:var(--text-secondary)}
+    .scroll-top-btn{position:fixed;bottom:var(--space-6);right:var(--space-6);width:42px;height:42px;background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-md);cursor:pointer;color:var(--accent-cyan);font-size:1.2rem;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);pointer-events:none;transition:all .3s ease;z-index:50}
+    .scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:all}
+    @media(max-width:600px){.topic-wrapper{padding:var(--space-5) var(--space-4) var(--space-12)}}
+  </style>
+</head>
+<body>
+<article class="topic-wrapper">
+  <header class="topic-header">
+    <nav class="topic-breadcrumb">
+      <span>AI.learn</span><span class="topic-breadcrumb__sep">›</span>
+      <span>Deep Learning</span><span class="topic-breadcrumb__sep">›</span>
+      <span class="topic-breadcrumb__current">CNN Basics</span>
+    </nav>
+    <h1 class="topic-title">Convolutional Neural Networks (CNNs)</h1>
+    <div class="topic-meta">
+      <span class="topic-meta__item">⏱ 11 min read</span>
+      <button class="tts-topic-btn" id="tts-btn">🔊 Read Aloud</button>
+    </div>
+  </header>
+
+  <div class="topic-content" id="topic-content">
+
+    <p data-aos="fade-up">A <strong>Convolutional Neural Network (CNN)</strong> is a specialised deep learning architecture designed to process grid-like data such as images. Rather than treating each pixel as an independent feature (like a fully connected network does), CNNs exploit the spatial structure of images by learning local patterns — edges, textures, and shapes — using <strong>filters</strong> that slide across the input.</p>
+
+    <div class="alert alert-info" data-aos="fade-up">
+      <span class="alert__icon">🖼️</span>
+      <div class="alert__content">
+        <div class="alert__title">Why Not Just Use a Fully Connected Network?</div>
+        A 224×224 RGB image has 150,528 pixels. A single fully connected layer with 1,000 neurons would need 150 million parameters — just for one layer. CNNs use <strong>parameter sharing</strong> (one filter applied everywhere) and <strong>local connectivity</strong> (neurons connect only to nearby pixels), reducing this to a few thousand parameters per layer while preserving spatial relationships.
+      </div>
+    </div>
+
+    <h2 data-aos="fade-up">The Convolution Operation</h2>
+    <p data-aos="fade-up">The core operation in a CNN is the <strong>convolution</strong>. A small matrix called a <strong>filter</strong> (or <strong>kernel</strong>) — typically 3×3 or 5×5 — slides across the input image one step at a time (controlled by the <strong>stride</strong>). At each position it computes the element-wise product with the underlying image region, then sums the results to produce a single output value.</p>
+    <p data-aos="fade-up">The collection of output values across all positions forms a <strong>feature map</strong> (also called an activation map). Each filter learns to detect a specific local pattern: one filter may detect vertical edges, another detects horizontal edges, a third detects colour gradients, and so on.</p>
+
+    <ul data-aos="fade-up">
+      <li><strong>Filter / Kernel</strong> — small learnable weight matrix; slides across the input to detect a specific feature</li>
+      <li><strong>Feature Map</strong> — the output of applying one filter to the entire input; shows where that feature is detected</li>
+      <li><strong>Stride</strong> — how many pixels the filter moves at each step; stride=1 means dense overlap, stride=2 halves spatial dimensions</li>
+      <li><strong>Padding</strong> — adding zeros around the border of the input; "same" padding preserves spatial size, "valid" padding shrinks it</li>
+      <li><strong>Depth / Channels</strong> — a conv layer applies many filters in parallel, producing one feature map per filter</li>
+    </ul>
+
+    <h2 data-aos="fade-up">Pooling Layers</h2>
+    <p data-aos="fade-up">After convolution and activation, a <strong>pooling layer</strong> reduces the spatial size of feature maps. This decreases computation, controls overfitting, and makes representations slightly translation-invariant (the network still recognises a cat even if it shifts a few pixels).</p>
+
+    <ul data-aos="fade-up">
+      <li><strong>Max Pooling</strong> — takes the maximum value in each pooling window (e.g., 2×2). Preserves the strongest feature activation. Most common choice.</li>
+      <li><strong>Average Pooling</strong> — takes the mean value in each window. Produces smoother representations; used in some architectures like GoogLeNet for global pooling before the classifier.</li>
+    </ul>
+
+    <div class="alert alert-info" data-aos="fade-up">
+      <span class="alert__icon">📏</span>
+      <div class="alert__content">
+        <div class="alert__title">Effect of 2×2 Max Pooling with Stride 2</div>
+        Input: 28×28 feature map → Output: 14×14 feature map. Spatial dimensions halved, number of parameters and compute roughly quartered, while retaining the dominant features detected by convolution.
+      </div>
+    </div>
+
+    <h2 data-aos="fade-up">CNN Architecture Flow</h2>
+    <p data-aos="fade-up">A typical CNN stacks these operations in sequence before a final classifier:</p>
+    <ol data-aos="fade-up">
+      <li><strong>Conv Layer</strong> — apply N filters → N feature maps</li>
+      <li><strong>ReLU Activation</strong> — introduce non-linearity; set negatives to zero</li>
+      <li><strong>Pooling Layer</strong> — downsample spatial dimensions</li>
+      <li><em>(Repeat Conv → ReLU → Pool blocks as needed)</em></li>
+      <li><strong>Flatten</strong> — convert 3D feature maps to a 1D vector</li>
+      <li><strong>Dense (Fully Connected) Layers</strong> — combine learned features for final prediction</li>
+      <li><strong>Softmax Output</strong> — class probabilities</li>
+    </ol>
+
+    <h2 data-aos="fade-up">Famous CNN Architectures</h2>
+
+    <table data-aos="fade-up">
+      <thead>
+        <tr>
+          <th>Architecture</th>
+          <th>Year</th>
+          <th>Key Innovation</th>
+          <th>Depth</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>LeNet-5</strong></td>
+          <td>1998</td>
+          <td>First practical CNN; digit recognition for cheques</td>
+          <td>5 layers</td>
+        </tr>
+        <tr>
+          <td><strong>AlexNet</strong></td>
+          <td>2012</td>
+          <td>Won ImageNet by large margin; introduced ReLU &amp; Dropout at scale</td>
+          <td>8 layers</td>
+        </tr>
+        <tr>
+          <td><strong>VGG16</strong></td>
+          <td>2014</td>
+          <td>Showed depth matters; uniform 3×3 conv blocks throughout</td>
+          <td>16 layers</td>
+        </tr>
+        <tr>
+          <td><strong>ResNet-50</strong></td>
+          <td>2015</td>
+          <td>Residual/skip connections solve vanishing gradient in very deep nets</td>
+          <td>50–152 layers</td>
+        </tr>
+        <tr>
+          <td><strong>EfficientNet</strong></td>
+          <td>2019</td>
+          <td>Compound scaling of depth/width/resolution; state-of-the-art efficiency</td>
+          <td>Variable (B0–B7)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 data-aos="fade-up">Keras CIFAR-10 Example</h2>
+    <p data-aos="fade-up">CIFAR-10 contains 60,000 colour images (32×32 px) across 10 classes (airplane, car, bird, cat, etc.). Here is a complete CNN that achieves ~75–80% accuracy:</p>
+
+    <pre data-aos="fade-up"><code class="language-python">import tensorflow as tf
+from tensorflow import keras
+
+# Load and normalise data
+(x_train, y_train), (x_test, y_test) = keras.datasets.cifar10.load_data()
+x_train = x_train.astype("float32") / 255.0
+x_test  = x_test.astype("float32")  / 255.0
+
+# Build CNN
+model = keras.Sequential([
+    # Block 1
+    keras.layers.Conv2D(32, (3, 3), activation="relu", padding="same",
+                        input_shape=(32, 32, 3)),
+    keras.layers.Conv2D(32, (3, 3), activation="relu", padding="same"),
+    keras.layers.MaxPooling2D(2, 2),
+    keras.layers.Dropout(0.25),
+
+    # Block 2
+    keras.layers.Conv2D(64, (3, 3), activation="relu", padding="same"),
+    keras.layers.Conv2D(64, (3, 3), activation="relu", padding="same"),
+    keras.layers.MaxPooling2D(2, 2),
+    keras.layers.Dropout(0.25),
+
+    # Classifier
+    keras.layers.Flatten(),
+    keras.layers.Dense(512, activation="relu"),
+    keras.layers.Dropout(0.5),
+    keras.layers.Dense(10, activation="softmax")   # 10 CIFAR classes
+])
+
+model.compile(
+    optimizer=keras.optimizers.Adam(learning_rate=1e-3),
+    loss="sparse_categorical_crossentropy",
+    metrics=["accuracy"]
+)
+
+model.summary()
+
+history = model.fit(
+    x_train, y_train,
+    epochs=30,
+    batch_size=64,
+    validation_split=0.1
+)
+
+test_loss, test_acc = model.evaluate(x_test, y_test, verbose=0)
+print(f"Test accuracy: {test_acc:.4f}")   # ~0.78
+</code></pre>
+
+    <h2 data-aos="fade-up">Transfer Learning</h2>
+    <p data-aos="fade-up"><strong>Transfer learning</strong> is one of the most powerful techniques in computer vision. Instead of training a CNN from scratch (which requires millions of images and days of compute), you load a model already pretrained on a large dataset like <strong>ImageNet</strong> (1.2M images, 1,000 classes), freeze its convolutional base, and only train a new classifier head on your smaller dataset.</p>
+
+    <div class="alert alert-info" data-aos="fade-up">
+      <span class="alert__icon">💡</span>
+      <div class="alert__content">
+        <div class="alert__title">Transfer Learning in 5 Lines</div>
+        <code>base = keras.applications.EfficientNetB0(weights="imagenet", include_top=False, input_shape=(224,224,3))</code><br />
+        <code>base.trainable = False</code><br />
+        <code>x = keras.layers.GlobalAveragePooling2D()(base.output)</code><br />
+        <code>out = keras.layers.Dense(num_classes, activation="softmax")(x)</code><br />
+        <code>model = keras.Model(base.input, out)</code><br /><br />
+        The pretrained filters (edges, textures, shapes) are reused. Only the final dense layer is trained — achieving high accuracy with just a few hundred images.
+      </div>
+    </div>
+
+  </div>
+
+  <section class="mcq-section">
+    <h2 class="mcq-section__title">🧩 Practice MCQs</h2>
+    <p class="mcq-section__subtitle">Test your understanding — 5 questions</p>
+    <div id="mcq-mount"></div>
+  </section>
+
+  <script type="application/json" id="mcq-data">
+  [
+    {
+      "q": "What does a convolutional filter (kernel) do in a CNN?",
+      "options": [
+        "It normalises the pixel values to [0, 1]",
+        "It detects local spatial features by sliding across the input and computing element-wise products",
+        "It reduces the number of colour channels to one",
+        "It connects every neuron to every pixel globally"
+      ],
+      "answer": 1,
+      "explanation": "A convolutional filter is a small learnable weight matrix (e.g., 3×3) that slides across the input. At each position it computes element-wise multiplication with the local image patch and sums the results, detecting a specific local feature such as an edge or texture. Different filters learn to detect different patterns."
+    },
+    {
+      "q": "What is the main purpose of a Max Pooling layer in a CNN?",
+      "options": [
+        "To increase the number of feature maps",
+        "To apply the ReLU activation function",
+        "To reduce spatial dimensions (height and width) of feature maps, decreasing computation and adding translation invariance",
+        "To connect the convolutional layers to the dense output layer"
+      ],
+      "answer": 2,
+      "explanation": "Max Pooling reduces spatial dimensions by taking the maximum value within each pooling window (e.g., 2×2 with stride 2 halves width and height). This reduces parameters and computation in subsequent layers, and provides slight translation invariance — the network remains robust to small shifts in feature position."
+    },
+    {
+      "q": "What key innovation does ResNet (Residual Network) introduce to enable training very deep networks?",
+      "options": [
+        "Using Average Pooling instead of Max Pooling",
+        "Skip connections (residual connections) that allow gradients to flow directly through shortcut paths, solving the vanishing gradient problem",
+        "Replacing all convolutional layers with fully connected layers",
+        "Using only 3×3 filters throughout the entire network"
+      ],
+      "answer": 1,
+      "explanation": "ResNet introduces skip (residual) connections that add the input of a block directly to its output: output = F(x) + x. This provides a gradient highway during backpropagation — gradients can flow directly through the skip path without vanishing. This enabled networks with 50, 101, and even 152 layers to train successfully."
+    },
+    {
+      "q": "Why are CNNs generally superior to fully connected networks for image classification?",
+      "options": [
+        "CNNs use more parameters so they memorise training data better",
+        "CNNs use softmax which fully connected networks cannot",
+        "CNNs exploit parameter sharing and local connectivity, drastically reducing parameters while preserving spatial structure",
+        "CNNs do not require any activation functions"
+      ],
+      "answer": 2,
+      "explanation": "In a fully connected network, every neuron connects to every pixel, causing an explosion of parameters (e.g., 150M for one layer on a 224×224 image). CNNs share filter weights across all spatial positions (parameter sharing) and only connect neurons to local regions (local connectivity), reducing parameters by orders of magnitude while preserving spatial relationships that are critical for recognising patterns in images."
+    },
+    {
+      "q": "What does transfer learning allow you to do when training a CNN?",
+      "options": [
+        "Train a model without any labelled data",
+        "Use pretrained weights from a large dataset (e.g., ImageNet) as a starting point, achieving high accuracy with far less data and compute",
+        "Transfer the model from one programming language to another",
+        "Automatically select the best architecture for your task"
+      ],
+      "answer": 1,
+      "explanation": "Transfer learning reuses convolutional filters already trained on large datasets like ImageNet (which learned general features: edges, textures, shapes, objects). By freezing these pretrained layers and only training a new classifier head, you achieve strong performance with just hundreds of task-specific images instead of millions — saving massive amounts of time and compute."
+    }
+  ]
+  </script>
+
+  <nav class="topic-nav">
+    <button class="topic-nav__btn" onclick="window.parent.postMessage({type:'navigate',data:{id:'neural-networks'}},'*')">
+      <span>←</span><span><span class="topic-nav__label">Previous</span><span class="topic-nav__title">Neural Networks</span></span>
+    </button>
+    <button class="topic-nav__btn topic-nav__btn--next" onclick="window.parent.postMessage({type:'navigate',data:{id:'rnn-lstm'}},'*')">
+      <span><span class="topic-nav__label">Next</span><span class="topic-nav__title">RNNs &amp; LSTMs</span></span><span>→</span>
+    </button>
+  </nav>
+</article>
+<button class="scroll-top-btn" id="scroll-top">↑</button>
+<script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="../js/mcq.js"></script>
+<script>
+  AOS.init({duration:500,once:true,offset:40});
+  const saved=localStorage.getItem('ai-theme');if(saved)document.documentElement.setAttribute('data-theme',saved);
+  window.addEventListener('message',e=>{if(e.data?.type==='theme-change')document.documentElement.setAttribute('data-theme',e.data.theme);});
+  window.addEventListener('scroll',()=>{const el=document.documentElement;window.parent.postMessage({type:'scroll-progress',data:{percent:(el.scrollTop/(el.scrollHeight-el.clientHeight))*100||0}},'*');document.getElementById('scroll-top')?.classList.toggle('visible',window.scrollY>300);},{passive:true});
+  document.getElementById('scroll-top')?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+  const ttsBtn=document.getElementById('tts-btn');let speaking=false;
+  ttsBtn?.addEventListener('click',()=>{if(!window.speechSynthesis)return;if(speaking){window.speechSynthesis.cancel();speaking=false;ttsBtn.textContent='🔊 Read Aloud';return;}const u=new SpeechSynthesisUtterance(document.getElementById('topic-content')?.innerText||'');u.rate=0.95;u.onend=()=>{speaking=false;ttsBtn.textContent='🔊 Read Aloud';};window.speechSynthesis.speak(u);speaking=true;ttsBtn.textContent='⏹ Stop';});
+</script>
+</body>
+</html>

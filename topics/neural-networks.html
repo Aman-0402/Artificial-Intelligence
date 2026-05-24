@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neural Networks — AI.learn</title>
+  <link rel="stylesheet" href="../css/variables.css" /><link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/animations.css" /><link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/theme-light.css" />
+  <link rel="stylesheet" href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body)}
+    .topic-wrapper{max-width:860px;margin:0 auto;padding:var(--space-8) var(--space-8) var(--space-16)}
+    .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
+    .topic-breadcrumb{display:flex;align-items:center;gap:var(--space-2);font-family:var(--font-nav);font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--space-4)}
+    .topic-breadcrumb__sep{color:var(--border-glow)}.topic-breadcrumb__current{color:var(--accent-cyan)}
+    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
+    .topic-meta{display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap}
+    .topic-meta__item{font-family:var(--font-nav);font-size:var(--text-xs);color:var(--text-muted)}
+    .tts-topic-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:var(--bg-secondary);border:1px solid var(--border-default);border-radius:var(--radius-md);cursor:pointer;color:var(--text-muted);font-family:var(--font-nav);font-size:var(--text-xs);transition:all .25s ease}
+    .tts-topic-btn:hover{border-color:var(--accent-purple);color:var(--accent-purple)}
+    .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
+    .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
+    .topic-content h4{font-size:var(--text-lg);margin-top:var(--space-6);margin-bottom:var(--space-2);color:var(--text-secondary)}
+    .topic-content p{line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
+    .topic-content ul,.topic-content ol{margin-bottom:var(--space-4);padding-left:var(--space-6)}
+    .topic-content li{margin-bottom:var(--space-2);line-height:var(--leading-relaxed);color:var(--text-secondary)}
+    .topic-content pre[class*="language-"]{border-radius:var(--radius-lg);border:1px solid var(--border-default);font-size:var(--text-sm);margin-bottom:var(--space-6)}
+    .topic-content table{width:100%;border-collapse:collapse;margin-bottom:var(--space-6);font-size:var(--text-sm)}
+    .topic-content th{background:var(--bg-secondary);color:var(--accent-cyan);font-family:var(--font-nav);font-weight:600;padding:var(--space-3) var(--space-4);text-align:left;border-bottom:1px solid var(--border-glow)}
+    .topic-content td{padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--border-subtle);color:var(--text-secondary)}
+    .scroll-top-btn{position:fixed;bottom:var(--space-6);right:var(--space-6);width:42px;height:42px;background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-md);cursor:pointer;color:var(--accent-cyan);font-size:1.2rem;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);pointer-events:none;transition:all .3s ease;z-index:50}
+    .scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:all}
+    @media(max-width:600px){.topic-wrapper{padding:var(--space-5) var(--space-4) var(--space-12)}}
+  </style>
+</head>
+<body>
+<article class="topic-wrapper">
+  <header class="topic-header">
+    <nav class="topic-breadcrumb">
+      <span>AI.learn</span><span class="topic-breadcrumb__sep">›</span>
+      <span>Deep Learning</span><span class="topic-breadcrumb__sep">›</span>
+      <span class="topic-breadcrumb__current">Neural Networks</span>
+    </nav>
+    <h1 class="topic-title">Neural Networks</h1>
+    <div class="topic-meta">
+      <span class="topic-meta__item">⏱ 12 min read</span>
+      <button class="tts-topic-btn" id="tts-btn">🔊 Read Aloud</button>
+    </div>
+  </header>
+
+  <div class="topic-content" id="topic-content">
+
+    <p data-aos="fade-up">A <strong>neural network</strong> is a computational model inspired by the structure of biological brains. It consists of layers of interconnected <strong>neurons</strong> (nodes) that transform input data into useful predictions or representations. Neural networks are the backbone of modern deep learning — powering image recognition, language models, and much more.</p>
+
+    <div class="alert alert-info" data-aos="fade-up">
+      <span class="alert__icon">🧠</span>
+      <div class="alert__content">
+        <div class="alert__title">Biological Inspiration</div>
+        Just as a biological neuron fires when its inputs exceed a threshold, an artificial neuron computes a weighted sum of inputs, adds a bias, then passes the result through an activation function to decide whether (and how strongly) to "fire."
+      </div>
+    </div>
+
+    <h2 data-aos="fade-up">What is a Neuron?</h2>
+    <p data-aos="fade-up">Each artificial neuron performs a simple computation:</p>
+    <ol data-aos="fade-up">
+      <li>Receive inputs <code>x₁, x₂, …, xₙ</code></li>
+      <li>Multiply each input by its learned weight: <code>w₁x₁ + w₂x₂ + … + wₙxₙ</code></li>
+      <li>Add a bias term <code>b</code></li>
+      <li>Pass the result through an <strong>activation function</strong> <code>f</code></li>
+      <li>Output: <code>y = f(w · x + b)</code></li>
+    </ol>
+    <p data-aos="fade-up">Thousands of such neurons, wired together in layers, can learn extraordinarily complex patterns from raw data.</p>
+
+    <h2 data-aos="fade-up">Layers of a Neural Network</h2>
+    <p data-aos="fade-up">Every feedforward neural network has three types of layers:</p>
+    <ul data-aos="fade-up">
+      <li><strong>Input Layer</strong> — receives raw features (e.g., pixel values, numerical columns). One neuron per feature. No computation happens here.</li>
+      <li><strong>Hidden Layers</strong> — one or more intermediate layers that learn progressively abstract representations. A network with 2+ hidden layers is called a <em>deep</em> neural network.</li>
+      <li><strong>Output Layer</strong> — produces the final prediction. Size depends on the task: 1 neuron for binary classification, N neurons for N-class classification, 1 neuron for regression.</li>
+    </ul>
+
+    <div class="alert alert-info" data-aos="fade-up">
+      <span class="alert__icon">📐</span>
+      <div class="alert__content">
+        <div class="alert__title">Depth vs Width</div>
+        <strong>Depth</strong> (more hidden layers) lets the network learn hierarchical features — edges → shapes → objects. <strong>Width</strong> (more neurons per layer) increases capacity within each level of abstraction. Modern architectures balance both.
+      </div>
+    </div>
+
+    <h2 data-aos="fade-up">Activation Functions</h2>
+    <p data-aos="fade-up">Activation functions introduce <strong>non-linearity</strong>. Without them, stacking layers would be equivalent to a single linear transformation — the network could not learn complex patterns.</p>
+
+    <table data-aos="fade-up">
+      <thead>
+        <tr>
+          <th>Activation</th>
+          <th>Formula</th>
+          <th>Output Range</th>
+          <th>Best Used In</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Sigmoid</strong></td>
+          <td><code>1 / (1 + e⁻ˣ)</code></td>
+          <td>(0, 1)</td>
+          <td>Binary classification output layer</td>
+        </tr>
+        <tr>
+          <td><strong>Tanh</strong></td>
+          <td><code>(eˣ − e⁻ˣ) / (eˣ + e⁻ˣ)</code></td>
+          <td>(−1, 1)</td>
+          <td>Hidden layers (zero-centred)</td>
+        </tr>
+        <tr>
+          <td><strong>ReLU</strong></td>
+          <td><code>max(0, x)</code></td>
+          <td>[0, ∞)</td>
+          <td>Hidden layers — default choice</td>
+        </tr>
+        <tr>
+          <td><strong>Leaky ReLU</strong></td>
+          <td><code>max(0.01x, x)</code></td>
+          <td>(−∞, ∞)</td>
+          <td>Hidden layers (fixes dead ReLU)</td>
+        </tr>
+        <tr>
+          <td><strong>Softmax</strong></td>
+          <td><code>eˣⁱ / Σ eˣʲ</code></td>
+          <td>(0, 1), sums to 1</td>
+          <td>Multi-class classification output</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 data-aos="fade-up">Forward Propagation</h2>
+    <p data-aos="fade-up"><strong>Forward propagation</strong> is how a neural network makes a prediction. Data flows from the input layer, through each hidden layer (each applying its weights, biases, and activation), until it reaches the output layer and produces a prediction.</p>
+    <p data-aos="fade-up">For a single layer: <code>A = f(W · X + b)</code>, where <code>W</code> is the weight matrix, <code>X</code> is the input, <code>b</code> is bias, and <code>f</code> is the activation function. This is repeated for every layer in sequence.</p>
+
+    <h2 data-aos="fade-up">Backpropagation &amp; Gradient Descent</h2>
+    <p data-aos="fade-up"><strong>Backpropagation</strong> is the algorithm used to train neural networks. After a forward pass produces a prediction, a <strong>loss function</strong> (e.g., cross-entropy, MSE) measures how wrong the prediction is. Backprop then computes the gradient of the loss with respect to every weight in the network using the <strong>chain rule</strong> of calculus, propagating error signals backwards from output to input.</p>
+    <p data-aos="fade-up"><strong>Gradient descent</strong> uses those gradients to nudge each weight in the direction that reduces the loss:</p>
+
+    <div class="alert alert-info" data-aos="fade-up">
+      <span class="alert__icon">📉</span>
+      <div class="alert__content">
+        <div class="alert__title">Weight Update Rule</div>
+        <code>w ← w − η · (∂L/∂w)</code><br /><br />
+        η = learning rate (step size) | ∂L/∂w = gradient of loss w.r.t. weight.<br />
+        In practice, <strong>Adam</strong> (adaptive moment estimation) is used instead of vanilla gradient descent — it adjusts the learning rate per parameter automatically.
+      </div>
+    </div>
+
+    <h3 data-aos="fade-up">Training Loop in One Sentence</h3>
+    <p data-aos="fade-up">Repeat: forward pass → compute loss → backprop gradients → update weights — until the loss converges.</p>
+
+    <h2 data-aos="fade-up">Keras MNIST Example</h2>
+    <p data-aos="fade-up">The MNIST dataset contains 70,000 handwritten digit images (28×28 pixels). Below is a complete neural network that achieves ~98% accuracy:</p>
+
+    <pre data-aos="fade-up"><code class="language-python">import tensorflow as tf
+from tensorflow import keras
+
+# Load and preprocess data
+(x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
+x_train = x_train.reshape(-1, 784).astype("float32") / 255.0
+x_test  = x_test.reshape(-1, 784).astype("float32") / 255.0
+
+# Build the model
+model = keras.Sequential([
+    keras.layers.Dense(256, activation="relu", input_shape=(784,)),
+    keras.layers.Dropout(0.3),
+    keras.layers.Dense(128, activation="relu"),
+    keras.layers.Dropout(0.2),
+    keras.layers.Dense(10, activation="softmax")   # 10 digit classes
+])
+
+model.compile(
+    optimizer="adam",
+    loss="sparse_categorical_crossentropy",
+    metrics=["accuracy"]
+)
+
+model.summary()
+
+# Train
+history = model.fit(
+    x_train, y_train,
+    epochs=15,
+    batch_size=128,
+    validation_split=0.1,
+    verbose=1
+)
+
+# Evaluate
+test_loss, test_acc = model.evaluate(x_test, y_test, verbose=0)
+print(f"Test accuracy: {test_acc:.4f}")   # ~0.9820
+</code></pre>
+
+    <h2 data-aos="fade-up">Common Training Problems &amp; Fixes</h2>
+
+    <h3 data-aos="fade-up">Vanishing Gradient</h3>
+    <p data-aos="fade-up">In deep networks, gradients are multiplied through many layers during backprop. When activation functions like Sigmoid or Tanh are used, their derivatives are small (≤ 0.25), so gradients shrink exponentially as they travel backwards — early layers learn extremely slowly or not at all.</p>
+    <ul data-aos="fade-up">
+      <li><strong>Fix 1:</strong> Use <strong>ReLU</strong> (derivative is 1 for positive inputs — gradients pass unchanged)</li>
+      <li><strong>Fix 2:</strong> Use <strong>Batch Normalisation</strong> to keep activations in a healthy range</li>
+      <li><strong>Fix 3:</strong> Use <strong>residual/skip connections</strong> (ResNet) to provide gradient shortcuts</li>
+      <li><strong>Fix 4:</strong> Careful <strong>weight initialisation</strong> (He init for ReLU, Glorot/Xavier for Tanh)</li>
+    </ul>
+
+    <h3 data-aos="fade-up">Dead ReLU Problem</h3>
+    <p data-aos="fade-up">A ReLU neuron outputs 0 for all negative inputs. If a neuron's weights push it into always receiving negative values, its gradient becomes permanently 0 — it stops learning entirely. This is the "dead ReLU" problem.</p>
+    <ul data-aos="fade-up">
+      <li><strong>Fix 1:</strong> Use <strong>Leaky ReLU</strong> — allows a small negative slope (e.g., 0.01x) so gradients still flow</li>
+      <li><strong>Fix 2:</strong> Use <strong>ELU</strong> or <strong>SELU</strong> variants with smooth negative regions</li>
+      <li><strong>Fix 3:</strong> Lower the <strong>learning rate</strong> to prevent large weight updates that kill neurons</li>
+    </ul>
+
+    <div class="alert alert-info" data-aos="fade-up">
+      <span class="alert__icon">💡</span>
+      <div class="alert__content">
+        <div class="alert__title">Practical Tip</div>
+        Start with ReLU activations, Adam optimiser, He weight initialisation, and Batch Normalisation. This combination works well for the vast majority of feedforward networks and avoids both vanishing gradients and dead neurons out of the box.
+      </div>
+    </div>
+
+  </div>
+
+  <section class="mcq-section">
+    <h2 class="mcq-section__title">🧩 Practice MCQs</h2>
+    <p class="mcq-section__subtitle">Test your understanding — 5 questions</p>
+    <div id="mcq-mount"></div>
+  </section>
+
+  <script type="application/json" id="mcq-data">
+  [
+    {
+      "q": "Which activation function squashes output to the range (0, 1) and is commonly used for binary classification output layers?",
+      "options": [
+        "ReLU",
+        "Sigmoid",
+        "Tanh",
+        "Softmax"
+      ],
+      "answer": 1,
+      "explanation": "Sigmoid outputs values between 0 and 1, making it ideal for binary classification where the output represents a probability. For multi-class classification, Softmax is used instead, as it outputs a probability distribution summing to 1."
+    },
+    {
+      "q": "What causes the vanishing gradient problem during backpropagation?",
+      "options": [
+        "Using too many neurons in the output layer",
+        "Gradients shrinking exponentially as they propagate backwards through many layers with small-derivative activations",
+        "The learning rate being set too high",
+        "Using the Adam optimiser instead of SGD"
+      ],
+      "answer": 1,
+      "explanation": "When activations like Sigmoid or Tanh are used, their derivatives are at most 0.25. Multiplying small derivatives across many layers during backprop causes gradients to shrink exponentially, making early layers learn very slowly. ReLU mitigates this with a derivative of 1 for positive inputs."
+    },
+    {
+      "q": "What role do hidden layers play in a neural network?",
+      "options": [
+        "They store the raw input data",
+        "They produce the final class probabilities",
+        "They learn intermediate representations and progressively abstract features from the data",
+        "They compute the loss function"
+      ],
+      "answer": 2,
+      "explanation": "Hidden layers learn hierarchical, intermediate representations. For example, in an image network: early hidden layers detect edges, middle layers detect shapes, and deeper layers detect objects. This hierarchical feature learning is what makes deep networks powerful."
+    },
+    {
+      "q": "Why is ReLU the most commonly used activation function in hidden layers?",
+      "options": [
+        "It outputs probabilities between 0 and 1",
+        "It is differentiable everywhere including at zero",
+        "It is computationally cheap, reduces vanishing gradients, and leads to sparse activations",
+        "It guarantees the network will not overfit"
+      ],
+      "answer": 2,
+      "explanation": "ReLU (max(0, x)) is fast to compute, does not saturate for positive inputs (avoiding vanishing gradients), and produces sparse activations (many zeros) which improves efficiency. Despite the dead neuron risk, it empirically outperforms Sigmoid and Tanh for hidden layers in most architectures."
+    },
+    {
+      "q": "What algorithm is used to compute gradients and train a neural network by adjusting its weights?",
+      "options": [
+        "Forward propagation",
+        "Dropout regularisation",
+        "Batch Normalisation",
+        "Backpropagation with gradient descent"
+      ],
+      "answer": 3,
+      "explanation": "Backpropagation computes the gradient of the loss with respect to every weight using the chain rule of calculus. Gradient descent (or optimisers like Adam) then uses those gradients to update weights in the direction that reduces the loss. Both steps together form the neural network training process."
+    }
+  ]
+  </script>
+
+  <nav class="topic-nav">
+    <button class="topic-nav__btn" onclick="window.parent.postMessage({type:'navigate',data:{id:'reinforcement'}},'*')">
+      <span>←</span><span><span class="topic-nav__label">Previous</span><span class="topic-nav__title">Reinforcement Learning</span></span>
+    </button>
+    <button class="topic-nav__btn topic-nav__btn--next" onclick="window.parent.postMessage({type:'navigate',data:{id:'cnn'}},'*')">
+      <span><span class="topic-nav__label">Next</span><span class="topic-nav__title">CNN Basics</span></span><span>→</span>
+    </button>
+  </nav>
+</article>
+<button class="scroll-top-btn" id="scroll-top">↑</button>
+<script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="../js/mcq.js"></script>
+<script>
+  AOS.init({duration:500,once:true,offset:40});
+  const saved=localStorage.getItem('ai-theme');if(saved)document.documentElement.setAttribute('data-theme',saved);
+  window.addEventListener('message',e=>{if(e.data?.type==='theme-change')document.documentElement.setAttribute('data-theme',e.data.theme);});
+  window.addEventListener('scroll',()=>{const el=document.documentElement;window.parent.postMessage({type:'scroll-progress',data:{percent:(el.scrollTop/(el.scrollHeight-el.clientHeight))*100||0}},'*');document.getElementById('scroll-top')?.classList.toggle('visible',window.scrollY>300);},{passive:true});
+  document.getElementById('scroll-top')?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+  const ttsBtn=document.getElementById('tts-btn');let speaking=false;
+  ttsBtn?.addEventListener('click',()=>{if(!window.speechSynthesis)return;if(speaking){window.speechSynthesis.cancel();speaking=false;ttsBtn.textContent='🔊 Read Aloud';return;}const u=new SpeechSynthesisUtterance(document.getElementById('topic-content')?.innerText||'');u.rate=0.95;u.onend=()=>{speaking=false;ttsBtn.textContent='🔊 Read Aloud';};window.speechSynthesis.speak(u);speaking=true;ttsBtn.textContent='⏹ Stop';});
+</script>
+</body>
+</html>

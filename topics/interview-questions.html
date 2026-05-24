@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interview Questions — AI.learn</title>
+  <link rel="stylesheet" href="../css/variables.css" /><link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/animations.css" /><link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/theme-light.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body)}
+    .topic-wrapper{max-width:900px;margin:0 auto;padding:var(--space-8) var(--space-8) var(--space-16)}
+    .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
+    .topic-breadcrumb{display:flex;align-items:center;gap:var(--space-2);font-family:var(--font-nav);font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--space-4)}
+    .topic-breadcrumb__sep{color:var(--border-glow)}.topic-breadcrumb__current{color:var(--accent-cyan)}
+    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
+    .topic-meta{display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap}
+    .topic-meta__item{font-family:var(--font-nav);font-size:var(--text-xs);color:var(--text-muted)}
+    /* Category filter tabs */
+    .filter-tabs{display:flex;flex-wrap:wrap;gap:var(--space-2);margin-bottom:var(--space-8)}
+    .filter-tab{padding:6px 16px;border:1px solid var(--border-default);border-radius:var(--radius-full);font-family:var(--font-nav);font-size:var(--text-xs);cursor:pointer;background:transparent;color:var(--text-muted);transition:all .2s ease}
+    .filter-tab:hover,.filter-tab.active{border-color:var(--accent-cyan);color:var(--accent-cyan);background:var(--accent-cyan-border)}
+    /* QA accordion */
+    .qa-section{margin-bottom:var(--space-10)}
+    .qa-section__title{font-family:var(--font-heading);font-size:var(--text-xl);color:var(--accent-cyan);margin-bottom:var(--space-4);padding-bottom:var(--space-2);border-bottom:1px solid var(--border-default)}
+    .qa-item{border:1px solid var(--border-subtle);border-radius:var(--radius-lg);margin-bottom:var(--space-3);overflow:hidden;transition:border-color .2s}
+    .qa-item:hover{border-color:var(--accent-cyan-border)}
+    .qa-question{width:100%;background:var(--bg-card);border:none;padding:var(--space-4) var(--space-5);text-align:left;cursor:pointer;display:flex;align-items:flex-start;gap:var(--space-3);color:var(--text-primary);font-family:var(--font-body);font-size:var(--text-sm);line-height:1.5;transition:background .2s}
+    .qa-question:hover{background:var(--bg-secondary)}
+    .qa-question.is-open{background:var(--bg-secondary)}
+    .qa-q-num{flex-shrink:0;font-family:var(--font-nav);font-size:var(--text-xs);color:var(--accent-cyan);background:var(--accent-cyan-border);padding:2px 8px;border-radius:var(--radius-sm);margin-top:2px}
+    .qa-q-text{flex:1;font-weight:500}
+    .qa-arrow{flex-shrink:0;color:var(--text-muted);transition:transform .25s;margin-top:2px}
+    .qa-question.is-open .qa-arrow{transform:rotate(180deg)}
+    .qa-answer{max-height:0;overflow:hidden;transition:max-height .35s ease}
+    .qa-answer.is-open{max-height:600px}
+    .qa-answer-inner{padding:var(--space-4) var(--space-5);border-top:1px solid var(--border-subtle);color:var(--text-secondary);font-size:var(--text-sm);line-height:var(--leading-relaxed)}
+    .qa-answer-inner p{margin-bottom:var(--space-2)}
+    .qa-answer-inner ul{padding-left:var(--space-5)}
+    .qa-answer-inner li{margin-bottom:var(--space-1)}
+    .qa-answer-inner code{font-family:var(--font-mono);font-size:.85em;background:var(--bg-secondary);padding:2px 6px;border-radius:var(--radius-sm);color:var(--accent-cyan)}
+    .difficulty-badge{display:inline-block;font-family:var(--font-nav);font-size:10px;letter-spacing:.08em;padding:2px 8px;border-radius:var(--radius-full);margin-left:var(--space-2);vertical-align:middle}
+    .diff-easy{background:rgba(0,255,136,.1);color:#00ff88;border:1px solid rgba(0,255,136,.2)}
+    .diff-medium{background:var(--accent-cyan-border);color:var(--accent-cyan);border:1px solid rgba(0,212,255,.2)}
+    .diff-hard{background:rgba(255,107,53,.1);color:#ff6b35;border:1px solid rgba(255,107,53,.2)}
+    .scroll-top-btn{position:fixed;bottom:var(--space-6);right:var(--space-6);width:42px;height:42px;background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-md);cursor:pointer;color:var(--accent-cyan);font-size:1.2rem;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);pointer-events:none;transition:all .3s ease;z-index:50}
+    .scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:all}
+    @media(max-width:600px){.topic-wrapper{padding:var(--space-5) var(--space-4) var(--space-12)}}
+  </style>
+</head>
+<body>
+<article class="topic-wrapper">
+  <header class="topic-header">
+    <nav class="topic-breadcrumb">
+      <span>AI.learn</span><span class="topic-breadcrumb__sep">›</span>
+      <span>Practice</span><span class="topic-breadcrumb__sep">›</span>
+      <span class="topic-breadcrumb__current">Interview Questions</span>
+    </nav>
+    <h1 class="topic-title">AI & ML Interview Questions</h1>
+    <div class="topic-meta">
+      <span class="topic-meta__item">📋 50+ Questions</span>
+      <span class="topic-meta__item">🎯 Beginner → Advanced</span>
+    </div>
+  </header>
+
+  <div class="alert alert-tip" data-aos="fade-up">
+    <span class="alert__icon">💡</span>
+    <div class="alert__content">
+      <div class="alert__title">How to Use</div>
+      Click any question to reveal the answer. Filter by category. Questions marked <span class="difficulty-badge diff-easy">EASY</span> <span class="difficulty-badge diff-medium">MED</span> <span class="difficulty-badge diff-hard">HARD</span> indicate expected depth of answer.
+    </div>
+  </div>
+
+  <div class="filter-tabs" data-aos="fade-up" id="filter-tabs">
+    <button class="filter-tab active" data-filter="all">All</button>
+    <button class="filter-tab" data-filter="ml">Machine Learning</button>
+    <button class="filter-tab" data-filter="dl">Deep Learning</button>
+    <button class="filter-tab" data-filter="nlp">NLP</button>
+    <button class="filter-tab" data-filter="stats">Statistics</button>
+    <button class="filter-tab" data-filter="system">System Design</button>
+  </div>
+
+  <!-- ML Section -->
+  <section class="qa-section" data-category="ml" data-aos="fade-up">
+    <h2 class="qa-section__title">Machine Learning Fundamentals</h2>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q1</span>
+        <span class="qa-q-text">What is the bias-variance tradeoff? <span class="difficulty-badge diff-medium">MED</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p><strong>Bias</strong> is error from wrong assumptions — a high-bias model underfits (too simple, misses patterns). <strong>Variance</strong> is error from sensitivity to training data fluctuations — high-variance model overfits (memorises noise).</p>
+        <p>Tradeoff: decreasing bias (more complex model) increases variance, and vice versa. Goal: find the sweet spot that minimises total error = Bias² + Variance + Irreducible noise.</p>
+        <ul>
+          <li>High bias → increase model complexity, add features</li>
+          <li>High variance → regularise, get more data, reduce features</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q2</span>
+        <span class="qa-q-text">What is regularisation and why is it needed? <span class="difficulty-badge diff-easy">EASY</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p>Regularisation adds a penalty term to the loss function to discourage large weights, reducing overfitting.</p>
+        <ul>
+          <li><strong>L1 (Lasso):</strong> Penalty = λ·Σ|wᵢ|. Produces sparse weights (feature selection). Some weights → 0.</li>
+          <li><strong>L2 (Ridge):</strong> Penalty = λ·Σwᵢ². Shrinks all weights proportionally. Rarely drives them to 0.</li>
+          <li><strong>Elastic Net:</strong> Combines L1 + L2.</li>
+        </ul>
+        <p>λ controls regularisation strength. Too large → underfitting.</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q3</span>
+        <span class="qa-q-text">Explain cross-validation. Why use k-fold? <span class="difficulty-badge diff-easy">EASY</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p>Cross-validation evaluates model generalisation by training/testing on multiple data splits. <strong>k-fold CV</strong>: split data into k equal folds; train on k−1 folds, test on remaining fold; repeat k times; average scores.</p>
+        <p>Benefits: uses all data for both training and validation, reduces variance of performance estimate. Common: k=5 or k=10. Stratified k-fold preserves class ratios per fold.</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q4</span>
+        <span class="qa-q-text">When would you use precision vs recall as the primary metric? <span class="difficulty-badge diff-medium">MED</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p><strong>Precision</strong> = TP / (TP + FP) — of predicted positives, how many are correct. <strong>Recall</strong> = TP / (TP + FN) — of actual positives, how many were found.</p>
+        <ul>
+          <li>Prioritise <strong>precision</strong> when false positives are costly — e.g. spam filter (don't want legitimate email deleted), fraud alert sent to customer</li>
+          <li>Prioritise <strong>recall</strong> when false negatives are costly — e.g. cancer screening (must not miss cases), fraud detection (missing fraud is worse than false alarm)</li>
+        </ul>
+        <p>F1 Score = harmonic mean of both. Use when both matter equally.</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q5</span>
+        <span class="qa-q-text">How does a Random Forest differ from a single Decision Tree? <span class="difficulty-badge diff-easy">EASY</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p>Random Forest is an ensemble of decision trees trained with: (1) <strong>Bootstrap sampling</strong> — each tree trains on a random sample with replacement (bagging). (2) <strong>Feature randomness</strong> — each split considers only a random subset of features.</p>
+        <p>Result: trees are decorrelated → variance reduces → better generalisation. Single tree: low bias, high variance. Random Forest: low bias, lower variance. Trade-off: less interpretable, slower.</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q6</span>
+        <span class="qa-q-text">What is gradient boosting and how does it differ from bagging? <span class="difficulty-badge diff-hard">HARD</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p><strong>Bagging</strong> (Random Forest): trains trees in parallel on random data subsets, averages predictions. Reduces variance.</p>
+        <p><strong>Boosting</strong> (Gradient Boosting, XGBoost): trains trees sequentially. Each tree learns residual errors of the previous ensemble. Learning rate scales contribution. Reduces bias more aggressively.</p>
+        <p>Gradient Boosting fits each tree to the negative gradient of the loss function (pseudo-residuals). XGBoost adds regularisation, second-order gradients, and column/row subsampling for speed.</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q7</span>
+        <span class="qa-q-text">How do you handle class imbalance? <span class="difficulty-badge diff-medium">MED</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <ul>
+          <li><strong>Resampling:</strong> Oversample minority class (SMOTE generates synthetic samples) or undersample majority class</li>
+          <li><strong>Class weights:</strong> Set <code>class_weight='balanced'</code> in sklearn — penalises misclassifying minority class more</li>
+          <li><strong>Threshold tuning:</strong> Lower decision threshold to increase recall for minority class</li>
+          <li><strong>Metrics:</strong> Use F1, AUC-ROC, PR-AUC instead of accuracy</li>
+          <li><strong>Ensemble methods:</strong> BalancedBaggingClassifier, EasyEnsemble</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q8</span>
+        <span class="qa-q-text">What is the curse of dimensionality? <span class="difficulty-badge diff-medium">MED</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p>As feature count increases, data becomes increasingly sparse in high-dimensional space. Distance metrics lose meaning (all points become equidistant). Exponentially more data needed to sample space uniformly.</p>
+        <p>Effects: KNN performance degrades, overfitting increases. Mitigations: PCA/dimensionality reduction, feature selection, regularisation, more data.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- Deep Learning Section -->
+  <section class="qa-section" data-category="dl" data-aos="fade-up">
+    <h2 class="qa-section__title">Deep Learning</h2>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q9</span>
+        <span class="qa-q-text">Explain backpropagation. What is the chain rule's role? <span class="difficulty-badge diff-hard">HARD</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p>Backprop computes gradients of loss w.r.t. each weight by applying the <strong>chain rule</strong> backwards through the network: ∂L/∂w = ∂L/∂y · ∂y/∂z · ∂z/∂w (each factor is a local gradient).</p>
+        <p>Forward pass: compute predictions and cache activations. Backward pass: starting from loss, propagate gradient layer-by-layer. Weights updated via: w ← w − η·∂L/∂w. Requires differentiable activations.</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q10</span>
+        <span class="qa-q-text">What is Batch Normalisation and why does it help? <span class="difficulty-badge diff-medium">MED</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p>BatchNorm normalises layer inputs to zero mean, unit variance per mini-batch, then scales/shifts with learnable γ and β. Applied before or after activation.</p>
+        <p>Benefits: (1) reduces internal covariate shift — activations stay in good range, (2) allows higher learning rates, (3) acts as mild regulariser (adds noise via batch statistics), (4) reduces sensitivity to weight initialisation.</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q11</span>
+        <span class="qa-q-text">What is dropout and how does it prevent overfitting? <span class="difficulty-badge diff-easy">EASY</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p>Dropout randomly zeroes a fraction p of neuron activations during training. Each forward pass uses a different random subnetwork, forcing neurons to not co-adapt.</p>
+        <p>At inference: all neurons active, outputs scaled by (1−p). Approximates ensemble of 2ⁿ subnetworks. Common: p=0.5 for FC layers, p=0.1-0.3 for convolutional layers.</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q12</span>
+        <span class="qa-q-text">Explain the vanishing/exploding gradient problem. Solutions? <span class="difficulty-badge diff-hard">HARD</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p><strong>Vanishing:</strong> gradients shrink exponentially in early layers (sigmoid/tanh saturate). Learning stops for early layers.</p>
+        <p><strong>Exploding:</strong> gradients grow exponentially, causing unstable updates (NaN loss).</p>
+        <p>Solutions: <strong>ReLU</strong> (avoids saturation), <strong>Gradient clipping</strong> (cap norm to threshold), <strong>Weight initialisation</strong> (He/Xavier), <strong>Batch Normalisation</strong>, <strong>Residual connections</strong> (skip connections provide gradient highway), <strong>LSTM gates</strong> (for RNNs).</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q13</span>
+        <span class="qa-q-text">What is transfer learning and when should you use it? <span class="difficulty-badge diff-easy">EASY</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p>Transfer learning uses a model pre-trained on large data (e.g. ImageNet, Common Crawl) as a starting point for a new task. Strategies:</p>
+        <ul>
+          <li><strong>Feature extraction:</strong> Freeze pretrained weights, train only new head</li>
+          <li><strong>Fine-tuning:</strong> Unfreeze some/all layers, train at low learning rate</li>
+        </ul>
+        <p>Use when: limited labelled data, similar domains. Dramatically reduces training time and data requirements. Examples: ResNet for medical imaging, BERT for sentiment analysis.</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q14</span>
+        <span class="qa-q-text">Compare CNN vs RNN for sequence data. When use each? <span class="difficulty-badge diff-medium">MED</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p><strong>CNN:</strong> Captures local patterns via kernels. Parallelisable, fast. Good for: fixed-context local features, audio (1D conv), short sequences. Lacks inherent long-range dependencies without large receptive field.</p>
+        <p><strong>RNN/LSTM:</strong> Maintains hidden state across timesteps. Handles variable-length sequences. Good for: time series, language modelling. Sequential = slower. LSTMs mitigate vanishing gradients for longer sequences.</p>
+        <p>In practice: Transformers outperform both for most NLP tasks. RNNs still used for streaming/real-time sequence tasks.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- NLP Section -->
+  <section class="qa-section" data-category="nlp" data-aos="fade-up">
+    <h2 class="qa-section__title">NLP & Transformers</h2>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q15</span>
+        <span class="qa-q-text">How does self-attention work in Transformers? <span class="difficulty-badge diff-hard">HARD</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p>Each token generates three vectors via learned projections: Query (Q), Key (K), Value (V). Attention score for token i attending to token j: <code>score = QᵢKⱼᵀ / √dₖ</code>. Softmax normalises scores → attention weights. Output = weighted sum of Values.</p>
+        <p>Multi-head attention runs h parallel attention heads with different projections, concatenates outputs. Allows model to attend to different representation subspaces simultaneously. Complexity: O(n²·d) — quadratic in sequence length.</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q16</span>
+        <span class="qa-q-text">What is the difference between BERT and GPT architectures? <span class="difficulty-badge diff-medium">MED</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <ul>
+          <li><strong>BERT:</strong> Encoder-only. Bidirectional attention (sees full context). Trained with Masked LM + NSP. Best for: classification, NER, QA (understanding tasks)</li>
+          <li><strong>GPT:</strong> Decoder-only. Causal (autoregressive) — each token attends only to previous tokens. Trained with next-token prediction. Best for: text generation, completion</li>
+        </ul>
+        <p>T5 and BART use encoder-decoder (seq2seq). GPT-4 and Claude are decoder-only. BERT family (RoBERTa, DeBERTa) used for embeddings and classification.</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q17</span>
+        <span class="qa-q-text">What is tokenisation and why does BPE matter? <span class="difficulty-badge diff-easy">EASY</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p>Tokenisation splits text into model-processable units. BPE (Byte Pair Encoding) starts with characters, iteratively merges the most frequent adjacent pair into a new subword token. Result: common words → single token; rare words → subword pieces.</p>
+        <p>Benefits: handles out-of-vocabulary words, balances vocabulary size vs sequence length, language-agnostic. GPT uses BPE; BERT uses WordPiece (similar). Typical vocab: 30k–50k tokens.</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q18</span>
+        <span class="qa-q-text">How does RLHF improve LLM alignment? <span class="difficulty-badge diff-hard">HARD</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p>RLHF (Reinforcement Learning from Human Feedback) has 3 phases:</p>
+        <ul>
+          <li><strong>SFT:</strong> Fine-tune base LLM on curated demonstration data (supervised)</li>
+          <li><strong>Reward Model:</strong> Train a reward model on human preference pairs (rank completions A vs B)</li>
+          <li><strong>PPO:</strong> Use RL (Proximal Policy Optimisation) to maximise reward model score while constraining KL-divergence from SFT model (prevents reward hacking)</li>
+        </ul>
+        <p>Result: model outputs align with human preferences — more helpful, honest, harmless. Used in ChatGPT, Claude, Gemini.</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q19</span>
+        <span class="qa-q-text">What is RAG (Retrieval-Augmented Generation)? <span class="difficulty-badge diff-medium">MED</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p>RAG combines a retrieval system with LLM generation. At query time: (1) encode query → dense vector, (2) retrieve top-k similar documents from vector DB (FAISS, Pinecone), (3) prepend retrieved context to prompt, (4) LLM generates grounded response.</p>
+        <p>Benefits: up-to-date knowledge without retraining, reduces hallucinations, source attribution. Limitations: retrieval quality cap on response quality, context window limits amount of retrieved text.</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q20</span>
+        <span class="qa-q-text">What is prompt engineering? Name key techniques. <span class="difficulty-badge diff-easy">EASY</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <ul>
+          <li><strong>Zero-shot:</strong> Direct instruction, no examples — "Classify this as positive/negative: ..."</li>
+          <li><strong>Few-shot:</strong> Provide examples in the prompt showing input→output patterns</li>
+          <li><strong>Chain-of-Thought (CoT):</strong> "Think step by step" — elicits reasoning before answer, improves complex tasks significantly</li>
+          <li><strong>System prompts:</strong> Set persona, constraints, output format</li>
+          <li><strong>Role prompting:</strong> "You are an expert ML engineer…"</li>
+          <li><strong>Self-consistency:</strong> Sample multiple CoT paths, take majority vote</li>
+        </ul>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- Statistics Section -->
+  <section class="qa-section" data-category="stats" data-aos="fade-up">
+    <h2 class="qa-section__title">Statistics & Probability</h2>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q21</span>
+        <span class="qa-q-text">What is Bayes' Theorem? Give an ML application. <span class="difficulty-badge diff-medium">MED</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p>P(A|B) = P(B|A)·P(A) / P(B) — posterior = likelihood × prior / evidence.</p>
+        <p>ML application: <strong>Naive Bayes classifier</strong> for text classification. Assumes feature independence. P(spam|words) ∝ P(words|spam)·P(spam). Fast, works well with limited data. Also: Bayesian hyperparameter optimisation updates a prior belief about good hyperparameters after each trial.</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q22</span>
+        <span class="qa-q-text">What is p-value and what are its limitations? <span class="difficulty-badge diff-medium">MED</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p>p-value = probability of observing data as extreme as seen, assuming null hypothesis H₀ is true. If p < α (e.g. 0.05), reject H₀.</p>
+        <p>Limitations: (1) does NOT measure effect size or practical significance, (2) affected by sample size — large n → tiny p even for trivial effects, (3) doesn't give P(H₀ is true), (4) multiple comparisons inflate false positive rate (Bonferroni correction needed), (5) p=0.05 threshold is arbitrary.</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q23</span>
+        <span class="qa-q-text">Explain the Central Limit Theorem and its importance in ML. <span class="difficulty-badge diff-easy">EASY</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p>CLT: sampling distribution of the mean of any i.i.d. random variable converges to a normal distribution as sample size n→∞, regardless of the underlying distribution (given finite variance).</p>
+        <p>ML relevance: justifies using z-tests/t-tests on sample means, underpins confidence intervals for model metrics (e.g. mean accuracy over test folds), explains why summing many independent noise sources gives Gaussian noise.</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q24</span>
+        <span class="qa-q-text">What is MLE vs MAP estimation? <span class="difficulty-badge diff-hard">HARD</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p><strong>MLE (Maximum Likelihood):</strong> θ* = argmax P(data|θ). Find parameters that make observed data most probable. No prior. Equivalent to minimising cross-entropy loss.</p>
+        <p><strong>MAP (Maximum A Posteriori):</strong> θ* = argmax P(data|θ)·P(θ). Adds prior belief P(θ). Equivalent to MLE + regularisation. L2 prior → Ridge regression. L1 prior → Lasso.</p>
+        <p>With large data, MAP → MLE (data dominates prior). With small data, prior matters more.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- System Design Section -->
+  <section class="qa-section" data-category="system" data-aos="fade-up">
+    <h2 class="qa-section__title">ML System Design</h2>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q25</span>
+        <span class="qa-q-text">How would you design an ML system for fraud detection? <span class="difficulty-badge diff-hard">HARD</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p><strong>Problem framing:</strong> Binary classification (fraud/not fraud). Severe class imbalance (&lt;1% fraud).</p>
+        <p><strong>Features:</strong> Transaction amount, velocity (txns/hour), location delta, merchant category, user history, device fingerprint, time-of-day patterns.</p>
+        <p><strong>Model:</strong> Gradient Boosting (XGBoost) for tabular data. Rule-based layer for obvious patterns. Neural network for complex feature interactions.</p>
+        <p><strong>Imbalance:</strong> SMOTE + class weights + low decision threshold. Optimise for recall (minimise missed fraud), monitor precision to limit false alerts.</p>
+        <p><strong>Serving:</strong> Real-time scoring (&lt;100ms). Feature store for pre-computed user features. Model versioned, A/B tested. Concept drift monitoring — fraud patterns evolve.</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q26</span>
+        <span class="qa-q-text">What is feature drift and how do you monitor for it? <span class="difficulty-badge diff-medium">MED</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p><strong>Data drift:</strong> input feature distribution shifts over time (covariate shift). <strong>Concept drift:</strong> relationship between features and target changes (P(y|X) changes).</p>
+        <p>Monitoring approaches:</p>
+        <ul>
+          <li>Statistical tests: KS test, PSI (Population Stability Index), chi-squared for categorical features</li>
+          <li>Model performance tracking: monitor accuracy/AUC on labelled samples over time</li>
+          <li>Output distribution: monitor prediction score distribution shifts</li>
+          <li>Feature importance drift: check if important features change</li>
+        </ul>
+        <p>Response: retrain on recent data, trigger alerts when drift exceeds threshold.</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q27</span>
+        <span class="qa-q-text">How do you reduce latency in model inference? <span class="difficulty-badge diff-medium">MED</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <ul>
+          <li><strong>Quantisation:</strong> Convert FP32 weights → INT8 (4x smaller, faster). Slight accuracy drop</li>
+          <li><strong>Pruning:</strong> Remove near-zero weights. Reduce model size</li>
+          <li><strong>Knowledge distillation:</strong> Train small "student" model to mimic large "teacher"</li>
+          <li><strong>Batching:</strong> Process multiple requests together (GPU efficiency)</li>
+          <li><strong>Caching:</strong> Cache embeddings for repeated inputs</li>
+          <li><strong>ONNX export:</strong> Optimised inference runtime, hardware-specific kernels</li>
+          <li><strong>TensorRT / CoreML:</strong> Hardware-specific compilation</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q28</span>
+        <span class="qa-q-text">How would you build a recommendation system? <span class="difficulty-badge diff-hard">HARD</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p><strong>Approaches:</strong></p>
+        <ul>
+          <li><strong>Collaborative filtering:</strong> Based on user-item interaction matrix. Matrix factorisation (SVD, ALS). "Users like you also liked…"</li>
+          <li><strong>Content-based:</strong> Item feature similarity. Recommend similar items to what user interacted with</li>
+          <li><strong>Two-tower neural:</strong> Separate encoders for user/item, score = dot product of embeddings (YouTube, TikTok approach)</li>
+        </ul>
+        <p><strong>Pipeline:</strong> Candidate generation (recall, millions→hundreds) → Ranking (precision, hundreds→top-k) → Business rules (diversity, freshness).</p>
+        <p><strong>Cold start:</strong> New users → popular items or ask preferences. New items → content-based until interactions accumulate.</p>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q29</span>
+        <span class="qa-q-text">What is A/B testing in ML and what are common pitfalls? <span class="difficulty-badge diff-medium">MED</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p>A/B test: randomly assign users to control (old model) and treatment (new model), measure metric difference with statistical significance.</p>
+        <p>Pitfalls:</p>
+        <ul>
+          <li><strong>Peeking:</strong> Stopping early when significant — inflates false positive rate. Fix: pre-specify sample size</li>
+          <li><strong>Multiple metrics:</strong> Bonferroni correction needed. Choose one primary metric</li>
+          <li><strong>Network effects:</strong> Users interact — treatment leaks to control (social platforms)</li>
+          <li><strong>Simpson's paradox:</strong> Aggregate results reverse when stratified by subgroup</li>
+          <li><strong>Novelty effect:</strong> Users engage with new things initially — wait for stabilisation</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <button class="qa-question">
+        <span class="qa-q-num">Q30</span>
+        <span class="qa-q-text">Explain the difference between online and batch learning. <span class="difficulty-badge diff-easy">EASY</span></span>
+        <span class="qa-arrow">▾</span>
+      </button>
+      <div class="qa-answer"><div class="qa-answer-inner">
+        <p><strong>Batch learning:</strong> Train on full dataset, deploy fixed model. Retrain periodically. Simple, stable. Fails when data distribution changes rapidly.</p>
+        <p><strong>Online learning:</strong> Update model incrementally with each new sample or mini-batch. Adapts to drift continuously. Algorithms: SGD, Vowpal Wabbit, River (Python). Risk: noisy updates, catastrophic forgetting.</p>
+        <p>Hybrid: mini-batch retraining on sliding window (e.g. retrain daily on last 30 days of data).</p>
+      </div></div>
+    </div>
+  </section>
+
+  <nav class="topic-nav">
+    <button class="topic-nav__btn" onclick="window.parent.postMessage({type:'navigate',data:{id:'quiz'}},'*')">
+      <span>←</span><span><span class="topic-nav__label">Previous</span><span class="topic-nav__title">Quiz Challenge</span></span>
+    </button>
+    <button class="topic-nav__btn topic-nav__btn--next" onclick="window.parent.postMessage({type:'navigate',data:{id:'mcq-bank'}},'*')">
+      <span><span class="topic-nav__label">Next</span><span class="topic-nav__title">MCQ Bank</span></span><span>→</span>
+    </button>
+  </nav>
+</article>
+<button class="scroll-top-btn" id="scroll-top">↑</button>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({duration:500,once:true,offset:40});
+  const saved=localStorage.getItem('ai-theme');if(saved)document.documentElement.setAttribute('data-theme',saved);
+  window.addEventListener('message',e=>{if(e.data?.type==='theme-change')document.documentElement.setAttribute('data-theme',e.data.theme);});
+  window.addEventListener('scroll',()=>{const el=document.documentElement;window.parent.postMessage({type:'scroll-progress',data:{percent:(el.scrollTop/(el.scrollHeight-el.clientHeight))*100||0}},'*');document.getElementById('scroll-top')?.classList.toggle('visible',window.scrollY>300);},{passive:true});
+  document.getElementById('scroll-top')?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+  // QA accordion
+  document.querySelectorAll('.qa-question').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const answer=btn.nextElementSibling;
+      const isOpen=btn.classList.contains('is-open');
+      btn.classList.toggle('is-open',!isOpen);
+      answer.classList.toggle('is-open',!isOpen);
+    });
+  });
+
+  // Category filter
+  document.querySelectorAll('.filter-tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      const filter=tab.dataset.filter;
+      document.querySelectorAll('.qa-section').forEach(sec=>{
+        sec.style.display=(filter==='all'||sec.dataset.category===filter)?'':'none';
+      });
+    });
+  });
+</script>
+</body>
+</html>

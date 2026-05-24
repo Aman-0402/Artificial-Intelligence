@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NLP Introduction — AI.learn</title>
+  <link rel="stylesheet" href="../css/variables.css" /><link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/animations.css" /><link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/theme-light.css" />
+  <link rel="stylesheet" href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body)}
+    .topic-wrapper{max-width:860px;margin:0 auto;padding:var(--space-8) var(--space-8) var(--space-16)}
+    .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
+    .topic-breadcrumb{display:flex;align-items:center;gap:var(--space-2);font-family:var(--font-nav);font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--space-4)}
+    .topic-breadcrumb__sep{color:var(--border-glow)}.topic-breadcrumb__current{color:var(--accent-cyan)}
+    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
+    .topic-meta{display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap}
+    .topic-meta__item{font-family:var(--font-nav);font-size:var(--text-xs);color:var(--text-muted)}
+    .tts-topic-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:var(--bg-secondary);border:1px solid var(--border-default);border-radius:var(--radius-md);cursor:pointer;color:var(--text-muted);font-family:var(--font-nav);font-size:var(--text-xs);transition:all .25s ease}
+    .tts-topic-btn:hover{border-color:var(--accent-purple);color:var(--accent-purple)}
+    .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
+    .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
+    .topic-content h4{font-size:var(--text-lg);margin-top:var(--space-6);margin-bottom:var(--space-2);color:var(--text-secondary)}
+    .topic-content p{line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
+    .topic-content ul,.topic-content ol{margin-bottom:var(--space-4);padding-left:var(--space-6)}
+    .topic-content li{margin-bottom:var(--space-2);line-height:var(--leading-relaxed);color:var(--text-secondary)}
+    .topic-content pre[class*="language-"]{border-radius:var(--radius-lg);border:1px solid var(--border-default);font-size:var(--text-sm);margin-bottom:var(--space-6)}
+    .topic-content table{width:100%;border-collapse:collapse;margin-bottom:var(--space-6);font-size:var(--text-sm)}
+    .topic-content th{background:var(--bg-secondary);color:var(--accent-cyan);font-family:var(--font-nav);font-weight:600;padding:var(--space-3) var(--space-4);text-align:left;border-bottom:1px solid var(--border-glow)}
+    .topic-content td{padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--border-subtle);color:var(--text-secondary)}
+    .scroll-top-btn{position:fixed;bottom:var(--space-6);right:var(--space-6);width:42px;height:42px;background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-md);cursor:pointer;color:var(--accent-cyan);font-size:1.2rem;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);pointer-events:none;transition:all .3s ease;z-index:50}
+    .scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:all}
+    @media(max-width:600px){.topic-wrapper{padding:var(--space-5) var(--space-4) var(--space-12)}}
+  </style>
+</head>
+<body>
+<article class="topic-wrapper">
+  <header class="topic-header">
+    <nav class="topic-breadcrumb">
+      <span>AI.learn</span><span class="topic-breadcrumb__sep">›</span>
+      <span>NLP &amp; Transformers</span><span class="topic-breadcrumb__sep">›</span>
+      <span class="topic-breadcrumb__current">NLP Introduction</span>
+    </nav>
+    <h1 class="topic-title">Natural Language Processing — Introduction</h1>
+    <div class="topic-meta">
+      <span class="topic-meta__item">⏱ 9 min read</span>
+      <button class="tts-topic-btn" id="tts-btn">🔊 Read Aloud</button>
+    </div>
+  </header>
+
+  <div class="topic-content" id="topic-content">
+
+    <p data-aos="fade-up">Natural Language Processing (NLP) is the branch of AI that gives machines the ability to read, understand, and generate human language. From spam filters to ChatGPT, NLP powers some of the most impactful AI applications today.</p>
+
+    <div class="alert alert-info" data-aos="fade-up">
+      <span class="alert__icon">💬</span>
+      <div class="alert__content">
+        <div class="alert__title">Why NLP is Hard</div>
+        Human language is ambiguous, contextual, and constantly evolving. "I saw the man with the telescope" — did I use the telescope, or did the man have one? Machines must resolve such ambiguity statistically from context.
+      </div>
+    </div>
+
+    <h2 data-aos="fade-up">Core NLP Tasks</h2>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Task</th><th>Description</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Tokenisation</td><td>Split text into words/subwords/characters</td><td>"Hello world" → ["Hello", "world"]</td></tr>
+        <tr><td>POS Tagging</td><td>Label each token with part of speech</td><td>"run" → VERB, "fast" → ADV</td></tr>
+        <tr><td>Named Entity Recognition (NER)</td><td>Identify proper nouns (people, places, orgs)</td><td>"Elon Musk [PERSON] at Tesla [ORG]"</td></tr>
+        <tr><td>Sentiment Analysis</td><td>Classify text as positive/negative/neutral</td><td>"Great product!" → POSITIVE</td></tr>
+        <tr><td>Machine Translation</td><td>Translate between languages</td><td>"Bonjour" → "Hello"</td></tr>
+        <tr><td>Text Summarisation</td><td>Condense long text into key points</td><td>News article → 3-sentence summary</td></tr>
+        <tr><td>Question Answering</td><td>Extract answer from context given a question</td><td>Reading comprehension systems</td></tr>
+        <tr><td>Text Generation</td><td>Generate coherent text from a prompt</td><td>GPT-4, Claude, Gemini</td></tr>
+      </tbody>
+    </table>
+
+    <h2 data-aos="fade-up">NLP Pipeline</h2>
+    <p data-aos="fade-up">Raw text must be preprocessed before ML models can use it:</p>
+
+    <ol data-aos="fade-up">
+      <li><strong>Text Cleaning</strong> — remove HTML tags, special characters, extra whitespace</li>
+      <li><strong>Tokenisation</strong> — split into tokens (words, subwords, or characters)</li>
+      <li><strong>Lowercasing</strong> — normalise case</li>
+      <li><strong>Stop Word Removal</strong> — remove common words (the, is, at) for bag-of-words approaches</li>
+      <li><strong>Stemming / Lemmatisation</strong> — reduce words to root form ("running" → "run")</li>
+      <li><strong>Vectorisation</strong> — convert text to numbers (TF-IDF, Word2Vec, BERT embeddings)</li>
+    </ol>
+
+    <h2 data-aos="fade-up">Text Representations</h2>
+
+    <h3 data-aos="fade-up">Bag of Words (BoW)</h3>
+    <p data-aos="fade-up">Counts word frequencies. Simple and fast but ignores word order and context.</p>
+
+    <h3 data-aos="fade-up">TF-IDF</h3>
+    <p data-aos="fade-up">Term Frequency–Inverse Document Frequency. Weights terms by how unique they are across the corpus. Better than BoW for search and classification.</p>
+
+    <h3 data-aos="fade-up">Word Embeddings (Word2Vec, GloVe)</h3>
+    <p data-aos="fade-up">Dense vector representations where <strong>semantically similar words are close in vector space</strong>. Famous property: king − man + woman ≈ queen.</p>
+
+    <h3 data-aos="fade-up">Contextual Embeddings (BERT, GPT)</h3>
+    <p data-aos="fade-up">Unlike Word2Vec, contextual embeddings change based on surrounding words. "bank" near "river" gets a different vector than "bank" near "money".</p>
+
+    <h2 data-aos="fade-up">Code Example: NLP Pipeline with spaCy</h2>
+    <pre data-aos="fade-up"><code class="language-python">import spacy
+
+# Load English model
+nlp = spacy.load("en_core_web_sm")
+
+text = "Apple is looking at buying U.K. startup Horizon for $1 billion."
+doc = nlp(text)
+
+# Tokenisation
+print("Tokens:", [token.text for token in doc])
+
+# Part-of-Speech Tagging
+print("\nPOS Tags:")
+for token in doc:
+    print(f"  {token.text:15} → {token.pos_:8} ({token.dep_})")
+
+# Named Entity Recognition
+print("\nNamed Entities:")
+for ent in doc.ents:
+    print(f"  {ent.text:20} → {ent.label_}")
+# Output:
+#   Apple                → ORG
+#   U.K.                 → GPE (geopolitical entity)
+#   Horizon              → ORG
+#   $1 billion           → MONEY
+
+# Sentiment Analysis using transformers
+from transformers import pipeline
+sentiment = pipeline("sentiment-analysis")
+reviews = [
+    "This NLP tutorial is incredibly helpful!",
+    "The explanation was confusing and unclear."
+]
+for r in reviews:
+    result = sentiment(r)[0]
+    print(f"{result['label']} ({result['score']:.2%}): {r}")
+</code></pre>
+
+    <h2 data-aos="fade-up">Traditional NLP vs Deep Learning NLP</h2>
+    <table data-aos="fade-up">
+      <thead><tr><th>Approach</th><th>Methods</th><th>Pros</th><th>Cons</th></tr></thead>
+      <tbody>
+        <tr><td>Rule-based</td><td>Regex, grammar rules, handcrafted features</td><td>Interpretable, precise</td><td>Brittle, not scalable</td></tr>
+        <tr><td>Statistical ML</td><td>Naive Bayes, SVM, TF-IDF, Logistic Regression</td><td>Fast, lightweight</td><td>No context understanding</td></tr>
+        <tr><td>Deep Learning</td><td>RNN, LSTM, CNN, Transformers</td><td>State-of-the-art, context-aware</td><td>Data hungry, compute heavy</td></tr>
+        <tr><td>Large LLMs</td><td>GPT-4, Claude, Gemini</td><td>Near-human performance, few-shot</td><td>Very expensive, opaque</td></tr>
+      </tbody>
+    </table>
+
+    <div class="alert alert-tip" data-aos="fade-up">
+      <span class="alert__icon">🚀</span>
+      <div class="alert__content">
+        <div class="alert__title">Modern NLP Shortcut</div>
+        For most NLP tasks today, you don't need to build from scratch. Use Hugging Face's <code>transformers</code> library to load pre-trained models (BERT, RoBERTa, GPT-2) and fine-tune on your specific dataset in hours.
+      </div>
+    </div>
+
+  </div>
+
+  <section class="mcq-section">
+    <h2 class="mcq-section__title">🧩 Practice MCQs</h2>
+    <p class="mcq-section__subtitle">Test your understanding — 5 questions</p>
+    <div id="mcq-mount"></div>
+  </section>
+
+  <script type="application/json" id="mcq-data">
+  [
+    {
+      "q": "What is tokenisation in NLP?",
+      "options": [
+        "Converting text to uppercase",
+        "Splitting text into individual units (words, subwords, or characters)",
+        "Removing punctuation from text",
+        "Translating text between languages"
+      ],
+      "answer": 1,
+      "explanation": "Tokenisation is the process of splitting raw text into smaller units called tokens — which can be words, subwords (e.g., BPE used by GPT), or characters. It is the first step in almost every NLP pipeline."
+    },
+    {
+      "q": "What does TF-IDF measure in NLP?",
+      "options": [
+        "The sentiment polarity of a sentence",
+        "How important a word is to a document relative to the entire corpus",
+        "The grammatical correctness of text",
+        "The translation quality between languages"
+      ],
+      "answer": 1,
+      "explanation": "TF-IDF (Term Frequency–Inverse Document Frequency) weights terms by how frequently they appear in a document (TF) and how rare they are across all documents (IDF). Common words like 'the' get low scores; domain-specific keywords get high scores."
+    },
+    {
+      "q": "What is the key advantage of contextual embeddings (like BERT) over Word2Vec?",
+      "options": [
+        "They are faster to compute",
+        "They use less memory",
+        "The same word gets different vector representations based on surrounding context",
+        "They only work for English"
+      ],
+      "answer": 2,
+      "explanation": "Word2Vec assigns one static vector per word regardless of context. BERT and similar models generate contextual embeddings — the word 'bank' near 'river' vs near 'money' gets different vectors, capturing polysemy and context."
+    },
+    {
+      "q": "What is Named Entity Recognition (NER) used for?",
+      "options": [
+        "Generating new text from prompts",
+        "Classifying documents by topic",
+        "Identifying and categorising proper nouns like people, organisations, and locations",
+        "Summarising long documents"
+      ],
+      "answer": 2,
+      "explanation": "NER identifies and classifies named entities in text into predefined categories such as PERSON, ORGANISATION, LOCATION, DATE, and MONEY. It's used in information extraction, search engines, and knowledge graph construction."
+    },
+    {
+      "q": "Which NLP technique reduces words to their base form (e.g., 'running' → 'run')?",
+      "options": ["Tokenisation", "Stemming/Lemmatisation", "Vectorisation", "Padding"],
+      "answer": 1,
+      "explanation": "Stemming and lemmatisation both reduce words to their root form. Stemming is rule-based and faster (may produce non-words like 'studi'); lemmatisation uses vocabulary and morphological analysis to return valid base forms ('studying' → 'study')."
+    }
+  ]
+  </script>
+
+  <nav class="topic-nav">
+    <button class="topic-nav__btn" onclick="window.parent.postMessage({type:'navigate',data:{id:'rnn-lstm'}},'*')">
+      <span>←</span><span><span class="topic-nav__label">Previous</span><span class="topic-nav__title">RNN &amp; LSTM</span></span>
+    </button>
+    <button class="topic-nav__btn topic-nav__btn--next" onclick="window.parent.postMessage({type:'navigate',data:{id:'transformers'}},'*')">
+      <span><span class="topic-nav__label">Next</span><span class="topic-nav__title">Transformers &amp; Attention</span></span><span>→</span>
+    </button>
+  </nav>
+</article>
+<button class="scroll-top-btn" id="scroll-top">↑</button>
+<script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="../js/mcq.js"></script>
+<script>
+  AOS.init({duration:500,once:true,offset:40});
+  const saved=localStorage.getItem('ai-theme');if(saved)document.documentElement.setAttribute('data-theme',saved);
+  window.addEventListener('message',e=>{if(e.data?.type==='theme-change')document.documentElement.setAttribute('data-theme',e.data.theme);});
+  window.addEventListener('scroll',()=>{const el=document.documentElement;window.parent.postMessage({type:'scroll-progress',data:{percent:(el.scrollTop/(el.scrollHeight-el.clientHeight))*100||0}},'*');document.getElementById('scroll-top')?.classList.toggle('visible',window.scrollY>300);},{passive:true});
+  document.getElementById('scroll-top')?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+  const ttsBtn=document.getElementById('tts-btn');let speaking=false;
+  ttsBtn?.addEventListener('click',()=>{if(!window.speechSynthesis)return;if(speaking){window.speechSynthesis.cancel();speaking=false;ttsBtn.textContent='🔊 Read Aloud';return;}const u=new SpeechSynthesisUtterance(document.getElementById('topic-content')?.innerText||'');u.rate=0.95;u.onend=()=>{speaking=false;ttsBtn.textContent='🔊 Read Aloud';};window.speechSynthesis.speak(u);speaking=true;ttsBtn.textContent='⏹ Stop';});
+</script>
+</body>
+</html>

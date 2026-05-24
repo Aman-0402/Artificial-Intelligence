@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLMs & ChatGPT — AI.learn</title>
+  <link rel="stylesheet" href="../css/variables.css" /><link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/animations.css" /><link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/theme-light.css" />
+  <link rel="stylesheet" href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body)}
+    .topic-wrapper{max-width:860px;margin:0 auto;padding:var(--space-8) var(--space-8) var(--space-16)}
+    .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
+    .topic-breadcrumb{display:flex;align-items:center;gap:var(--space-2);font-family:var(--font-nav);font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--space-4)}
+    .topic-breadcrumb__sep{color:var(--border-glow)}.topic-breadcrumb__current{color:var(--accent-cyan)}
+    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
+    .topic-meta{display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap}
+    .topic-meta__item{font-family:var(--font-nav);font-size:var(--text-xs);color:var(--text-muted)}
+    .tts-topic-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:var(--bg-secondary);border:1px solid var(--border-default);border-radius:var(--radius-md);cursor:pointer;color:var(--text-muted);font-family:var(--font-nav);font-size:var(--text-xs);transition:all .25s ease}
+    .tts-topic-btn:hover{border-color:var(--accent-purple);color:var(--accent-purple)}
+    .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
+    .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
+    .topic-content h4{font-size:var(--text-lg);margin-top:var(--space-6);margin-bottom:var(--space-2);color:var(--text-secondary)}
+    .topic-content p{line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
+    .topic-content ul,.topic-content ol{margin-bottom:var(--space-4);padding-left:var(--space-6)}
+    .topic-content li{margin-bottom:var(--space-2);line-height:var(--leading-relaxed);color:var(--text-secondary)}
+    .topic-content pre[class*="language-"]{border-radius:var(--radius-lg);border:1px solid var(--border-default);font-size:var(--text-sm);margin-bottom:var(--space-6)}
+    .topic-content table{width:100%;border-collapse:collapse;margin-bottom:var(--space-6);font-size:var(--text-sm)}
+    .topic-content th{background:var(--bg-secondary);color:var(--accent-cyan);font-family:var(--font-nav);font-weight:600;padding:var(--space-3) var(--space-4);text-align:left;border-bottom:1px solid var(--border-glow)}
+    .topic-content td{padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--border-subtle);color:var(--text-secondary)}
+    .scroll-top-btn{position:fixed;bottom:var(--space-6);right:var(--space-6);width:42px;height:42px;background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-md);cursor:pointer;color:var(--accent-cyan);font-size:1.2rem;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);pointer-events:none;transition:all .3s ease;z-index:50}
+    .scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:all}
+    @media(max-width:600px){.topic-wrapper{padding:var(--space-5) var(--space-4) var(--space-12)}}
+  </style>
+</head>
+<body>
+<article class="topic-wrapper">
+  <header class="topic-header">
+    <nav class="topic-breadcrumb">
+      <span>AI.learn</span><span class="topic-breadcrumb__sep">›</span>
+      <span>NLP &amp; Transformers</span><span class="topic-breadcrumb__sep">›</span>
+      <span class="topic-breadcrumb__current">LLMs &amp; ChatGPT</span>
+    </nav>
+    <h1 class="topic-title">Large Language Models &amp; ChatGPT</h1>
+    <div class="topic-meta">
+      <span class="topic-meta__item">⏱ 10 min read</span>
+      <button class="tts-topic-btn" id="tts-btn">🔊 Read Aloud</button>
+    </div>
+  </header>
+
+  <div class="topic-content" id="topic-content">
+
+    <p data-aos="fade-up">Large Language Models (LLMs) are massive neural networks — built on Transformer architecture — trained on hundreds of billions of words from the internet, books, and code. They represent the current frontier of AI, capable of reasoning, writing, coding, and conversation at near-human level.</p>
+
+    <div class="alert alert-info" data-aos="fade-up">
+      <span class="alert__icon">🤖</span>
+      <div class="alert__content">
+        <div class="alert__title">What Makes an LLM "Large"?</div>
+        Scale: GPT-3 = 175B parameters. GPT-4 ≈ 1T+ parameters. Llama 3.1 = up to 405B. Trained on terabytes of text for weeks on thousands of GPUs. The "scaling laws" show that bigger models trained on more data = reliably better performance.
+      </div>
+    </div>
+
+    <h2 data-aos="fade-up">How LLMs Work</h2>
+
+    <h3 data-aos="fade-up">Pre-training: Next Token Prediction</h3>
+    <p data-aos="fade-up">LLMs learn by predicting the next word/token in a sequence — called <strong>autoregressive language modelling</strong>. Given "The cat sat on the ___", predict "mat". Repeat this for hundreds of billions of examples and the model learns grammar, facts, reasoning, and code from the pattern alone.</p>
+
+    <h3 data-aos="fade-up">Fine-tuning: Instruction Following</h3>
+    <p data-aos="fade-up">Raw pre-trained models generate text but don't follow instructions well. Fine-tuning on instruction-response pairs (e.g., supervised fine-tuning on Q&A data) teaches the model to be helpful.</p>
+
+    <h3 data-aos="fade-up">RLHF: Reinforcement Learning from Human Feedback</h3>
+    <p data-aos="fade-up">The secret behind ChatGPT's conversational ability. Three steps:</p>
+    <ol data-aos="fade-up">
+      <li><strong>Collect human preferences</strong> — show raters pairs of model outputs, ask which is better</li>
+      <li><strong>Train a Reward Model</strong> — learns to predict human preference scores</li>
+      <li><strong>Fine-tune LLM with PPO</strong> — use RL to maximise the reward model's score</li>
+    </ol>
+    <p data-aos="fade-up">Result: Model learns to be helpful, harmless, and honest — not just to predict text.</p>
+
+    <h2 data-aos="fade-up">Major LLMs Timeline</h2>
+    <table data-aos="fade-up">
+      <thead><tr><th>Model</th><th>Company</th><th>Year</th><th>Key Innovation</th></tr></thead>
+      <tbody>
+        <tr><td>GPT-2</td><td>OpenAI</td><td>2019</td><td>Showed LLMs can generate coherent long text</td></tr>
+        <tr><td>GPT-3</td><td>OpenAI</td><td>2020</td><td>175B params, few-shot learning, in-context learning</td></tr>
+        <tr><td>BERT</td><td>Google</td><td>2018</td><td>Bidirectional encoder, dominates NLU tasks</td></tr>
+        <tr><td>PaLM</td><td>Google</td><td>2022</td><td>540B params, chain-of-thought reasoning</td></tr>
+        <tr><td>ChatGPT</td><td>OpenAI</td><td>2022</td><td>RLHF alignment, conversation, 100M users in 2 months</td></tr>
+        <tr><td>GPT-4</td><td>OpenAI</td><td>2023</td><td>Multimodal, expert-level performance on benchmarks</td></tr>
+        <tr><td>Llama 2/3</td><td>Meta</td><td>2023/24</td><td>Open-source, runs locally, democratised access</td></tr>
+        <tr><td>Claude 3.5+</td><td>Anthropic</td><td>2024</td><td>Constitutional AI, long context, strong reasoning</td></tr>
+        <tr><td>Gemini</td><td>Google</td><td>2023</td><td>Native multimodal (text, image, audio, video)</td></tr>
+      </tbody>
+    </table>
+
+    <h2 data-aos="fade-up">Prompt Engineering</h2>
+    <p data-aos="fade-up">Getting good output from LLMs is a skill. Key techniques:</p>
+
+    <pre data-aos="fade-up"><code class="language-python">from openai import OpenAI
+client = OpenAI()
+
+# --- Zero-shot prompting ---
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Explain backpropagation in simple terms."}]
+)
+print(response.choices[0].message.content)
+
+# --- Few-shot prompting (show examples in the prompt) ---
+few_shot_prompt = """
+Classify the sentiment of these reviews:
+Review: "Amazing product, works perfectly!" → POSITIVE
+Review: "Terrible quality, broke in a day." → NEGATIVE
+Review: "It's okay, does the job." → NEUTRAL
+
+Review: "Best purchase I've made this year!" → """
+
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": few_shot_prompt}]
+)
+print(response.choices[0].message.content)  # POSITIVE
+
+# --- Chain of Thought (CoT) prompting ---
+cot_prompt = """
+Solve step by step:
+If a store sells 150 apples on Monday and 30% more on Tuesday,
+how many total apples were sold across both days?
+Let's think step by step:"""
+
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": cot_prompt}]
+)
+print(response.choices[0].message.content)
+# Step 1: Tuesday = 150 × 1.3 = 195 apples
+# Step 2: Total = 150 + 195 = 345 apples
+</code></pre>
+
+    <h2 data-aos="fade-up">LLM Capabilities &amp; Limitations</h2>
+    <table data-aos="fade-up">
+      <thead><tr><th>Capability ✅</th><th>Limitation ⚠️</th></tr></thead>
+      <tbody>
+        <tr><td>Text generation, summarisation</td><td>Hallucination — confidently stating false facts</td></tr>
+        <tr><td>Code generation and debugging</td><td>Knowledge cutoff — no real-time information</td></tr>
+        <tr><td>Translation, question answering</td><td>No persistent memory across conversations</td></tr>
+        <tr><td>Few-shot learning</td><td>Can be biased by training data</td></tr>
+        <tr><td>Reasoning and analysis</td><td>Sensitive to prompt phrasing</td></tr>
+        <tr><td>Creative writing</td><td>Cannot verify its own outputs reliably</td></tr>
+      </tbody>
+    </table>
+
+    <h2 data-aos="fade-up">RAG: Retrieval-Augmented Generation</h2>
+    <p data-aos="fade-up">The most practical solution to LLM hallucination and knowledge cutoffs: <strong>retrieve relevant documents</strong> from a database and include them in the prompt context. The LLM then generates answers grounded in verified sources.</p>
+
+    <div class="alert alert-warning" data-aos="fade-up">
+      <span class="alert__icon">⚠️</span>
+      <div class="alert__content">
+        <div class="alert__title">Hallucination Warning</div>
+        LLMs can generate plausible-sounding but completely false information — called "hallucination." Never use LLM output as ground truth for medical, legal, or safety-critical decisions without expert verification.
+      </div>
+    </div>
+
+    <div class="alert alert-tip" data-aos="fade-up">
+      <span class="alert__icon">💡</span>
+      <div class="alert__content">
+        <div class="alert__title">Career Insight</div>
+        LLM engineering (prompt engineering, fine-tuning, RAG systems, evaluation) is one of the fastest-growing AI career paths. Understanding how LLMs work — not just how to use them — is a significant competitive advantage.
+      </div>
+    </div>
+
+  </div>
+
+  <section class="mcq-section">
+    <h2 class="mcq-section__title">🧩 Practice MCQs</h2>
+    <p class="mcq-section__subtitle">Test your understanding — 5 questions</p>
+    <div id="mcq-mount"></div>
+  </section>
+
+  <script type="application/json" id="mcq-data">
+  [
+    {
+      "q": "What is the primary training objective of a Large Language Model during pre-training?",
+      "options": [
+        "Image classification",
+        "Predicting the next token in a sequence (autoregressive language modelling)",
+        "Finding clusters in unlabelled data",
+        "Maximising game scores through trial and error"
+      ],
+      "answer": 1,
+      "explanation": "LLMs are pre-trained via next-token prediction: given all preceding tokens, predict the next one. This self-supervised objective on massive text corpora enables the model to learn grammar, facts, code, and reasoning without manual labels."
+    },
+    {
+      "q": "What does RLHF stand for and what problem does it solve?",
+      "options": [
+        "Recursive Learning with Hidden Features — speeds up training",
+        "Reinforcement Learning from Human Feedback — aligns LLMs to be helpful, harmless, and honest",
+        "Random Loss with High Frequency — reduces overfitting",
+        "Retrieval Layer with Hyperparameter Fine-tuning — improves factual accuracy"
+      ],
+      "answer": 1,
+      "explanation": "RLHF (Reinforcement Learning from Human Feedback) aligns LLMs with human preferences. Humans rate model outputs; a reward model learns these preferences; the LLM is then fine-tuned with RL to maximise the reward. This made ChatGPT conversationally useful."
+    },
+    {
+      "q": "What is 'hallucination' in the context of LLMs?",
+      "options": [
+        "When the model sees images instead of text",
+        "When the model confidently generates plausible-sounding but factually incorrect information",
+        "When the model crashes due to high computational load",
+        "When the model repeats the same phrase in a loop"
+      ],
+      "answer": 1,
+      "explanation": "LLM hallucination refers to the model generating false, made-up, or misleading content with high confidence. It occurs because LLMs optimise for plausible text continuation, not factual accuracy. RAG and grounding techniques help mitigate this."
+    },
+    {
+      "q": "What is Retrieval-Augmented Generation (RAG)?",
+      "options": [
+        "Training an LLM on more data",
+        "Using multiple LLMs simultaneously",
+        "Retrieving relevant documents from a knowledge base and including them in the LLM prompt for grounded answers",
+        "Generating images alongside text"
+      ],
+      "answer": 2,
+      "explanation": "RAG retrieves relevant documents (from a vector database or search engine) based on the user's query and includes them as context in the LLM prompt. The LLM then answers based on retrieved verified content, reducing hallucination and enabling up-to-date knowledge."
+    },
+    {
+      "q": "What is 'few-shot prompting' in LLMs?",
+      "options": [
+        "Training the model on a small dataset",
+        "Limiting the model to 3 responses per conversation",
+        "Including a few example input-output pairs in the prompt to guide the model's behaviour without retraining",
+        "Running the model with reduced GPU memory"
+      ],
+      "answer": 2,
+      "explanation": "Few-shot prompting includes 2-5 example pairs directly in the prompt (e.g., 'Review: Great! → POSITIVE, Review: Terrible → NEGATIVE, Review: [new] →'). The LLM infers the task pattern from examples without any weight updates — a key capability of large models."
+    }
+  ]
+  </script>
+
+  <nav class="topic-nav">
+    <button class="topic-nav__btn" onclick="window.parent.postMessage({type:'navigate',data:{id:'transformers'}},'*')">
+      <span>←</span><span><span class="topic-nav__label">Previous</span><span class="topic-nav__title">Transformers &amp; Attention</span></span>
+    </button>
+    <button class="topic-nav__btn topic-nav__btn--next" onclick="window.parent.postMessage({type:'navigate',data:{id:'interview'}},'*')">
+      <span><span class="topic-nav__label">Next</span><span class="topic-nav__title">Interview Questions</span></span><span>→</span>
+    </button>
+  </nav>
+</article>
+<button class="scroll-top-btn" id="scroll-top">↑</button>
+<script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="../js/mcq.js"></script>
+<script>
+  AOS.init({duration:500,once:true,offset:40});
+  const saved=localStorage.getItem('ai-theme');if(saved)document.documentElement.setAttribute('data-theme',saved);
+  window.addEventListener('message',e=>{if(e.data?.type==='theme-change')document.documentElement.setAttribute('data-theme',e.data.theme);});
+  window.addEventListener('scroll',()=>{const el=document.documentElement;window.parent.postMessage({type:'scroll-progress',data:{percent:(el.scrollTop/(el.scrollHeight-el.clientHeight))*100||0}},'*');document.getElementById('scroll-top')?.classList.toggle('visible',window.scrollY>300);},{passive:true});
+  document.getElementById('scroll-top')?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+  const ttsBtn=document.getElementById('tts-btn');let speaking=false;
+  ttsBtn?.addEventListener('click',()=>{if(!window.speechSynthesis)return;if(speaking){window.speechSynthesis.cancel();speaking=false;ttsBtn.textContent='🔊 Read Aloud';return;}const u=new SpeechSynthesisUtterance(document.getElementById('topic-content')?.innerText||'');u.rate=0.95;u.onend=()=>{speaking=false;ttsBtn.textContent='🔊 Read Aloud';};window.speechSynthesis.speak(u);speaking=true;ttsBtn.textContent='⏹ Stop';});
+</script>
+</body>
+</html>

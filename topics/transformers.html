@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transformers & Attention — AI.learn</title>
+  <link rel="stylesheet" href="../css/variables.css" /><link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/animations.css" /><link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/theme-light.css" />
+  <link rel="stylesheet" href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body)}
+    .topic-wrapper{max-width:860px;margin:0 auto;padding:var(--space-8) var(--space-8) var(--space-16)}
+    .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
+    .topic-breadcrumb{display:flex;align-items:center;gap:var(--space-2);font-family:var(--font-nav);font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--space-4)}
+    .topic-breadcrumb__sep{color:var(--border-glow)}.topic-breadcrumb__current{color:var(--accent-cyan)}
+    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
+    .topic-meta{display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap}
+    .topic-meta__item{font-family:var(--font-nav);font-size:var(--text-xs);color:var(--text-muted)}
+    .tts-topic-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:var(--bg-secondary);border:1px solid var(--border-default);border-radius:var(--radius-md);cursor:pointer;color:var(--text-muted);font-family:var(--font-nav);font-size:var(--text-xs);transition:all .25s ease}
+    .tts-topic-btn:hover{border-color:var(--accent-purple);color:var(--accent-purple)}
+    .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
+    .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
+    .topic-content h4{font-size:var(--text-lg);margin-top:var(--space-6);margin-bottom:var(--space-2);color:var(--text-secondary)}
+    .topic-content p{line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
+    .topic-content ul,.topic-content ol{margin-bottom:var(--space-4);padding-left:var(--space-6)}
+    .topic-content li{margin-bottom:var(--space-2);line-height:var(--leading-relaxed);color:var(--text-secondary)}
+    .topic-content pre[class*="language-"]{border-radius:var(--radius-lg);border:1px solid var(--border-default);font-size:var(--text-sm);margin-bottom:var(--space-6)}
+    .topic-content table{width:100%;border-collapse:collapse;margin-bottom:var(--space-6);font-size:var(--text-sm)}
+    .topic-content th{background:var(--bg-secondary);color:var(--accent-cyan);font-family:var(--font-nav);font-weight:600;padding:var(--space-3) var(--space-4);text-align:left;border-bottom:1px solid var(--border-glow)}
+    .topic-content td{padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--border-subtle);color:var(--text-secondary)}
+    .scroll-top-btn{position:fixed;bottom:var(--space-6);right:var(--space-6);width:42px;height:42px;background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-md);cursor:pointer;color:var(--accent-cyan);font-size:1.2rem;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);pointer-events:none;transition:all .3s ease;z-index:50}
+    .scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:all}
+    @media(max-width:600px){.topic-wrapper{padding:var(--space-5) var(--space-4) var(--space-12)}}
+  </style>
+</head>
+<body>
+<article class="topic-wrapper">
+  <header class="topic-header">
+    <nav class="topic-breadcrumb">
+      <span>AI.learn</span><span class="topic-breadcrumb__sep">›</span>
+      <span>NLP &amp; Transformers</span><span class="topic-breadcrumb__sep">›</span>
+      <span class="topic-breadcrumb__current">Transformers &amp; Attention</span>
+    </nav>
+    <h1 class="topic-title">Transformers &amp; Attention Mechanism</h1>
+    <div class="topic-meta">
+      <span class="topic-meta__item">⏱ 11 min read</span>
+      <button class="tts-topic-btn" id="tts-btn">🔊 Read Aloud</button>
+    </div>
+  </header>
+
+  <div class="topic-content" id="topic-content">
+
+    <p data-aos="fade-up">The Transformer, introduced in <em>"Attention Is All You Need"</em> (Vaswani et al., Google, 2017), is the architecture that powers virtually every state-of-the-art NLP model today — BERT, GPT-4, Claude, Gemini, and more. It replaced RNNs by processing entire sequences <strong>in parallel</strong> using self-attention.</p>
+
+    <div class="alert alert-info" data-aos="fade-up">
+      <span class="alert__icon">⚡</span>
+      <div class="alert__content">
+        <div class="alert__title">Why Transformers Beat RNNs</div>
+        RNNs process tokens sequentially (slow, vanishing gradient). Transformers process ALL tokens simultaneously using attention — massive parallelism on GPUs, no gradient degradation over distance. Long-range dependencies become easy.
+      </div>
+    </div>
+
+    <h2 data-aos="fade-up">Self-Attention: The Core Idea</h2>
+    <p data-aos="fade-up">Self-attention allows each token to "look at" all other tokens in the sequence and decide which ones are most relevant to its own meaning.</p>
+
+    <p data-aos="fade-up">Example: In "The animal didn't cross the street because <strong>it</strong> was too tired", which word does "it" refer to? Self-attention lets the model figure out that "it" → "animal" (not "street") by computing attention weights across all tokens.</p>
+
+    <h3 data-aos="fade-up">Query, Key, Value (Q, K, V)</h3>
+    <p data-aos="fade-up">Each token is transformed into three vectors:</p>
+    <ul data-aos="fade-up">
+      <li><strong>Query (Q)</strong> — "What am I looking for?"</li>
+      <li><strong>Key (K)</strong> — "What do I represent / advertise?"</li>
+      <li><strong>Value (V)</strong> — "What information do I actually carry?"</li>
+    </ul>
+
+    <div class="alert alert-info" data-aos="fade-up">
+      <span class="alert__icon">📐</span>
+      <div class="alert__content">
+        <div class="alert__title">Scaled Dot-Product Attention Formula</div>
+        <code>Attention(Q, K, V) = softmax(QKᵀ / √d_k) · V</code>
+        <br/><br/>
+        QKᵀ = similarity scores between queries and keys | √d_k = scaling factor (prevents softmax saturation) | softmax = normalise to probabilities | · V = weighted sum of values
+      </div>
+    </div>
+
+    <h3 data-aos="fade-up">Multi-Head Attention</h3>
+    <p data-aos="fade-up">Instead of computing attention once, Transformers run attention <strong>h times in parallel</strong> with different learned projections (heads). Each head can focus on different relationship types — syntax, coreference, semantics simultaneously.</p>
+
+    <h2 data-aos="fade-up">Transformer Architecture</h2>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Component</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td>Token Embeddings</td><td>Convert tokens to dense vectors</td></tr>
+        <tr><td>Positional Encoding</td><td>Add position information (Transformer has no recurrence, so position must be injected)</td></tr>
+        <tr><td>Multi-Head Self-Attention</td><td>Attend to all positions in the sequence simultaneously</td></tr>
+        <tr><td>Feed-Forward Network</td><td>2-layer MLP applied to each position independently (adds non-linearity)</td></tr>
+        <tr><td>Layer Normalisation</td><td>Stabilise training, applied before each sub-layer</td></tr>
+        <tr><td>Residual Connections</td><td>Skip connections around each sub-layer to help gradient flow</td></tr>
+        <tr><td>Encoder Stack</td><td>N layers of attention + FFN — builds rich contextual representations (BERT uses this)</td></tr>
+        <tr><td>Decoder Stack</td><td>N layers with masked self-attention + cross-attention to encoder (GPT uses encoder-only with causal masking)</td></tr>
+      </tbody>
+    </table>
+
+    <h2 data-aos="fade-up">Encoder vs Decoder Models</h2>
+    <table data-aos="fade-up">
+      <thead><tr><th>Architecture</th><th>Models</th><th>Best For</th></tr></thead>
+      <tbody>
+        <tr><td>Encoder-only</td><td>BERT, RoBERTa, DistilBERT</td><td>Classification, NER, question answering</td></tr>
+        <tr><td>Decoder-only</td><td>GPT-2, GPT-4, Claude, Llama</td><td>Text generation, completion, chatbots</td></tr>
+        <tr><td>Encoder-Decoder</td><td>T5, BART, mT5</td><td>Translation, summarisation, seq2seq</td></tr>
+      </tbody>
+    </table>
+
+    <h2 data-aos="fade-up">Code: Using BERT for Text Classification</h2>
+    <pre data-aos="fade-up"><code class="language-python">from transformers import AutoTokenizer, AutoModelForSequenceClassification
+import torch
+
+# Load pre-trained BERT fine-tuned for sentiment
+model_name = "distilbert-base-uncased-finetuned-sst-2-english"
+tokenizer  = AutoTokenizer.from_pretrained(model_name)
+model      = AutoModelForSequenceClassification.from_pretrained(model_name)
+
+texts = [
+    "Transformers revolutionised NLP completely.",
+    "This explanation was very hard to follow.",
+]
+
+# Tokenise (returns input_ids, attention_mask)
+inputs = tokenizer(texts, padding=True, truncation=True, return_tensors="pt")
+
+# Inference (no gradient needed)
+with torch.no_grad():
+    outputs = model(**inputs)
+    logits  = outputs.logits
+    probs   = torch.softmax(logits, dim=-1)
+
+labels = ["NEGATIVE", "POSITIVE"]
+for text, prob in zip(texts, probs):
+    pred = labels[prob.argmax()]
+    conf = prob.max().item()
+    print(f"{pred} ({conf:.2%}): {text}")
+</code></pre>
+
+    <h2 data-aos="fade-up">Positional Encoding</h2>
+    <p data-aos="fade-up">Since Transformers process all tokens simultaneously (unlike RNNs which see them sequentially), they have no inherent notion of position. Positional encoding adds position information to embeddings using sinusoidal functions:</p>
+    <pre data-aos="fade-up"><code class="language-python">import numpy as np
+
+def positional_encoding(seq_len, d_model):
+    PE = np.zeros((seq_len, d_model))
+    for pos in range(seq_len):
+        for i in range(0, d_model, 2):
+            PE[pos, i]     = np.sin(pos / 10000 ** (2*i / d_model))
+            PE[pos, i + 1] = np.cos(pos / 10000 ** (2*i / d_model))
+    return PE
+
+# Example: 10 tokens, 512-dim embeddings
+PE = positional_encoding(seq_len=10, d_model=512)
+print(f"PE shape: {PE.shape}")   # (10, 512)
+# Each row = unique position signature added to token embedding
+</code></pre>
+
+    <div class="alert alert-tip" data-aos="fade-up">
+      <span class="alert__icon">🧠</span>
+      <div class="alert__content">
+        <div class="alert__title">Key Insight</div>
+        The Transformer's ability to scale (just add more layers, more heads, more parameters) is why we went from 110M parameters (BERT-base, 2018) to 1.8T parameters (GPT-4, 2023). Architecture scales cleanly with compute.
+      </div>
+    </div>
+
+  </div>
+
+  <section class="mcq-section">
+    <h2 class="mcq-section__title">🧩 Practice MCQs</h2>
+    <p class="mcq-section__subtitle">Test your understanding — 5 questions</p>
+    <div id="mcq-mount"></div>
+  </section>
+
+  <script type="application/json" id="mcq-data">
+  [
+    {
+      "q": "What is the title of the 2017 paper that introduced the Transformer architecture?",
+      "options": [
+        "\"Deep Residual Learning for Image Recognition\"",
+        "\"Attention Is All You Need\"",
+        "\"BERT: Pre-training of Deep Bidirectional Transformers\"",
+        "\"Language Models are Few-Shot Learners\""
+      ],
+      "answer": 1,
+      "explanation": "'Attention Is All You Need' (Vaswani et al., Google, 2017) introduced the Transformer architecture, replacing recurrent connections entirely with self-attention mechanisms and enabling full parallelism during training."
+    },
+    {
+      "q": "In self-attention, what is the role of the Query vector?",
+      "options": [
+        "Stores the actual token information to output",
+        "Represents what the token is 'advertising' about itself",
+        "Represents what the token is 'looking for' from other tokens",
+        "Applies position information to the embedding"
+      ],
+      "answer": 2,
+      "explanation": "In Q, K, V attention: Query asks 'what am I looking for?', Key says 'what do I represent?', and Value carries the actual information. Attention weight = similarity between Query and Key, used to weight the Values."
+    },
+    {
+      "q": "Why does the Transformer use positional encoding?",
+      "options": [
+        "To reduce model size",
+        "To enable multi-head attention",
+        "Because Transformers process all tokens simultaneously and have no inherent position awareness",
+        "To translate between encoder and decoder"
+      ],
+      "answer": 2,
+      "explanation": "Unlike RNNs that process tokens sequentially (implicitly learning position), Transformers process all tokens in parallel. Positional encoding (sinusoidal or learned) adds explicit position information to each token embedding."
+    },
+    {
+      "q": "Which Transformer variant is best suited for text generation tasks like chatbots?",
+      "options": ["Encoder-only (BERT)", "Decoder-only (GPT)", "Encoder-Decoder (T5)", "All are equally suited"],
+      "answer": 1,
+      "explanation": "Decoder-only models like GPT use causal (left-to-right) masking, which makes them naturally suited for autoregressive text generation — predicting the next token given all previous tokens. BERT (encoder-only) is better for classification and extraction."
+    },
+    {
+      "q": "What does 'multi-head' mean in multi-head attention?",
+      "options": [
+        "The model processes multiple input sequences",
+        "Multiple attention mechanisms run in parallel with different learned projections, each focusing on different relationships",
+        "Multiple transformer layers stacked together",
+        "Using multiple languages simultaneously"
+      ],
+      "answer": 1,
+      "explanation": "Multi-head attention runs h independent attention operations (heads) in parallel, each with different learned Q, K, V weight matrices. Each head can specialise in different relationship types (e.g., syntactic vs semantic). Their outputs are concatenated and projected."
+    }
+  ]
+  </script>
+
+  <nav class="topic-nav">
+    <button class="topic-nav__btn" onclick="window.parent.postMessage({type:'navigate',data:{id:'nlp-intro'}},'*')">
+      <span>←</span><span><span class="topic-nav__label">Previous</span><span class="topic-nav__title">NLP Introduction</span></span>
+    </button>
+    <button class="topic-nav__btn topic-nav__btn--next" onclick="window.parent.postMessage({type:'navigate',data:{id:'llms'}},'*')">
+      <span><span class="topic-nav__label">Next</span><span class="topic-nav__title">LLMs &amp; ChatGPT</span></span><span>→</span>
+    </button>
+  </nav>
+</article>
+<button class="scroll-top-btn" id="scroll-top">↑</button>
+<script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="../js/mcq.js"></script>
+<script>
+  AOS.init({duration:500,once:true,offset:40});
+  const saved=localStorage.getItem('ai-theme');if(saved)document.documentElement.setAttribute('data-theme',saved);
+  window.addEventListener('message',e=>{if(e.data?.type==='theme-change')document.documentElement.setAttribute('data-theme',e.data.theme);});
+  window.addEventListener('scroll',()=>{const el=document.documentElement;window.parent.postMessage({type:'scroll-progress',data:{percent:(el.scrollTop/(el.scrollHeight-el.clientHeight))*100||0}},'*');document.getElementById('scroll-top')?.classList.toggle('visible',window.scrollY>300);},{passive:true});
+  document.getElementById('scroll-top')?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+  const ttsBtn=document.getElementById('tts-btn');let speaking=false;
+  ttsBtn?.addEventListener('click',()=>{if(!window.speechSynthesis)return;if(speaking){window.speechSynthesis.cancel();speaking=false;ttsBtn.textContent='🔊 Read Aloud';return;}const u=new SpeechSynthesisUtterance(document.getElementById('topic-content')?.innerText||'');u.rate=0.95;u.onend=()=>{speaking=false;ttsBtn.textContent='🔊 Read Aloud';};window.speechSynthesis.speak(u);speaking=true;ttsBtn.textContent='⏹ Stop';});
+</script>
+</body>
+</html>
