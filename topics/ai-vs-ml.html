@@ -8,17 +8,56 @@
   <link rel="stylesheet" href="../css/animations.css" />
   <link rel="stylesheet" href="../css/components.css" />
   <link rel="stylesheet" href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body);overflow-x:hidden}
     .topic-wrapper{width:100%;padding:var(--space-8) clamp(1.5rem,4vw,5rem) var(--space-16)}
     .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
-    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}    .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
+    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
+    .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
     .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
+    .topic-content h4{font-size:var(--text-lg);margin-top:var(--space-6);margin-bottom:var(--space-2);color:var(--text-secondary)}
     .topic-content p{font-size:var(--text-base);line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
     .topic-content ul,.topic-content ol{margin-bottom:var(--space-4);padding-left:var(--space-6)}
     .topic-content li{margin-bottom:var(--space-2);line-height:var(--leading-relaxed);color:var(--text-secondary)}
     .topic-content pre[class*="language-"]{border-radius:var(--radius-lg);border:1px solid var(--border-default);font-size:var(--text-sm);margin-bottom:var(--space-6)}
+
+    /* Topic image */
+    .topic-image{width:100%;max-width:720px;border-radius:var(--radius-lg);border:1px solid var(--border-default);margin:var(--space-6) auto;display:block;object-fit:contain}
+    .image-caption{text-align:center;font-size:var(--text-sm);color:var(--text-muted);margin-top:calc(-1 * var(--space-4));margin-bottom:var(--space-6)}
+
+    /* Comparison table */
+    .topic-content table{width:100%;border-collapse:collapse;margin-bottom:var(--space-6);font-size:var(--text-sm)}
+    .topic-content th{background:var(--bg-card);color:var(--accent-cyan);text-align:left;padding:var(--space-3) var(--space-4);border:1px solid var(--border-default);font-weight:600}
+    .topic-content td{padding:var(--space-3) var(--space-4);border:1px solid var(--border-default);color:var(--text-secondary);vertical-align:top}
+    .topic-content tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+
+    /* Concept comparison blocks */
+    .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);margin-bottom:var(--space-6)}
+    @media(max-width:640px){.compare-grid{grid-template-columns:1fr}}
+    .compare-card{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-lg);padding:var(--space-5)}
+    .compare-card__label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.1em;color:var(--accent-cyan);margin-bottom:var(--space-2);font-weight:600}
+    .compare-card__title{font-size:var(--text-base);font-weight:600;color:var(--text-primary);margin-bottom:var(--space-3)}
+    .compare-card p{font-size:var(--text-sm);color:var(--text-secondary);margin-bottom:0}
+    .compare-card code{font-family:var(--font-mono);font-size:var(--text-sm);color:var(--accent-cyan);display:block;margin:var(--space-2) 0;white-space:pre-line}
+
+    /* Scenario block */
+    .scenario-block{background:var(--bg-card);border-left:3px solid var(--accent-cyan);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:var(--space-4) var(--space-5);margin-bottom:var(--space-4)}
+    .scenario-block__label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.1em;color:var(--accent-cyan);margin-bottom:var(--space-2);font-weight:600}
+    .scenario-block p{margin-bottom:var(--space-2);font-size:var(--text-sm)}
+    .scenario-block p:last-child{margin-bottom:0}
+
+    /* Question list with counters */
+    .question-list{list-style:none;padding-left:0;counter-reset:q-counter}
+    .question-list li{counter-increment:q-counter;padding-left:var(--space-8);position:relative;margin-bottom:var(--space-3)}
+    .question-list li::before{content:counter(q-counter) ".";position:absolute;left:0;color:var(--accent-cyan);font-weight:700;font-family:var(--font-mono)}
+
+    /* Highlight box */
+    .highlight-box{background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-lg);padding:var(--space-5);margin-bottom:var(--space-6)}
+    .highlight-box p{margin-bottom:0;font-size:var(--text-sm)}
+
+    /* Scroll to top */
     .scroll-top-btn{position:fixed;bottom:var(--space-6);right:var(--space-6);width:42px;height:42px;background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-md);cursor:pointer;color:var(--accent-cyan);font-size:1.2rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-md),var(--glow-cyan-sm);opacity:0;transform:translateY(10px);pointer-events:none;transition:all .3s ease;z-index:50}
     .scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:all}
     @media(max-width:600px){.topic-wrapper{padding:var(--space-5) var(--space-4) var(--space-12)}}
@@ -31,16 +70,331 @@
   </header>
 
   <div class="topic-content" id="topic-content">
-    <!-- Content coming soon -->
-  </div>
 
+    <!-- Visual Understanding -->
+    <h2 data-aos="fade-up">Visual Understanding</h2>
+    <p data-aos="fade-up">Before diving into definitions, look at this hierarchy. Each field is nested inside a broader one — like Russian dolls.</p>
+    <img
+      src="../assets/images/AI hierarchy infographic.png"
+      alt="AI hierarchy showing Generative AI inside Deep Learning inside ML inside AI"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">AI → ML → Deep Learning → Generative AI (each is a subset of the one above)</p>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p>
+        <strong style="color:var(--accent-cyan)">The key insight:</strong><br><br>
+        Generative AI is a subset of Deep Learning.<br>
+        Deep Learning is a subset of Machine Learning.<br>
+        Machine Learning is a subset of AI.
+      </p>
+    </div>
+
+    <!-- ─── 1. AI ─────────────────────────────────────────── -->
+    <h2 data-aos="fade-up">1. Artificial Intelligence (AI)</h2>
+
+    <h3 data-aos="fade-up">Simple Explanation</h3>
+    <p data-aos="fade-up">AI is the broad field of creating intelligent machines. It includes rules, logic systems, learning systems, robotics, and reasoning systems. AI is the overall umbrella — if a machine does something that looks intelligent, it belongs here.</p>
+
+    <h3 data-aos="fade-up">Real-Life Analogy</h3>
+    <div class="scenario-block" data-aos="fade-up">
+      <p><strong>AI = The Entire Universe of Smart Machines.</strong> Everything intelligent belongs here — chess programs, recommendation engines, robotic arms, voice assistants, fraud detectors, self-driving cars.</p>
+    </div>
+
+    <h3 data-aos="fade-up">Example AI Systems</h3>
+    <ul data-aos="fade-up">
+      <li>Chess AI (Deep Blue, Stockfish)</li>
+      <li>Recommendation systems (Netflix, YouTube)</li>
+      <li>Robotics (Boston Dynamics)</li>
+      <li>Chatbots and voice assistants</li>
+      <li>Fraud detection in banking</li>
+      <li>Self-driving systems (Waymo, Tesla)</li>
+    </ul>
+
+    <h3 data-aos="fade-up">Technical Explanation</h3>
+    <p data-aos="fade-up">AI refers to systems designed to simulate intelligent behavior using algorithms, logic, data, and reasoning. Some AI systems learn from experience. Others simply follow hand-written rules. Both count as AI.</p>
+
+    <!-- ─── 2. ML ─────────────────────────────────────────── -->
+    <h2 data-aos="fade-up">2. Machine Learning (ML)</h2>
+
+    <h3 data-aos="fade-up">Simple Explanation</h3>
+    <p data-aos="fade-up">Machine Learning is a branch of AI where machines learn patterns from data — instead of a programmer manually writing every rule. Feed data in, and the system figures out the rules on its own.</p>
+
+    <h3 data-aos="fade-up">Traditional Programming vs Machine Learning</h3>
+    <div class="compare-grid" data-aos="fade-up">
+      <div class="compare-card">
+        <div class="compare-card__label">Traditional Programming</div>
+        <div class="compare-card__title">Rules + Data → Output</div>
+        <p>Programmer manually writes every rule. Works well when rules are simple and known upfront. Breaks down with complex, real-world variation.</p>
+        <code>IF email contains "win money"
+  → SPAM</code>
+      </div>
+      <div class="compare-card">
+        <div class="compare-card__label">Machine Learning</div>
+        <div class="compare-card__title">Data + Correct Answers → Model → Predictions</div>
+        <p>Feed examples. The machine finds the rules itself. Handles messy, complex real-world data that no human could hand-code.</p>
+        <code>1000s of spam emails +
+1000s of normal emails
+  → Model learns patterns</code>
+      </div>
+    </div>
+
+    <h3 data-aos="fade-up">Real-Life Example — Spam Detection</h3>
+    <p data-aos="fade-up">Suppose we want to detect spam emails.</p>
+    <div class="compare-grid" data-aos="fade-up">
+      <div class="compare-card">
+        <div class="compare-card__label">Traditional Approach</div>
+        <p>Programmer writes rules: "if email contains win money → spam." Very brittle. Spammers bypass it easily with small word changes.</p>
+      </div>
+      <div class="compare-card">
+        <div class="compare-card__label">ML Approach</div>
+        <p>We give thousands of spam emails and thousands of normal emails. The system learns patterns automatically — and generalises to new spam it has never seen.</p>
+      </div>
+    </div>
+
+    <h3 data-aos="fade-up">Why ML Became Powerful</h3>
+    <ul data-aos="fade-up">
+      <li>Data became massive (internet, phones, sensors)</li>
+      <li>Computers became much faster (CPUs, later GPUs)</li>
+      <li>Algorithms improved through decades of research</li>
+    </ul>
+
+    <h3 data-aos="fade-up">Industry Use-Cases of ML</h3>
+    <table data-aos="fade-up">
+      <thead><tr><th>Industry</th><th>ML Use</th></tr></thead>
+      <tbody>
+        <tr><td>Banking</td><td>Fraud detection</td></tr>
+        <tr><td>Healthcare</td><td>Disease prediction from patient data</td></tr>
+        <tr><td>E-commerce</td><td>Product recommendations</td></tr>
+        <tr><td>Marketing</td><td>Customer segmentation and analysis</td></tr>
+        <tr><td>Finance</td><td>Credit risk prediction</td></tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">Important:</strong> ML learns from DATA. Data is the fuel — no data, no learning.</p>
+    </div>
+
+    <!-- ─── 3. Deep Learning ───────────────────────────────── -->
+    <h2 data-aos="fade-up">3. Deep Learning (DL)</h2>
+
+    <h3 data-aos="fade-up">Simple Explanation</h3>
+    <p data-aos="fade-up">Deep Learning is an advanced form of Machine Learning inspired by the human brain. It uses Neural Networks with many layers. More hidden layers means "deeper" — hence the name.</p>
+
+    <img
+      src="../assets/images/flow of a Deep Learning model.png"
+      alt="Flow diagram of a Deep Learning model showing input layer, multiple hidden layers, and output layer"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">Input → Hidden Layers (many) → Output. More hidden layers = "Deep" Learning.</p>
+
+    <h3 data-aos="fade-up">Real-Life Analogy</h3>
+    <div class="scenario-block" data-aos="fade-up">
+      <p><strong>ML</strong> = Small team solving specific tasks with moderate data.</p>
+      <p><strong>Deep Learning</strong> = Massive intelligent factory that processes enormous amounts of information through many specialised stages — like an assembly line for understanding.</p>
+      <p>Deep Learning handles images, voice, video, and language far better than classical ML.</p>
+    </div>
+
+    <h3 data-aos="fade-up">Why Deep Learning Became Revolutionary</h3>
+    <p data-aos="fade-up">Deep Learning achieved breakthrough accuracy in:</p>
+    <ul data-aos="fade-up">
+      <li>Face recognition (unlocking your phone)</li>
+      <li>Speech recognition (Siri, Alexa, Google Assistant)</li>
+      <li>Real-time language translation (Google Translate)</li>
+      <li>Autonomous driving (Tesla, Waymo)</li>
+      <li>Medical image analysis (detecting cancer in X-rays)</li>
+    </ul>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Everyday Example</div>
+      <p>When your phone recognises your face to unlock → Deep Learning is involved. When YouTube auto-captions a video in real time → Deep Learning is involved.</p>
+    </div>
+
+    <h3 data-aos="fade-up">Technical Understanding</h3>
+    <p data-aos="fade-up">Deep Learning uses Artificial Neural Networks trained via backpropagation, requiring large datasets and GPU hardware. We will explore neural networks in depth in a later topic.</p>
+
+    <h3 data-aos="fade-up">ML vs Deep Learning — Key Differences</h3>
+    <table data-aos="fade-up">
+      <thead><tr><th>Feature</th><th>Machine Learning</th><th>Deep Learning</th></tr></thead>
+      <tbody>
+        <tr><td>Data Requirement</td><td>Moderate</td><td>Very High</td></tr>
+        <tr><td>Hardware Need</td><td>Lower (CPU fine)</td><td>High (GPU required)</td></tr>
+        <tr><td>Feature Engineering</td><td>Manual (human picks features)</td><td>Automatic (learns features)</td></tr>
+        <tr><td>Complexity</td><td>Medium</td><td>Very High</td></tr>
+        <tr><td>Best For</td><td>Structured/tabular data</td><td>Images, audio, text, video</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ─── 4. Generative AI ───────────────────────────────── -->
+    <h2 data-aos="fade-up">4. Generative AI</h2>
+
+    <h3 data-aos="fade-up">Simple Explanation</h3>
+    <p data-aos="fade-up">Generative AI is AI that can <strong>create new content</strong> — not just predict or classify. It can generate text, images, music, videos, code, and voice.</p>
+
+    <h3 data-aos="fade-up">Examples of Generative AI Tools</h3>
+    <table data-aos="fade-up">
+      <thead><tr><th>Tool</th><th>Generates</th></tr></thead>
+      <tbody>
+        <tr><td>ChatGPT</td><td>Text, answers, essays, summaries</td></tr>
+        <tr><td>Midjourney / DALL·E</td><td>Images and artwork</td></tr>
+        <tr><td>GitHub Copilot</td><td>Code</td></tr>
+        <tr><td>Sora (OpenAI)</td><td>Videos</td></tr>
+        <tr><td>ElevenLabs</td><td>Voice and audio</td></tr>
+      </tbody>
+    </table>
+
+    <h3 data-aos="fade-up">Real-Life Analogy</h3>
+    <div class="compare-grid" data-aos="fade-up">
+      <div class="compare-card">
+        <div class="compare-card__label">Traditional AI</div>
+        <div class="compare-card__title">Predicts / Classifies</div>
+        <p>"This image <em>contains</em> a cat." Analyses and labels existing content.</p>
+      </div>
+      <div class="compare-card">
+        <div class="compare-card__label">Generative AI</div>
+        <div class="compare-card__title">Creates</div>
+        <p>"Create a <em>new</em> cat image wearing sunglasses in cyberpunk style." Produces original content from scratch.</p>
+      </div>
+    </div>
+
+    <h3 data-aos="fade-up">Technical Understanding</h3>
+    <p data-aos="fade-up">Generative AI is built on top of Deep Learning using architectures like Transformers, Large Language Models (LLMs), and Diffusion Models. These systems learn statistical patterns from massive datasets and use those patterns to generate new, coherent outputs.</p>
+
+    <h3 data-aos="fade-up">Traditional AI vs Generative AI — Task Comparison</h3>
+    <table data-aos="fade-up">
+      <thead><tr><th>Task</th><th>Traditional AI</th><th>Generative AI</th></tr></thead>
+      <tbody>
+        <tr><td>Email spam detection</td><td>Yes</td><td>No</td></tr>
+        <tr><td>Image classification</td><td>Yes</td><td>No</td></tr>
+        <tr><td>Writing stories or essays</td><td>No</td><td>Yes</td></tr>
+        <tr><td>Generating images from text</td><td>No</td><td>Yes</td></tr>
+        <tr><td>Writing and explaining code</td><td>No</td><td>Yes</td></tr>
+        <tr><td>Creating music from a prompt</td><td>No</td><td>Yes</td></tr>
+      </tbody>
+    </table>
+
+    <h3 data-aos="fade-up">Real-World Industry Impact</h3>
+    <ul data-aos="fade-up">
+      <li><strong>Software Development</strong> — GitHub Copilot helps developers write and review code faster.</li>
+      <li><strong>Marketing</strong> — AI generates ads, product descriptions, and social media content at scale.</li>
+      <li><strong>Design</strong> — AI creates logos, artwork, and UI concepts from text prompts.</li>
+      <li><strong>Education</strong> — AI tutors like Khan Academy's Khanmigo explain concepts interactively.</li>
+      <li><strong>Healthcare</strong> — AI generates drug molecule candidates and medical report summaries.</li>
+    </ul>
+
+    <!-- ─── Full Relationship ───────────────────────────────── -->
+    <h2 data-aos="fade-up">Full Relationship — The Complete Picture</h2>
+
+    <img
+      src="../assets/images/the structure of Artificial Intelligence in a clean tree-style architecture diagram.png"
+      alt="Tree-style architecture diagram showing the structure of Artificial Intelligence"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">AI → ML → Deep Learning → Generative AI: each level specialises and extends the one above.</p>
+
+    <h3 data-aos="fade-up">Practical Example — Netflix</h3>
+    <p data-aos="fade-up">All four fields can appear inside a single product. Netflix is a great example:</p>
+    <table data-aos="fade-up">
+      <thead><tr><th>Field</th><th>Netflix Role</th></tr></thead>
+      <tbody>
+        <tr><td>AI</td><td>The entire intelligent recommendation ecosystem</td></tr>
+        <tr><td>ML</td><td>Learns individual viewing preferences from history</td></tr>
+        <tr><td>Deep Learning</td><td>Understands complex patterns — mood, genre taste, watch-time signals</td></tr>
+        <tr><td>Generative AI</td><td>Could generate personalised trailers, AI movie summaries, or AI-created scenes</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ─── Notes ─────────────────────────────────────────── -->
+    <h2 data-aos="fade-up">Key Notes</h2>
+    <ul data-aos="fade-up">
+      <li>AI is the broadest field — everything intelligent belongs here.</li>
+      <li>ML is a subset of AI — machines learn patterns from data.</li>
+      <li>Deep Learning is a subset of ML — uses neural networks with many layers.</li>
+      <li>Generative AI is a subset of Deep Learning — creates new content rather than classifying.</li>
+      <li>Data is the fuel of ML. More data and more layers → Deep Learning.</li>
+      <li>Deep Learning needs GPUs; classical ML runs fine on CPUs.</li>
+      <li>Generative AI uses Transformers, LLMs, and Diffusion Models under the hood.</li>
+    </ul>
+
+    <!-- ─── Scenario-Based Questions ────────────────────────── -->
+    <h2 data-aos="fade-up">Scenario-Based Questions</h2>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Scenario 1</div>
+      <p>A company uses AI to detect whether a loan application is risky or safe, based on the applicant's financial history.</p>
+      <p><strong>Question:</strong> Which AI field is most likely being used here — and why?</p>
+    </div>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Scenario 2</div>
+      <p>A marketing startup builds a tool that creates new logos, banner images, and product descriptions automatically from a brand brief.</p>
+      <p><strong>Question:</strong> Which AI branch powers this tool?</p>
+    </div>
+
+    <!-- ─── Interview Questions ───────────────────────────── -->
+    <h2 data-aos="fade-up">Interview Questions</h2>
+    <ol class="question-list" data-aos="fade-up">
+      <li>What is the difference between AI and Machine Learning?</li>
+      <li>What is the difference between Machine Learning and Deep Learning?</li>
+      <li>What makes Deep Learning "deep"?</li>
+      <li>What is Generative AI, and how is it different from traditional AI?</li>
+      <li>Why is ChatGPT considered Generative AI and not just "regular AI"?</li>
+    </ol>
+
+    <!-- ─── Think About It ────────────────────────────────── -->
+    <h2 data-aos="fade-up">Think About It</h2>
+    <ol class="question-list" data-aos="fade-up">
+      <li>Why is Deep Learning considered a subset of Machine Learning and not a completely separate field?</li>
+      <li>Why does Generative AI require such huge amounts of training data?</li>
+      <li>Can you give one real-world example each of AI, ML, Deep Learning, and Generative AI from your daily life?</li>
+      <li>Which of these four areas excites you most so far — and why?</li>
+    </ol>
+
+  </div><!-- /topic-content -->
+
+  <!-- MCQ Section -->
   <section class="mcq-section" id="mcq-section" aria-label="Practice Questions">
     <h2 class="mcq-section__title">🧩 Practice MCQs</h2>
-    <p class="mcq-section__subtitle">Test your understanding — 5 questions</p>
+    <p class="mcq-section__subtitle">Test your understanding — 4 questions</p>
     <div id="mcq-mount"></div>
   </section>
-  <script type="application/json" id="mcq-data">[]</script>
 
+  <script type="application/json" id="mcq-data">
+  [
+    {
+      "q": "Which is the broadest field that contains all the others?",
+      "options": ["Deep Learning", "Machine Learning", "Artificial Intelligence", "Generative AI"],
+      "answer": 2,
+      "explanation": "AI is the umbrella field. ML, Deep Learning, and Generative AI are all specialised subsets inside it."
+    },
+    {
+      "q": "Deep Learning is mainly inspired by which of the following?",
+      "options": ["Calculators and logic gates", "The human brain and its neurons", "Relational databases", "The internet's link structure"],
+      "answer": 1,
+      "explanation": "Deep Learning uses Artificial Neural Networks modelled after how biological neurons in the brain connect and signal each other."
+    },
+    {
+      "q": "Which type of AI can CREATE new content such as images, text, and music?",
+      "options": ["Traditional rule-based AI", "Classic Machine Learning", "Generative AI", "Expert systems"],
+      "answer": 2,
+      "explanation": "Generative AI is specifically designed to generate new content — text, images, code, audio, and video — rather than just classify or predict."
+    },
+    {
+      "q": "ChatGPT is primarily an example of which AI category?",
+      "options": ["Reactive Machine AI", "Generative AI", "Rule-Based Expert System", "Robotics AI"],
+      "answer": 1,
+      "explanation": "ChatGPT is a Large Language Model — a Generative AI system that creates new text responses based on learned patterns from vast training data."
+    }
+  ]
+  </script>
+
+  <!-- Topic Navigation -->
   <nav class="topic-nav" id="topic-nav" aria-label="Topic navigation">
     <button class="topic-nav__btn topic-nav__btn--prev" id="btn-prev" style="display:none">
       <span>←</span><span><span class="topic-nav__label">Previous</span><span class="topic-nav__title" id="prev-title"></span></span>
@@ -53,12 +407,18 @@
 
 <button class="scroll-top-btn" id="scroll-top" aria-label="Back to top">↑</button>
 
+<script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script src="../js/mcq.js"></script>
 <script>
+  AOS.init({ duration: 500, once: true, offset: 40 });
+
   document.addEventListener('DOMContentLoaded', () => {
     const data = JSON.parse(document.getElementById('mcq-data').textContent || '[]');
     if (data.length) MCQEngine.init('mcq-mount', data);
   });
+
   window.addEventListener('scroll', () => {
     const btn = document.getElementById('scroll-top');
     btn?.classList.toggle('visible', window.scrollY > 300);
@@ -66,16 +426,26 @@
     const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
     window.parent.postMessage({ type: 'scroll-progress', data: { percent: pct || 0 } }, '*');
   }, { passive: true });
+
   document.getElementById('scroll-top')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
   window.addEventListener('message', (e) => {
     if (e.data?.type === 'topic-context') {
       const { prev, next } = e.data;
       const btnPrev = document.getElementById('btn-prev');
       const btnNext = document.getElementById('btn-next');
-      if (prev && btnPrev) { document.getElementById('prev-title').textContent = prev.label; btnPrev.style.display = 'flex'; btnPrev.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: prev.id } }, '*'); }
-      if (next && btnNext) { document.getElementById('next-title').textContent = next.label; btnNext.style.display = 'flex'; btnNext.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: next.id } }, '*'); }
+      if (prev && btnPrev) {
+        document.getElementById('prev-title').textContent = prev.label;
+        btnPrev.style.display = 'flex';
+        btnPrev.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: prev.id } }, '*');
+      }
+      if (next && btnNext) {
+        document.getElementById('next-title').textContent = next.label;
+        btnNext.style.display = 'flex';
+        btnNext.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: next.id } }, '*');
+      }
     }
-  });</script>
+  });
+</script>
 </body>
 </html>
-
