@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome — AI.learn</title>
+
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/animations.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/theme-light.css" />
+
+  <!-- AOS — Scroll Reveal -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+
+  <!-- Typed.js — Typing Animation -->
+  <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+
+  <style>
+    /* -----------------------------------------------
+       WELCOME PAGE — LOCAL STYLES
+    ----------------------------------------------- */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    /* -----------------------------------------------
+       HERO SECTION
+    ----------------------------------------------- */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-12) var(--space-8);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* Neural network canvas background */
+    #particle-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Radial vignette over canvas */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center,
+        transparent 30%,
+        rgba(5, 8, 16, 0.6) 70%,
+        rgba(5, 8, 16, 0.9) 100%
+      );
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+    }
+
+    /* Eyebrow badge */
+    .hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-4);
+      background: rgba(0, 212, 255, 0.08);
+      border: 1px solid var(--accent-cyan-border);
+      border-radius: var(--radius-full);
+      font-family: var(--font-nav);
+      font-size: var(--text-xs);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: var(--space-6);
+      animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .hero__badge-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent-cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--accent-cyan);
+      animation: glowPulse 2s ease-in-out infinite;
+    }
+
+    /* Main headline */
+    .hero__title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: var(--weight-black);
+      line-height: 1.1;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--space-4);
+      animation: fadeInUp 0.7s ease 0.1s both;
+    }
+
+    .hero__title-line1 {
+      display: block;
+      color: var(--text-primary);
+    }
+
+    .hero__title-line2 {
+      display: block;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: none;
+    }
+
+    /* Typing subtitle */
+    .hero__subtitle {
+      font-family: var(--font-nav);
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: var(--text-secondary);
+      letter-spacing: 0.05em;
+      margin-bottom: var(--space-8);
+      min-height: 2em;
+      animation: fadeInUp 0.7s ease 0.2s both;
+    }
+
+    .hero__subtitle .typed-cursor {
+      color: var(--accent-cyan);
+      animation: cursorBlink 0.7s step-end infinite;
+    }
+
+    /* CTA buttons */
+    .hero__cta {
+      display: flex;
+      gap: var(--space-4);
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: var(--space-12);
+      animation: fadeInUp 0.7s ease 0.3s both;
+    }
+
+    /* Scroll indicator */
+    .hero__scroll {
+      position: absolute;
+      bottom: var(--space-8);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-2);
+      color: var(--text-muted);
+      font-family: var(--font-nav);
+      font-size: var(--text-xs);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      animation: float 2s ease-in-out infinite;
+    }
+
+    .hero__scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--accent-cyan), transparent);
+    }
+
+    /* -----------------------------------------------
+       STATS STRIP
+    ----------------------------------------------- */
+    .stats-strip {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      gap: var(--space-8);
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: var(--space-6) var(--space-8);
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border-default);
+      border-bottom: 1px solid var(--border-default);
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat__number {
+      font-family: var(--font-heading);
+      font-size: var(--text-3xl);
+      font-weight: var(--weight-bold);
+      color: var(--accent-cyan);
+      text-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
+      display: block;
+    }
+
+    .stat__label {
+      font-family: var(--font-nav);
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* -----------------------------------------------
+       FEATURES SECTION
+    ----------------------------------------------- */
+    .features {
+      padding: var(--space-16) var(--space-8);
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: var(--space-10);
+    }
+
+    .section-label {
+      font-family: var(--font-nav);
+      font-size: var(--text-xs);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: var(--space-3);
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      color: var(--text-primary);
+      letter-spacing: 0.04em;
+    }
+
+    /* Feature grid — 4 cards */
+    .features__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-5);
+    }
+
+    .feat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: block;
+    }
+
+    .feat-card:hover {
+      border-color: var(--accent-cyan);
+      box-shadow: var(--shadow-md), var(--glow-cyan-sm);
+      transform: translateY(-6px);
+    }
+
+    .feat-card__icon {
+      font-size: 2.5rem;
+      margin-bottom: var(--space-4);
+      display: block;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .feat-card:nth-child(2) .feat-card__icon { animation-delay: 0.5s; }
+    .feat-card:nth-child(3) .feat-card__icon { animation-delay: 1s;   }
+    .feat-card:nth-child(4) .feat-card__icon { animation-delay: 1.5s; }
+
+    .feat-card__title {
+      font-family: var(--font-nav);
+      font-size: var(--text-base);
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: 0.04em;
+      margin-bottom: var(--space-2);
+    }
+
+    .feat-card__desc {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .feat-card__count {
+      display: inline-block;
+      margin-top: var(--space-3);
+      padding: 0.15em 0.7em;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid var(--accent-cyan-border);
+      border-radius: 9999px;
+      font-family: var(--font-nav);
+      font-size: var(--text-xs);
+      color: var(--accent-cyan);
+      letter-spacing: 0.08em;
+    }
+
+    /* -----------------------------------------------
+       TOPICS PREVIEW
+    ----------------------------------------------- */
+    .topics-preview {
+      padding: 0 var(--space-8) var(--space-16);
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .topics-preview__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-4);
+    }
+
+    .topic-preview-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-xl);
+      padding: var(--space-5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-4);
+    }
+
+    .topic-preview-card:hover {
+      border-color: var(--accent-cyan-border);
+      box-shadow: var(--glow-cyan-sm);
+      transform: translateX(4px);
+    }
+
+    .topic-preview-card__icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .topic-preview-card__body {}
+
+    .topic-preview-card__title {
+      font-family: var(--font-nav);
+      font-size: var(--text-base);
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--space-1);
+      letter-spacing: 0.03em;
+    }
+
+    .topic-preview-card__count {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      font-family: var(--font-nav);
+      letter-spacing: 0.05em;
+    }
+
+    .topic-preview-card__arrow {
+      margin-left: auto;
+      color: var(--text-muted);
+      font-size: var(--text-lg);
+      transition: transform 0.2s ease, color 0.2s ease;
+      align-self: center;
+      flex-shrink: 0;
+    }
+
+    .topic-preview-card:hover .topic-preview-card__arrow {
+      color: var(--accent-cyan);
+      transform: translateX(4px);
+    }
+
+    /* -----------------------------------------------
+       FOOTER
+    ----------------------------------------------- */
+    .welcome-footer {
+      text-align: center;
+      padding: var(--space-8);
+      border-top: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-family: var(--font-nav);
+      font-size: var(--text-xs);
+      letter-spacing: 0.1em;
+    }
+
+    /* -----------------------------------------------
+       RESPONSIVE
+    ----------------------------------------------- */
+    @media (max-width: 600px) {
+      .hero {
+        padding: var(--space-8) var(--space-4);
+        min-height: 100svh;
+      }
+      .hero__cta { flex-direction: column; align-items: center; }
+      .stats-strip { gap: var(--space-6); }
+      .features, .topics-preview { padding-left: var(--space-4); padding-right: var(--space-4); }
+      .features__grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ================================================
+       HERO
+  ================================================ -->
+  <section class="hero" id="hero">
+
+    <!-- Neural Network Background -->
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="hero__content">
+
+      <!-- Eyebrow badge -->
+      <div class="hero__badge">
+        <span class="hero__badge-dot"></span>
+        Free AI Learning Platform
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="hero__title">
+        <span class="hero__title-line1">Master</span>
+        <span class="hero__title-line2">Artificial Intelligence</span>
+      </h1>
+
+      <!-- Typed.js subtitle -->
+      <p class="hero__subtitle">
+        <span id="typed-output"></span>
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="hero__cta">
+        <button class="btn btn-primary btn-lg" id="cta-start">
+          Start Learning &nbsp;→
+        </button>
+        <button class="btn btn-outline btn-lg" id="cta-quiz">
+          Take a Quiz
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="hero__scroll" aria-hidden="true">
+      <div class="hero__scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+
+  </section>
+
+  <!-- ================================================
+       STATS STRIP
+  ================================================ -->
+  <div class="stats-strip">
+    <div class="stat">
+      <span class="stat__number">13+</span>
+      <span class="stat__label">Topics</span>
+    </div>
+    <div class="stat">
+      <span class="stat__number">65+</span>
+      <span class="stat__label">MCQs</span>
+    </div>
+    <div class="stat">
+      <span class="stat__number">15+</span>
+      <span class="stat__label">Quiz Questions</span>
+    </div>
+    <div class="stat">
+      <span class="stat__number">50+</span>
+      <span class="stat__label">Interview Q&amp;A</span>
+    </div>
+  </div>
+
+  <!-- ================================================
+       FEATURE CARDS
+  ================================================ -->
+  <section class="features">
+
+    <div class="section-header" data-aos="fade-up">
+      <p class="section-label">What's Inside</p>
+      <h2 class="section-title">Everything You Need to Learn AI</h2>
+    </div>
+
+    <div class="features__grid">
+
+      <div class="feat-card" data-aos="fade-up" data-aos-delay="0" data-topic="what-is-ai">
+        <span class="feat-card__icon">📚</span>
+        <h3 class="feat-card__title">AI Tutorials</h3>
+        <p class="feat-card__desc">Deep-dive explanations of AI, ML, DL, and NLP with code examples.</p>
+        <span class="feat-card__count">13 Topics</span>
+      </div>
+
+      <div class="feat-card" data-aos="fade-up" data-aos-delay="100" data-topic="mcq-bank">
+        <span class="feat-card__icon">🧩</span>
+        <h3 class="feat-card__title">MCQ Bank</h3>
+        <p class="feat-card__desc">5 MCQs per topic with instant feedback and detailed explanations.</p>
+        <span class="feat-card__count">65+ Questions</span>
+      </div>
+
+      <div class="feat-card" data-aos="fade-up" data-aos-delay="200" data-topic="quiz">
+        <span class="feat-card__icon">⚡</span>
+        <h3 class="feat-card__title">Quiz Challenge</h3>
+        <p class="feat-card__desc">Timed quiz to test your knowledge under pressure. Beat the clock!</p>
+        <span class="feat-card__count">60 seconds</span>
+      </div>
+
+      <div class="feat-card" data-aos="fade-up" data-aos-delay="300" data-topic="interview">
+        <span class="feat-card__icon">💼</span>
+        <h3 class="feat-card__title">Interview Prep</h3>
+        <p class="feat-card__desc">Commonly asked AI/ML interview questions with detailed answers.</p>
+        <span class="feat-card__count">50+ Q&amp;A</span>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================================================
+       TOPICS PREVIEW
+  ================================================ -->
+  <section class="topics-preview">
+
+    <div class="section-header" data-aos="fade-up">
+      <p class="section-label">Learning Path</p>
+      <h2 class="section-title">Explore All Topics</h2>
+    </div>
+
+    <div class="topics-preview__grid" id="topics-preview-grid">
+      <!-- Rendered by JS below -->
+    </div>
+
+  </section>
+
+  <!-- ================================================
+       FOOTER
+  ================================================ -->
+  <footer class="welcome-footer">
+    AI.learn &nbsp;•&nbsp; Built with HTML · CSS · JavaScript &nbsp;•&nbsp; Open on file://
+  </footer>
+
+  <!-- ================================================
+       SCRIPTS
+  ================================================ -->
+
+  <!-- AOS -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+  <!-- Particles (shared module) -->
+  <script src="../js/particles.js"></script>
+
+  <script>
+    // ------------------------------------------------
+    // AOS INIT
+    // ------------------------------------------------
+    AOS.init({ duration: 600, once: true, offset: 60 });
+
+    // ------------------------------------------------
+    // PARTICLE CANVAS
+    // ------------------------------------------------
+    ParticleManager.initCanvas('particle-canvas', {
+      particleCount:   90,
+      connectDistance: 140,
+      particleSpeed:   0.35,
+    });
+
+    // ------------------------------------------------
+    // TYPED.JS
+    // ------------------------------------------------
+    new Typed('#typed-output', {
+      strings: [
+        'Learn Machine Learning from scratch.',
+        'Understand Neural Networks deeply.',
+        'Explore NLP &amp; Transformers.',
+        'Crack AI Interview Questions.',
+        'Practice with MCQs &amp; Quizzes.',
+      ],
+      typeSpeed:    38,
+      backSpeed:    18,
+      backDelay:    2000,
+      startDelay:   500,
+      loop:         true,
+      smartBackspace: true,
+    });
+
+    // ------------------------------------------------
+    // RENDER TOPICS PREVIEW GRID
+    // ------------------------------------------------
+    const GROUPS = [
+      { icon: '🤖', label: 'Introduction to AI',   count: '4 topics',  id: 'what-is-ai'  },
+      { icon: '📊', label: 'Machine Learning',      count: '3 topics',  id: 'supervised'  },
+      { icon: '🧠', label: 'Deep Learning',         count: '3 topics',  id: 'neural-networks' },
+      { icon: '💬', label: 'NLP & Transformers',    count: '3 topics',  id: 'nlp-intro'   },
+      { icon: '🏆', label: 'Practice & Resources',  count: '3 sections',id: 'interview'   },
+    ];
+
+    const grid = document.getElementById('topics-preview-grid');
+    grid.innerHTML = GROUPS.map((g, i) => `
+      <div class="topic-preview-card" data-topic="${g.id}" data-aos="fade-up" data-aos-delay="${i * 80}">
+        <span class="topic-preview-card__icon">${g.icon}</span>
+        <div class="topic-preview-card__body">
+          <div class="topic-preview-card__title">${g.label}</div>
+          <div class="topic-preview-card__count">${g.count}</div>
+        </div>
+        <span class="topic-preview-card__arrow">›</span>
+      </div>
+    `).join('');
+
+    // Re-init AOS for dynamically added elements
+    AOS.refresh();
+
+    // ------------------------------------------------
+    // NAVIGATION — send navigate message to parent shell
+    // ------------------------------------------------
+    function navigateTo(topicId) {
+      window.parent.postMessage({ type: 'navigate', data: { id: topicId } }, '*');
+    }
+
+    // Feature cards
+    document.querySelectorAll('.feat-card[data-topic]').forEach(card => {
+      card.addEventListener('click', () => navigateTo(card.dataset.topic));
+    });
+
+    // Topic preview cards
+    document.querySelectorAll('.topic-preview-card[data-topic]').forEach(card => {
+      card.addEventListener('click', () => navigateTo(card.dataset.topic));
+    });
+
+    // CTA buttons
+    document.getElementById('cta-start')?.addEventListener('click', () => navigateTo('what-is-ai'));
+    document.getElementById('cta-quiz')?.addEventListener('click',  () => navigateTo('quiz'));
+
+    // ------------------------------------------------
+    // SCROLL PROGRESS → parent shell
+    // ------------------------------------------------
+    window.addEventListener('scroll', () => {
+      const el   = document.documentElement;
+      const pct  = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+      window.parent.postMessage({ type: 'scroll-progress', data: { percent: pct || 0 } }, '*');
+    }, { passive: true });
+
+    // ------------------------------------------------
+    // THEME SYNC — listen for theme-change from shell
+    // ------------------------------------------------
+    window.addEventListener('message', (e) => {
+      if (e.data?.type === 'theme-change') {
+        document.documentElement.setAttribute('data-theme', e.data.theme);
+      }
+      // Apply theme from initial topic-context message
+      if (e.data?.type === 'topic-context') {
+        document.documentElement.setAttribute('data-theme', e.data.theme || 'dark');
+      }
+    });
+
+    // Apply saved theme immediately (in case iframe loads before message)
+    const saved = localStorage.getItem('ai-theme');
+    if (saved) document.documentElement.setAttribute('data-theme', saved);
+  </script>
+
+</body>
+</html>

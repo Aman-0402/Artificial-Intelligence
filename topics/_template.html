@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Topic — AI.learn</title>
+
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/animations.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/theme-light.css" />
+
+  <!-- Prism.js — Syntax Highlighting -->
+  <link rel="stylesheet" href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+
+  <!-- AOS — Scroll Reveal -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+
+  <style>
+    /* -----------------------------------------------
+       TOPIC PAGE LOCAL STYLES
+    ----------------------------------------------- */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    /* -----------------------------------------------
+       TOPIC WRAPPER
+    ----------------------------------------------- */
+    .topic-wrapper {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: var(--space-8) var(--space-8) var(--space-16);
+    }
+
+    /* -----------------------------------------------
+       TOPIC HEADER
+    ----------------------------------------------- */
+    .topic-header {
+      margin-bottom: var(--space-8);
+      padding-bottom: var(--space-6);
+      border-bottom: 1px solid var(--border-default);
+    }
+
+    .topic-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-nav);
+      font-size: var(--text-xs);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: var(--space-4);
+    }
+
+    .topic-breadcrumb__sep { color: var(--border-glow); }
+    .topic-breadcrumb__current { color: var(--accent-cyan); }
+
+    .topic-title {
+      font-family: var(--font-heading);
+      font-size: clamp(1.6rem, 4vw, 2.5rem);
+      font-weight: var(--weight-bold);
+      letter-spacing: 0.04em;
+      color: var(--text-primary);
+      margin-bottom: var(--space-4);
+      line-height: 1.2;
+    }
+
+    .topic-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .topic-meta__item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-nav);
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+    }
+
+    .topic-meta__item svg {
+      color: var(--accent-cyan);
+    }
+
+    /* -----------------------------------------------
+       TOPIC CONTENT TYPOGRAPHY
+    ----------------------------------------------- */
+    .topic-content h2 {
+      font-size: var(--text-2xl);
+      margin-top: var(--space-10);
+      margin-bottom: var(--space-4);
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid var(--border-default);
+      color: var(--accent-cyan);
+    }
+
+    .topic-content h3 {
+      font-size: var(--text-xl);
+      margin-top: var(--space-8);
+      margin-bottom: var(--space-3);
+      color: var(--text-primary);
+    }
+
+    .topic-content h4 {
+      font-size: var(--text-lg);
+      margin-top: var(--space-6);
+      margin-bottom: var(--space-2);
+      color: var(--text-secondary);
+    }
+
+    .topic-content p {
+      font-size: var(--text-base);
+      line-height: var(--leading-relaxed);
+      color: var(--text-secondary);
+      margin-bottom: var(--space-4);
+    }
+
+    .topic-content ul,
+    .topic-content ol {
+      margin-bottom: var(--space-4);
+      padding-left: var(--space-6);
+    }
+
+    .topic-content li {
+      margin-bottom: var(--space-2);
+      line-height: var(--leading-relaxed);
+      color: var(--text-secondary);
+    }
+
+    /* Prism theme overrides for consistency */
+    .topic-content pre[class*="language-"] {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-default);
+      font-size: var(--text-sm);
+      margin-bottom: var(--space-6);
+    }
+
+    /* -----------------------------------------------
+       SCROLL TO TOP
+    ----------------------------------------------- */
+    .scroll-top-btn {
+      position: fixed;
+      bottom: var(--space-6);
+      right: var(--space-6);
+      width: 42px;
+      height: 42px;
+      background: var(--bg-card);
+      border: 1px solid var(--accent-cyan-border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      color: var(--accent-cyan);
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-md), var(--glow-cyan-sm);
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: all 0.3s ease;
+      z-index: 50;
+    }
+
+    .scroll-top-btn.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    .scroll-top-btn:hover {
+      background: var(--accent-cyan-glow);
+      box-shadow: var(--shadow-md), var(--glow-cyan-md);
+      transform: translateY(-3px);
+    }
+
+    /* -----------------------------------------------
+       TTS BUTTON (in topic header)
+    ----------------------------------------------- */
+    .tts-topic-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      color: var(--text-muted);
+      font-family: var(--font-nav);
+      font-size: var(--text-xs);
+      letter-spacing: 0.06em;
+      transition: all 0.25s ease;
+    }
+
+    .tts-topic-btn:hover {
+      border-color: var(--accent-purple);
+      color: var(--accent-purple);
+    }
+
+    .tts-topic-btn.speaking {
+      border-color: var(--accent-purple);
+      color: var(--accent-purple);
+      animation: glowPulse 1.5s ease-in-out infinite;
+    }
+
+    /* -----------------------------------------------
+       RESPONSIVE
+    ----------------------------------------------- */
+    @media (max-width: 600px) {
+      .topic-wrapper {
+        padding: var(--space-5) var(--space-4) var(--space-12);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <article class="topic-wrapper">
+
+    <!-- TOPIC HEADER -->
+    <header class="topic-header">
+
+      <nav class="topic-breadcrumb" aria-label="Breadcrumb">
+        <span>AI.learn</span>
+        <span class="topic-breadcrumb__sep">›</span>
+        <span id="breadcrumb-category">Category</span>
+        <span class="topic-breadcrumb__sep">›</span>
+        <span class="topic-breadcrumb__current" id="breadcrumb-topic">Topic</span>
+      </nav>
+
+      <h1 class="topic-title" id="topic-title">Topic Title</h1>
+
+      <div class="topic-meta">
+        <span class="topic-meta__item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span id="reading-time">5 min read</span>
+        </span>
+        <button class="tts-topic-btn" id="tts-btn" type="button">
+          🔊 Read Aloud
+        </button>
+      </div>
+
+    </header>
+
+    <!-- TOPIC CONTENT (replace this block in each topic file) -->
+    <div class="topic-content" id="topic-content">
+      <!-- Content goes here -->
+    </div>
+
+    <!-- MCQ SECTION -->
+    <section class="mcq-section" id="mcq-section" aria-label="Practice Questions">
+      <h2 class="mcq-section__title">🧩 Practice MCQs</h2>
+      <p class="mcq-section__subtitle">Test your understanding — 5 questions</p>
+      <div id="mcq-mount"></div>
+    </section>
+
+    <!-- MCQ DATA (replace in each topic) -->
+    <script type="application/json" id="mcq-data">[]</script>
+
+    <!-- TOPIC NAVIGATION -->
+    <nav class="topic-nav" id="topic-nav" aria-label="Topic navigation">
+      <button class="topic-nav__btn topic-nav__btn--prev" id="btn-prev" style="display:none">
+        <span>←</span>
+        <span>
+          <span class="topic-nav__label">Previous</span>
+          <span class="topic-nav__title" id="prev-title">Previous Topic</span>
+        </span>
+      </button>
+      <button class="topic-nav__btn topic-nav__btn--next" id="btn-next" style="display:none">
+        <span>
+          <span class="topic-nav__label">Next</span>
+          <span class="topic-nav__title" id="next-title">Next Topic</span>
+        </span>
+        <span>→</span>
+      </button>
+    </nav>
+
+  </article>
+
+  <!-- SCROLL TO TOP -->
+  <button class="scroll-top-btn" id="scroll-top" aria-label="Scroll to top" title="Back to top">↑</button>
+
+  <!-- SCRIPTS -->
+  <script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="../js/mcq.js"></script>
+
+  <script>
+    // AOS
+    AOS.init({ duration: 500, once: true, offset: 40 });
+
+    // ------------------------------------------------
+    // SCROLL PROGRESS → parent shell
+    // ------------------------------------------------
+    window.addEventListener('scroll', () => {
+      const el  = document.documentElement;
+      const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+      window.parent.postMessage({ type: 'scroll-progress', data: { percent: pct || 0 } }, '*');
+    }, { passive: true });
+
+    // ------------------------------------------------
+    // SCROLL TO TOP BUTTON
+    // ------------------------------------------------
+    const scrollTopBtn = document.getElementById('scroll-top');
+    window.addEventListener('scroll', () => {
+      scrollTopBtn?.classList.toggle('visible', window.scrollY > 300);
+    }, { passive: true });
+    scrollTopBtn?.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ------------------------------------------------
+    // THEME SYNC
+    // ------------------------------------------------
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme || 'dark');
+    }
+
+    const savedTheme = localStorage.getItem('ai-theme');
+    if (savedTheme) applyTheme(savedTheme);
+
+    window.addEventListener('message', (e) => {
+      if (e.data?.type === 'theme-change') applyTheme(e.data.theme);
+      if (e.data?.type === 'topic-context') {
+        applyTheme(e.data.theme);
+        // Wire prev/next nav from context
+        const { prev, next } = e.data;
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+
+        if (prev && btnPrev) {
+          document.getElementById('prev-title').textContent = prev.label;
+          btnPrev.style.display = 'flex';
+          btnPrev.onclick = () => {
+            window.parent.postMessage({ type: 'navigate', data: { id: prev.id } }, '*');
+          };
+        }
+        if (next && btnNext) {
+          document.getElementById('next-title').textContent = next.label;
+          btnNext.style.display = 'flex';
+          btnNext.onclick = () => {
+            window.parent.postMessage({ type: 'navigate', data: { id: next.id } }, '*');
+          };
+        }
+      }
+    });
+
+    // ------------------------------------------------
+    // TTS (in-topic button)
+    // ------------------------------------------------
+    const ttsBtn   = document.getElementById('tts-btn');
+    let ttsSpeaking = false;
+    let ttsUtterance = null;
+
+    ttsBtn?.addEventListener('click', () => {
+      if (!window.speechSynthesis) return;
+      if (ttsSpeaking) {
+        window.speechSynthesis.cancel();
+        ttsSpeaking = false;
+        ttsBtn.classList.remove('speaking');
+        ttsBtn.textContent = '🔊 Read Aloud';
+        return;
+      }
+      const text = document.getElementById('topic-content')?.innerText || '';
+      ttsUtterance = new SpeechSynthesisUtterance(text);
+      ttsUtterance.rate  = 0.95;
+      ttsUtterance.lang  = 'en-US';
+      ttsUtterance.onend = () => {
+        ttsSpeaking = false;
+        ttsBtn.classList.remove('speaking');
+        ttsBtn.textContent = '🔊 Read Aloud';
+      };
+      window.speechSynthesis.speak(ttsUtterance);
+      ttsSpeaking = true;
+      ttsBtn.classList.add('speaking');
+      ttsBtn.textContent = '⏹ Stop Reading';
+    });
+
+    // ------------------------------------------------
+    // READING TIME ESTIMATE
+    // ------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      const content = document.getElementById('topic-content');
+      if (content) {
+        const words = content.innerText.trim().split(/\s+/).length;
+        const mins  = Math.max(1, Math.ceil(words / 200));
+        const el    = document.getElementById('reading-time');
+        if (el) el.textContent = `${mins} min read`;
+      }
+    });
+  </script>
+
+</body>
+</html>
