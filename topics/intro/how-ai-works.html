@@ -8,17 +8,62 @@
   <link rel="stylesheet" href="../../css/animations.css" />
   <link rel="stylesheet" href="../../css/components.css" />
   <link rel="stylesheet" href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body);overflow-x:hidden}
     .topic-wrapper{width:100%;padding:var(--space-8) clamp(1.5rem,4vw,5rem) var(--space-16)}
     .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
-    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}    .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
+    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
+    .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
     .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
+    .topic-content h4{font-size:var(--text-lg);margin-top:var(--space-6);margin-bottom:var(--space-2);color:var(--text-secondary)}
     .topic-content p{font-size:var(--text-base);line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
     .topic-content ul,.topic-content ol{margin-bottom:var(--space-4);padding-left:var(--space-6)}
     .topic-content li{margin-bottom:var(--space-2);line-height:var(--leading-relaxed);color:var(--text-secondary)}
-    .topic-content pre[class*="language-"]{border-radius:var(--radius-lg);border:1px solid var(--border-default);font-size:var(--text-sm);margin-bottom:var(--space-6)}
+
+    /* Table */
+    .topic-content table{width:100%;border-collapse:collapse;margin-bottom:var(--space-6);font-size:var(--text-sm)}
+    .topic-content th{background:var(--bg-card);color:var(--accent-cyan);text-align:left;padding:var(--space-3) var(--space-4);border:1px solid var(--border-default);font-weight:600}
+    .topic-content td{padding:var(--space-3) var(--space-4);border:1px solid var(--border-default);color:var(--text-secondary);vertical-align:top}
+    .topic-content tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+
+    /* Image */
+    .topic-image{width:100%;max-width:720px;border-radius:var(--radius-lg);border:1px solid var(--border-default);margin:var(--space-6) auto;display:block;object-fit:contain}
+    .image-caption{text-align:center;font-size:var(--text-sm);color:var(--text-muted);margin-top:calc(-1 * var(--space-4));margin-bottom:var(--space-6)}
+
+    /* Scenario block */
+    .scenario-block{background:var(--bg-card);border-left:3px solid var(--accent-cyan);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:var(--space-4) var(--space-5);margin-bottom:var(--space-4)}
+    .scenario-block__label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.1em;color:var(--accent-cyan);margin-bottom:var(--space-2);font-weight:600}
+    .scenario-block p{margin-bottom:var(--space-2);font-size:var(--text-sm)}
+    .scenario-block p:last-child{margin-bottom:0}
+
+    /* Compare grid */
+    .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);margin-bottom:var(--space-6)}
+    @media(max-width:640px){.compare-grid{grid-template-columns:1fr}}
+    .compare-card{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-lg);padding:var(--space-5)}
+    .compare-card__label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.1em;color:var(--accent-cyan);margin-bottom:var(--space-2);font-weight:600}
+    .compare-card__title{font-size:var(--text-base);font-weight:600;color:var(--text-primary);margin-bottom:var(--space-3)}
+    .compare-card p{font-size:var(--text-sm);color:var(--text-secondary);margin-bottom:0}
+    .compare-card code{font-family:var(--font-mono);font-size:var(--text-sm);color:var(--accent-cyan);display:block;margin:var(--space-2) 0;white-space:pre-line}
+
+    /* Highlight box */
+    .highlight-box{background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-lg);padding:var(--space-5);margin-bottom:var(--space-6)}
+    .highlight-box p{margin-bottom:0;font-size:var(--text-sm)}
+
+    /* Workflow / loop steps */
+    .workflow{display:flex;flex-direction:column;gap:0;margin-bottom:var(--space-6)}
+    .workflow__step{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-md);padding:var(--space-3) var(--space-5);display:flex;align-items:center;gap:var(--space-4)}
+    .workflow__step-num{font-family:var(--font-mono);font-size:var(--text-sm);color:var(--accent-cyan);font-weight:700;min-width:1.5rem}
+    .workflow__step-label{font-size:var(--text-sm);color:var(--text-secondary)}
+    .workflow__arrow{text-align:center;color:var(--accent-cyan);font-size:1rem;line-height:1.4;margin:0 auto}
+
+    /* Question list */
+    .question-list{list-style:none;padding-left:0;counter-reset:q-counter}
+    .question-list li{counter-increment:q-counter;padding-left:var(--space-8);position:relative;margin-bottom:var(--space-3)}
+    .question-list li::before{content:counter(q-counter) ".";position:absolute;left:0;color:var(--accent-cyan);font-weight:700;font-family:var(--font-mono)}
+
+    /* Scroll to top */
     .scroll-top-btn{position:fixed;bottom:var(--space-6);right:var(--space-6);width:42px;height:42px;background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-md);cursor:pointer;color:var(--accent-cyan);font-size:1.2rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-md),var(--glow-cyan-sm);opacity:0;transform:translateY(10px);pointer-events:none;transition:all .3s ease;z-index:50}
     .scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:all}
     @media(max-width:600px){.topic-wrapper{padding:var(--space-5) var(--space-4) var(--space-12)}}
@@ -31,16 +76,318 @@
   </header>
 
   <div class="topic-content" id="topic-content">
-    <!-- Content coming soon -->
-  </div>
 
+    <!-- Core idea -->
+    <h2 data-aos="fade-up">The Core Idea</h2>
+    <p data-aos="fade-up">AI systems work by <strong>learning patterns from data</strong> — just like humans learn from experience.</p>
+
+    <h3 data-aos="fade-up">Real-Life Human Analogy</h3>
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">How a Child Learns "Dog"</div>
+      <p>A child sees small dogs, big dogs, white dogs, black dogs. Over time, the brain identifies patterns: four legs, tail, bark, shape.</p>
+      <p>Eventually the child can identify <strong>new dogs it has never seen before</strong> — without being told.</p>
+    </div>
+    <p data-aos="fade-up">AI learns similarly — but from <strong>data</strong> instead of lived experience.</p>
+
+    <img
+      src="../../assets/images/how humans and AI learn patterns using a child learning.png"
+      alt="Comparison of how humans and AI learn patterns, illustrated with a child learning"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">Humans learn from experience. AI learns from data. The core mechanism is the same: pattern recognition.</p>
+
+    <!-- Step 1: Data Collection -->
+    <h2 data-aos="fade-up">Step 1 — Data Collection</h2>
+    <p data-aos="fade-up">AI needs examples to learn. These examples are called <strong>data</strong>. The type of data depends on the task.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>AI Task</th><th>Data Type</th></tr></thead>
+      <tbody>
+        <tr><td>Face Recognition</td><td>Images of faces</td></tr>
+        <tr><td>Chatbot / Language AI</td><td>Text conversations</td></tr>
+        <tr><td>Voice Assistant</td><td>Audio recordings</td></tr>
+        <tr><td>Fraud Detection</td><td>Transaction records</td></tr>
+        <tr><td>Recommendation System</td><td>User behaviour history</td></tr>
+      </tbody>
+    </table>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Real-Life Example — Cat Detection AI</div>
+      <p>To build a cat detection AI, we provide thousands of cat images and thousands of non-cat images. The system learns the difference.</p>
+    </div>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">Better Data = Better AI.</strong> Poor-quality data leads to poor AI performance — just as a student studying wrong books develops wrong understanding.</p>
+    </div>
+
+    <!-- Step 2: Training -->
+    <h2 data-aos="fade-up">Step 2 — Training the AI Model</h2>
+    <p data-aos="fade-up">Training means <strong>teaching the AI system using data</strong>. The AI analyses patterns repeatedly, adjusting its internal mathematical parameters until it minimises prediction errors. This process is called mathematical optimisation.</p>
+
+    <h3 data-aos="fade-up">Example — Spam Detection</h3>
+    <p data-aos="fade-up">Input: thousands of spam emails and thousands of normal emails. The AI learns patterns like suspicious words, link structures, and sender behaviour.</p>
+
+    <img
+      src="../../assets/images/Spam Detection.png"
+      alt="Spam detection AI training flow diagram"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">Training flow: labelled emails in → pattern learning → spam/not-spam model out</p>
+
+    <!-- Step 3: Model -->
+    <h2 data-aos="fade-up">Step 3 — Model Creation</h2>
+    <p data-aos="fade-up">After training, AI produces a <strong>Model</strong> — the stored, learned intelligence of the system.</p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Analogy</div>
+      <p>A student studies books, learns concepts, takes an exam. The knowledge inside the student's brain = the trained AI model. The exam is inference.</p>
+    </div>
+
+    <!-- Step 4: Prediction -->
+    <h2 data-aos="fade-up">Step 4 — Prediction / Inference</h2>
+    <p data-aos="fade-up">The trained model receives <strong>new, unseen data</strong> and makes predictions.</p>
+
+    <div class="compare-grid" data-aos="fade-up">
+      <div class="compare-card">
+        <div class="compare-card__label">Example — Image AI</div>
+        <p>AI trained on cat images receives a brand-new photo it has never seen. It predicts: <strong>"This is a cat."</strong></p>
+      </div>
+      <div class="compare-card">
+        <div class="compare-card__label">Example — Netflix</div>
+        <p>AI learns watch history, genres, and viewing habits. It predicts: <strong>"You may like this movie."</strong></p>
+      </div>
+    </div>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">Important:</strong> AI does NOT memorise everything. It learns <strong>patterns</strong>. That's what makes it generalise to data it has never seen before.</p>
+    </div>
+
+    <!-- AI Learning Loop -->
+    <h2 data-aos="fade-up">The AI Learning Loop</h2>
+    <p data-aos="fade-up">Many AI systems improve continuously through a feedback loop:</p>
+
+    <div class="workflow" data-aos="fade-up">
+      <div class="workflow__step"><span class="workflow__step-num">1</span><span class="workflow__step-label">Data — examples fed into the system</span></div>
+      <div class="workflow__arrow">↓</div>
+      <div class="workflow__step"><span class="workflow__step-num">2</span><span class="workflow__step-label">Training — patterns are learned</span></div>
+      <div class="workflow__arrow">↓</div>
+      <div class="workflow__step"><span class="workflow__step-num">3</span><span class="workflow__step-label">Prediction — model makes decisions on new data</span></div>
+      <div class="workflow__arrow">↓</div>
+      <div class="workflow__step"><span class="workflow__step-num">4</span><span class="workflow__step-label">Feedback — correct/wrong signals returned</span></div>
+      <div class="workflow__arrow">↓</div>
+      <div class="workflow__step"><span class="workflow__step-num">5</span><span class="workflow__step-label">Improvement — model updates and gets smarter</span></div>
+    </div>
+
+    <!-- House Price Example -->
+    <h2 data-aos="fade-up">Understanding Through a Simple Example</h2>
+    <h3 data-aos="fade-up">House Price Prediction</h3>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>House Size</th><th>Price</th></tr></thead>
+      <tbody>
+        <tr><td>1000 sq ft</td><td>₹20 lakh</td></tr>
+        <tr><td>1500 sq ft</td><td>₹30 lakh</td></tr>
+        <tr><td>2000 sq ft</td><td>₹40 lakh</td></tr>
+      </tbody>
+    </table>
+
+    <p data-aos="fade-up">AI learns the pattern: <strong>larger house → higher cost.</strong></p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">New Input</div>
+      <p>House size: 1800 sq ft</p>
+      <p>AI predicts: <strong>Approx ₹36 lakh</strong></p>
+      <p>This is Machine Learning prediction in its simplest form.</p>
+    </div>
+
+    <!-- Key Components -->
+    <h2 data-aos="fade-up">Key Components of an AI System</h2>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Component</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td>Data</td><td>Fuel — raw examples the AI learns from</td></tr>
+        <tr><td>Algorithms</td><td>Learning methods — how the AI finds patterns</td></tr>
+        <tr><td>Models</td><td>Stored learned intelligence — the output of training</td></tr>
+        <tr><td>Computing Power</td><td>Hardware (GPUs) that makes training fast enough to be practical</td></tr>
+      </tbody>
+    </table>
+
+    <img
+      src="../../assets/images/learning pipeline.png"
+      alt="AI learning pipeline diagram showing data, algorithm, model, and inference stages"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">The AI learning pipeline: Data → Algorithm → Model → Prediction</p>
+
+    <!-- Algorithms -->
+    <h2 data-aos="fade-up">What Are Algorithms?</h2>
+    <p data-aos="fade-up">Algorithms are step-by-step problem-solving methods. In AI, algorithms define <em>how</em> the machine finds patterns in data.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Algorithm</th><th>Common Use</th></tr></thead>
+      <tbody>
+        <tr><td>Linear Regression</td><td>Numerical prediction (e.g. house prices)</td></tr>
+        <tr><td>Decision Trees</td><td>Classification (e.g. spam or not spam)</td></tr>
+        <tr><td>Neural Networks</td><td>Deep Learning — images, audio, language</td></tr>
+      </tbody>
+    </table>
+    <p data-aos="fade-up">We will explore each algorithm in depth in later topics.</p>
+
+    <!-- AI vs Traditional Programming -->
+    <h2 data-aos="fade-up">AI vs Traditional Programming</h2>
+
+    <div class="compare-grid" data-aos="fade-up">
+      <div class="compare-card">
+        <div class="compare-card__label">Traditional Programming</div>
+        <div class="compare-card__title">Rules + Data → Output</div>
+        <p>Humans manually define every rule. Works for simple, well-defined problems. Breaks down when rules are too complex to write by hand.</p>
+        <code>Rules + Data
+  → Output</code>
+      </div>
+      <div class="compare-card">
+        <div class="compare-card__label">AI / Machine Learning</div>
+        <div class="compare-card__title">Data + Answers → Rules → Predictions</div>
+        <p>AI learns rules automatically from examples. Handles complex, real-world variation that no human could fully hand-code.</p>
+        <code>Data + Answers
+  → AI learns rules
+  → Predictions</code>
+      </div>
+    </div>
+
+    <!-- Why AI Succeeded Recently -->
+    <h2 data-aos="fade-up">Why AI Became So Successful Recently</h2>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Factor</th><th>Why It Matters</th></tr></thead>
+      <tbody>
+        <tr><td>Big Data</td><td>Internet and smartphones generated massive training material</td></tr>
+        <tr><td>GPUs</td><td>Parallel processing made training 100× faster</td></tr>
+        <tr><td>Better Algorithms</td><td>Deep Learning architectures dramatically improved accuracy</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Face Unlock Example -->
+    <h2 data-aos="fade-up">Real-Life AI Pipeline — Face Unlock</h2>
+
+    <img
+      src="../../assets/images/how smartphone face unlock systems.png"
+      alt="How smartphone face unlock AI systems work end-to-end"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">Face unlock: camera input → facial feature extraction → model comparison → unlock/deny</p>
+
+    <!-- Training vs Inference -->
+    <h2 data-aos="fade-up">Training vs Inference</h2>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Term</th><th>Meaning</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Training</td><td>The learning phase — AI processes examples and updates parameters</td><td>ChatGPT trained on massive internet text</td></tr>
+        <tr><td>Inference</td><td>Using the trained model on new inputs — the live product</td><td>ChatGPT generating your response in real time</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Core Truth -->
+    <h2 data-aos="fade-up">The Core Truth About AI</h2>
+    <div class="highlight-box" data-aos="fade-up">
+      <p>At its core: <strong style="color:var(--accent-cyan)">AI = Mathematics + Data + Optimisation.</strong><br><br>
+      Not magic. Not intuition. A mathematical system that finds patterns in numbers — applied to images, text, audio, and more.</p>
+    </div>
+
+    <!-- Notes -->
+    <h2 data-aos="fade-up">Key Notes</h2>
+    <ul data-aos="fade-up">
+      <li>AI learns patterns from data — just like humans learn from experience.</li>
+      <li>Data is the fuel of AI. Better data = better AI.</li>
+      <li>Training teaches the AI; the model stores what was learned.</li>
+      <li>AI makes predictions by applying patterns to new, unseen data.</li>
+      <li>AI differs from traditional programming — it learns rules instead of following hand-written ones.</li>
+      <li>Big Data, GPUs, and better algorithms drove recent AI breakthroughs.</li>
+      <li>Training = learning phase. Inference = using the model live.</li>
+    </ul>
+
+    <!-- Scenario-Based Questions -->
+    <h2 data-aos="fade-up">Scenario-Based Questions</h2>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Scenario 1</div>
+      <p>A company trains an AI using incorrect and biased customer data.</p>
+      <p><strong>Question:</strong> What problem may arise — and why?</p>
+    </div>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Scenario 2</div>
+      <p>An AI system predicts house prices using historical size-price data.</p>
+      <p><strong>Question:</strong> What kind of pattern is the AI learning? What could make its predictions less accurate?</p>
+    </div>
+
+    <!-- Interview Questions -->
+    <h2 data-aos="fade-up">Interview Questions</h2>
+    <ol class="question-list" data-aos="fade-up">
+      <li>Explain in simple terms how AI works.</li>
+      <li>Why is data important in AI? What happens without quality data?</li>
+      <li>What is model training, and what happens during it?</li>
+      <li>What is the difference between training and inference?</li>
+      <li>Why are GPUs important for AI training?</li>
+    </ol>
+
+    <!-- Think About It -->
+    <h2 data-aos="fade-up">Think About It</h2>
+    <ol class="question-list" data-aos="fade-up">
+      <li>Why is AI so dependent on data — can it learn without examples?</li>
+      <li>What happens if training data is poor or biased?</li>
+      <li>Can AI ever truly learn without any examples at all?</li>
+      <li>Explain the AI workflow — data → training → prediction — in your own words.</li>
+    </ol>
+
+  </div><!-- /topic-content -->
+
+  <!-- MCQ Section -->
   <section class="mcq-section" id="mcq-section" aria-label="Practice Questions">
     <h2 class="mcq-section__title">🧩 Practice MCQs</h2>
-    <p class="mcq-section__subtitle">Test your understanding — 5 questions</p>
+    <p class="mcq-section__subtitle">Test your understanding — 4 questions</p>
     <div id="mcq-mount"></div>
   </section>
-  <script type="application/json" id="mcq-data">[]</script>
 
+  <script type="application/json" id="mcq-data">
+  [
+    {
+      "q": "What is the primary 'fuel' that AI systems need to learn?",
+      "options": ["Electricity", "Data", "The Internet", "Keyboard input"],
+      "answer": 1,
+      "explanation": "Data is the foundation of AI learning. Without examples to learn from, an AI system cannot identify patterns or make predictions. Better data quality directly leads to better AI performance."
+    },
+    {
+      "q": "What does 'training' mean in the context of AI?",
+      "options": ["Cleaning and organising hardware", "Teaching an AI system using data so it learns patterns", "Installing new software versions", "Writing rules manually for a computer"],
+      "answer": 1,
+      "explanation": "Training is the process of feeding labelled examples to an AI system so it can adjust its internal parameters, learn patterns, and minimise prediction errors — the equivalent of studying for an exam."
+    },
+    {
+      "q": "What does a trained AI model primarily do during inference?",
+      "options": ["Store video files", "Make predictions on new, unseen data", "Repair system hardware", "Design user interfaces"],
+      "answer": 1,
+      "explanation": "Inference is the deployment phase — the trained model receives new inputs it has never seen and makes predictions based on the patterns it learned during training."
+    },
+    {
+      "q": "AI mainly learns through which mechanism?",
+      "options": ["Exact memorisation of all training examples", "Understanding human emotions directly", "Finding patterns in data", "Making random guesses and hoping for the best"],
+      "answer": 2,
+      "explanation": "AI learns patterns, not individual facts. This is why it can generalise to new data — it has captured the underlying structure, not memorised specific examples."
+    }
+  ]
+  </script>
+
+  <!-- Topic Navigation -->
   <nav class="topic-nav" id="topic-nav" aria-label="Topic navigation">
     <button class="topic-nav__btn topic-nav__btn--prev" id="btn-prev" style="display:none">
       <span>←</span><span><span class="topic-nav__label">Previous</span><span class="topic-nav__title" id="prev-title"></span></span>
@@ -53,12 +400,18 @@
 
 <button class="scroll-top-btn" id="scroll-top" aria-label="Back to top">↑</button>
 
+<script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script src="../../js/mcq.js"></script>
 <script>
+  AOS.init({ duration: 500, once: true, offset: 40 });
+
   document.addEventListener('DOMContentLoaded', () => {
     const data = JSON.parse(document.getElementById('mcq-data').textContent || '[]');
     if (data.length) MCQEngine.init('mcq-mount', data);
   });
+
   window.addEventListener('scroll', () => {
     const btn = document.getElementById('scroll-top');
     btn?.classList.toggle('visible', window.scrollY > 300);
@@ -66,16 +419,26 @@
     const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
     window.parent.postMessage({ type: 'scroll-progress', data: { percent: pct || 0 } }, '*');
   }, { passive: true });
+
   document.getElementById('scroll-top')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
   window.addEventListener('message', (e) => {
     if (e.data?.type === 'topic-context') {
       const { prev, next } = e.data;
       const btnPrev = document.getElementById('btn-prev');
       const btnNext = document.getElementById('btn-next');
-      if (prev && btnPrev) { document.getElementById('prev-title').textContent = prev.label; btnPrev.style.display = 'flex'; btnPrev.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: prev.id } }, '*'); }
-      if (next && btnNext) { document.getElementById('next-title').textContent = next.label; btnNext.style.display = 'flex'; btnNext.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: next.id } }, '*'); }
+      if (prev && btnPrev) {
+        document.getElementById('prev-title').textContent = prev.label;
+        btnPrev.style.display = 'flex';
+        btnPrev.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: prev.id } }, '*');
+      }
+      if (next && btnNext) {
+        document.getElementById('next-title').textContent = next.label;
+        btnNext.style.display = 'flex';
+        btnNext.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: next.id } }, '*');
+      }
     }
-  });</script>
+  });
+</script>
 </body>
 </html>
-
