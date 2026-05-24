@@ -1,0 +1,235 @@
+/* ============================================================
+   ANIMATIONS & KEYFRAMES — AI eBook Platform
+   GPU-optimized. Use transform/opacity where possible.
+   ============================================================ */
+
+/* --------------------------------------------------
+   GLOW PULSE — Cyan box-shadow breathing
+-------------------------------------------------- */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.3), 0 0 20px rgba(0, 212, 255, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.6), 0 0 40px rgba(0, 212, 255, 0.3);
+  }
+}
+
+/* --------------------------------------------------
+   TEXT GLOW PULSE — For headings and logo
+-------------------------------------------------- */
+@keyframes textGlowPulse {
+  0%, 100% {
+    text-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.8), 0 0 40px rgba(0, 212, 255, 0.4);
+  }
+}
+
+/* --------------------------------------------------
+   FLOAT — Subtle vertical float
+-------------------------------------------------- */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* --------------------------------------------------
+   FADE IN UP — Scroll reveal base
+-------------------------------------------------- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------
+   FADE IN — Simple opacity reveal
+-------------------------------------------------- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* --------------------------------------------------
+   SLIDE IN LEFT — Sidebar open animation
+-------------------------------------------------- */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* --------------------------------------------------
+   SLIDE IN RIGHT — Toast / notification
+-------------------------------------------------- */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* --------------------------------------------------
+   BORDER ROTATE — Rotating gradient border
+-------------------------------------------------- */
+@keyframes borderRotate {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* --------------------------------------------------
+   SPIN — Loading spinner
+-------------------------------------------------- */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* --------------------------------------------------
+   CURSOR BLINK — Typing animation cursor
+-------------------------------------------------- */
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* --------------------------------------------------
+   SCANLINE — Futuristic scan effect
+-------------------------------------------------- */
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+/* --------------------------------------------------
+   PARTICLE DRIFT — Particle float variation
+-------------------------------------------------- */
+@keyframes particleDrift {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.7;
+  }
+  33% {
+    transform: translate(30px, -40px) scale(1.1);
+    opacity: 1;
+  }
+  66% {
+    transform: translate(-20px, -80px) scale(0.9);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(10px, -120px) scale(1);
+    opacity: 0;
+  }
+}
+
+/* --------------------------------------------------
+   SHIMMER — Loading skeleton shimmer
+-------------------------------------------------- */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* --------------------------------------------------
+   SCALE IN — Card / modal pop-in
+-------------------------------------------------- */
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* --------------------------------------------------
+   PROGRESS BAR FILL — Reading progress
+-------------------------------------------------- */
+@keyframes progressFill {
+  from { width: 0%; }
+  to   { width: var(--progress-width, 100%); }
+}
+
+/* --------------------------------------------------
+   UTILITY ANIMATION CLASSES
+   Apply these classes directly on elements.
+-------------------------------------------------- */
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-glowPulse {
+  animation: glowPulse 2.5s ease-in-out infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.3s var(--transition-spring) forwards;
+}
+
+/* Delay utilities */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* --------------------------------------------------
+   REDUCED MOTION — Respect user preference
+-------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

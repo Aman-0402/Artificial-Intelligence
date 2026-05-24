@@ -1,0 +1,100 @@
+/* ============================================================
+   CONTENT AREA — Main layout grid + iframe wrapper
+   ============================================================ */
+
+/* --------------------------------------------------
+   APP LAYOUT SHELL
+-------------------------------------------------- */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  padding-top: var(--header-height);
+}
+
+/* --------------------------------------------------
+   MAIN CONTENT AREA
+-------------------------------------------------- */
+.main-content {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  min-width: 0;
+  position: relative;
+  transition: margin-left var(--transition-slow);
+}
+
+/* When sidebar is hidden on desktop */
+.main-content.sidebar-hidden {
+  margin-left: 0;
+}
+
+/* --------------------------------------------------
+   IFRAME WRAPPER
+-------------------------------------------------- */
+.content-frame-wrapper {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - var(--header-height));
+  overflow: hidden;
+}
+
+#content-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: var(--bg-primary);
+  display: block;
+}
+
+/* --------------------------------------------------
+   LOADING OVERLAY — Shows during iframe src swap
+-------------------------------------------------- */
+.frame-loader {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-base);
+  background: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--space-4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-base);
+}
+
+.frame-loader.is-loading {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.frame-loader__spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--border-default);
+  border-top-color: var(--accent-cyan);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  box-shadow: var(--glow-cyan-sm);
+}
+
+.frame-loader__text {
+  font-family: var(--font-nav);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------
+   RESPONSIVE
+-------------------------------------------------- */
+@media (max-width: 1024px) {
+  .main-content {
+    margin-left: 0;
+  }
+
+  .content-frame-wrapper {
+    height: calc(100vh - var(--header-height));
+  }
+}

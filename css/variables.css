@@ -1,0 +1,156 @@
+/* ============================================================
+   DESIGN TOKENS — AI eBook Platform
+   All CSS custom properties live here.
+   ============================================================ */
+
+:root {
+  /* --------------------------------------------------
+     COLOR PALETTE — Dark Theme (default)
+  -------------------------------------------------- */
+  --bg-primary:        #050810;
+  --bg-secondary:      #0a0f1e;
+  --bg-tertiary:       #0d1428;
+  --bg-card:           #0d1428;
+  --bg-card-hover:     #111c38;
+  --bg-glass:          rgba(13, 20, 40, 0.75);
+  --bg-glass-light:    rgba(13, 20, 40, 0.45);
+  --bg-overlay:        rgba(5, 8, 16, 0.85);
+  --bg-input:          rgba(10, 15, 30, 0.9);
+
+  /* Accent Colors */
+  --accent-cyan:       #00d4ff;
+  --accent-cyan-dim:   #0099bb;
+  --accent-cyan-glow:  rgba(0, 212, 255, 0.15);
+  --accent-cyan-border:rgba(0, 212, 255, 0.3);
+  --accent-purple:     #7b2fff;
+  --accent-purple-dim: #5a1fd4;
+  --accent-purple-glow:rgba(123, 47, 255, 0.15);
+  --accent-green:      #00ff88;
+  --accent-green-dim:  #00cc6a;
+  --accent-orange:     #ff8c00;
+  --accent-red:        #ff3366;
+
+  /* Text Colors */
+  --text-primary:      #e8f4ff;
+  --text-secondary:    #8ba8c8;
+  --text-muted:        #4a6080;
+  --text-accent:       #00d4ff;
+  --text-code:         #a8d8ff;
+  --text-inverse:      #050810;
+
+  /* Border Colors */
+  --border-default:    rgba(0, 212, 255, 0.12);
+  --border-glow:       rgba(0, 212, 255, 0.3);
+  --border-strong:     rgba(0, 212, 255, 0.5);
+  --border-subtle:     rgba(255, 255, 255, 0.06);
+
+  /* --------------------------------------------------
+     TYPOGRAPHY
+  -------------------------------------------------- */
+  --font-heading:      'Orbitron', sans-serif;
+  --font-body:         'Poppins', sans-serif;
+  --font-nav:          'Rajdhani', sans-serif;
+  --font-code:         'JetBrains Mono', monospace;
+
+  /* Font Sizes */
+  --text-xs:           0.75rem;    /* 12px */
+  --text-sm:           0.875rem;   /* 14px */
+  --text-base:         1rem;       /* 16px */
+  --text-lg:           1.125rem;   /* 18px */
+  --text-xl:           1.25rem;    /* 20px */
+  --text-2xl:          1.5rem;     /* 24px */
+  --text-3xl:          1.875rem;   /* 30px */
+  --text-4xl:          2.25rem;    /* 36px */
+  --text-5xl:          3rem;       /* 48px */
+  --text-6xl:          3.75rem;    /* 60px */
+
+  /* Font Weights */
+  --weight-regular:    400;
+  --weight-medium:     500;
+  --weight-semibold:   600;
+  --weight-bold:       700;
+  --weight-black:      900;
+
+  /* Line Heights */
+  --leading-tight:     1.25;
+  --leading-snug:      1.375;
+  --leading-normal:    1.5;
+  --leading-relaxed:   1.625;
+  --leading-loose:     2;
+
+  /* --------------------------------------------------
+     SPACING SCALE
+  -------------------------------------------------- */
+  --space-1:           0.25rem;    /* 4px */
+  --space-2:           0.5rem;     /* 8px */
+  --space-3:           0.75rem;    /* 12px */
+  --space-4:           1rem;       /* 16px */
+  --space-5:           1.25rem;    /* 20px */
+  --space-6:           1.5rem;     /* 24px */
+  --space-8:           2rem;       /* 32px */
+  --space-10:          2.5rem;     /* 40px */
+  --space-12:          3rem;       /* 48px */
+  --space-16:          4rem;       /* 64px */
+  --space-20:          5rem;       /* 80px */
+  --space-24:          6rem;       /* 96px */
+
+  /* --------------------------------------------------
+     BORDER RADIUS
+  -------------------------------------------------- */
+  --radius-sm:         0.25rem;    /* 4px */
+  --radius-md:         0.5rem;     /* 8px */
+  --radius-lg:         0.75rem;    /* 12px */
+  --radius-xl:         1rem;       /* 16px */
+  --radius-2xl:        1.5rem;     /* 24px */
+  --radius-full:       9999px;
+
+  /* --------------------------------------------------
+     SHADOWS & GLOWS
+  -------------------------------------------------- */
+  --shadow-sm:         0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md:         0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg:         0 8px 32px rgba(0, 0, 0, 0.6);
+  --shadow-xl:         0 16px 64px rgba(0, 0, 0, 0.7);
+
+  --glow-cyan-sm:      0 0 8px rgba(0, 212, 255, 0.4);
+  --glow-cyan-md:      0 0 20px rgba(0, 212, 255, 0.4);
+  --glow-cyan-lg:      0 0 40px rgba(0, 212, 255, 0.3), 0 0 80px rgba(0, 212, 255, 0.15);
+  --glow-purple-sm:    0 0 8px rgba(123, 47, 255, 0.4);
+  --glow-purple-md:    0 0 20px rgba(123, 47, 255, 0.4);
+  --glow-green-sm:     0 0 8px rgba(0, 255, 136, 0.4);
+  --glow-red-sm:       0 0 8px rgba(255, 51, 102, 0.4);
+
+  /* --------------------------------------------------
+     TRANSITIONS
+  -------------------------------------------------- */
+  --transition-fast:   150ms ease;
+  --transition-base:   250ms ease;
+  --transition-slow:   400ms ease;
+  --transition-spring: 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* --------------------------------------------------
+     LAYOUT DIMENSIONS
+  -------------------------------------------------- */
+  --sidebar-width:     280px;
+  --header-height:     64px;
+  --content-max-width: 900px;
+  --progress-bar-h:    3px;
+
+  /* --------------------------------------------------
+     Z-INDEX SCALE
+  -------------------------------------------------- */
+  --z-base:            1;
+  --z-dropdown:        100;
+  --z-sidebar:         200;
+  --z-overlay:         300;
+  --z-header:          400;
+  --z-modal:           500;
+  --z-toast:           600;
+
+  /* --------------------------------------------------
+     GLASSMORPHISM
+  -------------------------------------------------- */
+  --glass-blur:        backdrop-filter: blur(12px) saturate(1.5);
+  --glass-bg:          rgba(13, 20, 40, 0.75);
+  --glass-border:      1px solid rgba(0, 212, 255, 0.12);
+}
