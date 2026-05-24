@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Branches of Artificial Intelligence — AI.learn</title>
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/animations.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body);overflow-x:hidden}
+    .topic-wrapper{max-width:860px;margin:0 auto;padding:var(--space-8) var(--space-8) var(--space-16)}
+    .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
+    .topic-breadcrumb{display:flex;align-items:center;gap:var(--space-2);font-family:var(--font-nav);font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--space-4)}
+    .topic-breadcrumb__sep{color:var(--border-glow)}.topic-breadcrumb__current{color:var(--accent-cyan)}
+    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
+    .topic-meta{display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap}
+    .topic-meta__item{display:flex;align-items:center;gap:var(--space-2);font-family:var(--font-nav);font-size:var(--text-xs);color:var(--text-muted)}
+    .topic-meta__item svg{color:var(--accent-cyan)}
+    .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
+    .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
+    .topic-content p{font-size:var(--text-base);line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
+    .topic-content ul,.topic-content ol{margin-bottom:var(--space-4);padding-left:var(--space-6)}
+    .topic-content li{margin-bottom:var(--space-2);line-height:var(--leading-relaxed);color:var(--text-secondary)}
+    .topic-content pre[class*="language-"]{border-radius:var(--radius-lg);border:1px solid var(--border-default);font-size:var(--text-sm);margin-bottom:var(--space-6)}
+    .scroll-top-btn{position:fixed;bottom:var(--space-6);right:var(--space-6);width:42px;height:42px;background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-md);cursor:pointer;color:var(--accent-cyan);font-size:1.2rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-md),var(--glow-cyan-sm);opacity:0;transform:translateY(10px);pointer-events:none;transition:all .3s ease;z-index:50}
+    .scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:all}
+    @media(max-width:600px){.topic-wrapper{padding:var(--space-5) var(--space-4) var(--space-12)}}
+  </style>
+</head>
+<body>
+<article class="topic-wrapper">
+  <header class="topic-header">
+    <nav class="topic-breadcrumb">
+      <span>AI.learn</span><span class="topic-breadcrumb__sep">›</span>
+      <span>Introduction to AI</span><span class="topic-breadcrumb__sep">›</span>
+      <span class="topic-breadcrumb__current">Branches of Artificial Intelligence</span>
+    </nav>
+    <h1 class="topic-title">Branches of Artificial Intelligence</h1>
+    <div class="topic-meta">
+      <span class="topic-meta__item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span id="reading-time">5 min read</span>
+      </span>
+    </div>
+  </header>
+
+  <div class="topic-content" id="topic-content">
+    <!-- Content coming soon -->
+  </div>
+
+  <section class="mcq-section" id="mcq-section" aria-label="Practice Questions">
+    <h2 class="mcq-section__title">🧩 Practice MCQs</h2>
+    <p class="mcq-section__subtitle">Test your understanding — 5 questions</p>
+    <div id="mcq-mount"></div>
+  </section>
+  <script type="application/json" id="mcq-data">[]</script>
+
+  <nav class="topic-nav" id="topic-nav" aria-label="Topic navigation">
+    <button class="topic-nav__btn topic-nav__btn--prev" id="btn-prev" style="display:none">
+      <span>←</span><span><span class="topic-nav__label">Previous</span><span class="topic-nav__title" id="prev-title"></span></span>
+    </button>
+    <button class="topic-nav__btn topic-nav__btn--next" id="btn-next" style="display:none">
+      <span><span class="topic-nav__label">Next</span><span class="topic-nav__title" id="next-title"></span></span><span>→</span>
+    </button>
+  </nav>
+</article>
+
+<button class="scroll-top-btn" id="scroll-top" aria-label="Back to top">↑</button>
+
+<script src="../js/mcq.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const data = JSON.parse(document.getElementById('mcq-data').textContent || '[]');
+    if (data.length) MCQEngine.init('mcq-mount', data);
+  });
+  window.addEventListener('scroll', () => {
+    const btn = document.getElementById('scroll-top');
+    btn?.classList.toggle('visible', window.scrollY > 300);
+    const el = document.documentElement;
+    const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+    window.parent.postMessage({ type: 'scroll-progress', data: { percent: pct || 0 } }, '*');
+  }, { passive: true });
+  document.getElementById('scroll-top')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  window.addEventListener('message', (e) => {
+    if (e.data?.type === 'topic-context') {
+      const { prev, next } = e.data;
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      if (prev && btnPrev) { document.getElementById('prev-title').textContent = prev.label; btnPrev.style.display = 'flex'; btnPrev.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: prev.id } }, '*'); }
+      if (next && btnNext) { document.getElementById('next-title').textContent = next.label; btnNext.style.display = 'flex'; btnNext.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: next.id } }, '*'); }
+    }
+  });
+  window.addEventListener('DOMContentLoaded', () => {
+    const words = document.getElementById('topic-content')?.innerText.trim().split(/\s+/).length || 0;
+    const el = document.getElementById('reading-time');
+    if (el) el.textContent = Math.max(1, Math.ceil(words / 200)) + ' min read';
+  });
+</script>
+</body>
+</html>
+

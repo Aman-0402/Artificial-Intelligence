@@ -19,8 +19,8 @@ const SidebarManager = (() => {
         <button class="nav-group__toggle" aria-expanded="false" aria-controls="children-${group.id}">
           <span class="nav-group__icon" aria-hidden="true">${group.icon}</span>
           <span class="nav-group__label">${group.label}</span>
-          <svg class="nav-group__arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg class="nav-group__arrow" width="12" height="12" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </button>
@@ -189,8 +189,12 @@ const SidebarManager = (() => {
       if (e.key === 'Escape') closeSidebar();
     });
 
-    // Set welcome as active by default
-    setActive('welcome');
+    // Open intro group by default
+    const introGroup = document.getElementById('group-intro');
+    if (introGroup) {
+      introGroup.classList.add('is-open');
+      introGroup.querySelector('.nav-group__toggle')?.setAttribute('aria-expanded', 'true');
+    }
   }
 
   return { init, setActive, openSidebar, closeSidebar };
