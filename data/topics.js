@@ -4,13 +4,13 @@ const TOPICS = [
     label: 'Introduction to Artificial Intelligence',
     icon: '🤖',
     children: [
-      { id: 'what-is-ai',     label: 'What is Artificial Intelligence?',                   file: 'topics/what-is-ai.html'      },
-      { id: 'history-of-ai',  label: 'History of Artificial Intelligence',                 file: 'topics/history-of-ai.html'   },
-      { id: 'types-of-ai',    label: 'Types of Artificial Intelligence',                   file: 'topics/types-of-ai.html'     },
-      { id: 'ai-vs-ml',       label: 'AI vs ML vs Deep Learning vs Generative AI',         file: 'topics/ai-vs-ml.html'        },
-      { id: 'applications',   label: 'Real-World Applications of Artificial Intelligence', file: 'topics/applications-ai.html' },
-      { id: 'how-ai-works',   label: 'How AI Actually Works',                              file: 'topics/how-ai-works.html'    },
-      { id: 'branches-ai',    label: 'Branches of Artificial Intelligence',                file: 'topics/branches-of-ai.html'  },
+      { id: 'what-is-ai',     label: 'What is Artificial Intelligence?',                   file: 'topics/intro/what-is-ai.html'      },
+      { id: 'history-of-ai',  label: 'History of Artificial Intelligence',                 file: 'topics/intro/history-of-ai.html'   },
+      { id: 'types-of-ai',    label: 'Types of Artificial Intelligence',                   file: 'topics/intro/types-of-ai.html'     },
+      { id: 'ai-vs-ml',       label: 'AI vs ML vs Deep Learning vs Generative AI',         file: 'topics/intro/ai-vs-ml.html'        },
+      { id: 'applications',   label: 'Real-World Applications of Artificial Intelligence', file: 'topics/intro/applications-ai.html' },
+      { id: 'how-ai-works',   label: 'How AI Actually Works',                              file: 'topics/intro/how-ai-works.html'    },
+      { id: 'branches-ai',    label: 'Branches of Artificial Intelligence',                file: 'topics/intro/branches-of-ai.html'  },
     ],
   },
   {
@@ -18,9 +18,9 @@ const TOPICS = [
     label: 'Machine Learning',
     icon: '📊',
     children: [
-      { id: 'supervised',    label: 'Supervised Learning',    file: 'topics/supervised-learning.html'    },
-      { id: 'unsupervised',  label: 'Unsupervised Learning',  file: 'topics/unsupervised-learning.html'  },
-      { id: 'reinforcement', label: 'Reinforcement Learning', file: 'topics/reinforcement-learning.html' },
+      { id: 'supervised',    label: 'Supervised Learning',    file: 'topics/ml/supervised-learning.html'    },
+      { id: 'unsupervised',  label: 'Unsupervised Learning',  file: 'topics/ml/unsupervised-learning.html'  },
+      { id: 'reinforcement', label: 'Reinforcement Learning', file: 'topics/ml/reinforcement-learning.html' },
     ],
   },
   {
@@ -28,9 +28,9 @@ const TOPICS = [
     label: 'Deep Learning',
     icon: '🧠',
     children: [
-      { id: 'neural-networks', label: 'Neural Networks', file: 'topics/neural-networks.html' },
-      { id: 'cnn',             label: 'CNN Basics',       file: 'topics/cnn-basics.html'      },
-      { id: 'rnn-lstm',        label: 'RNN & LSTM',       file: 'topics/rnn-lstm.html'        },
+      { id: 'neural-networks', label: 'Neural Networks', file: 'topics/dl/neural-networks.html' },
+      { id: 'cnn',             label: 'CNN Basics',       file: 'topics/dl/cnn-basics.html'      },
+      { id: 'rnn-lstm',        label: 'RNN & LSTM',       file: 'topics/dl/rnn-lstm.html'        },
     ],
   },
   {
@@ -38,9 +38,9 @@ const TOPICS = [
     label: 'NLP & Transformers',
     icon: '💬',
     children: [
-      { id: 'nlp-intro',    label: 'NLP Introduction',         file: 'topics/nlp-intro.html'    },
-      { id: 'transformers', label: 'Transformers & Attention',  file: 'topics/transformers.html' },
-      { id: 'llms',         label: 'LLMs & ChatGPT',           file: 'topics/llms-chatgpt.html' },
+      { id: 'nlp-intro',    label: 'NLP Introduction',         file: 'topics/nlp/nlp-intro.html'    },
+      { id: 'transformers', label: 'Transformers & Attention',  file: 'topics/nlp/transformers.html' },
+      { id: 'llms',         label: 'LLMs & ChatGPT',           file: 'topics/nlp/llms-chatgpt.html' },
     ],
   },
   {
@@ -48,9 +48,9 @@ const TOPICS = [
     label: 'Practice & Resources',
     icon: '🏆',
     children: [
-      { id: 'interview', label: 'Interview Questions', file: 'topics/interview-questions.html' },
-      { id: 'mcq-bank',  label: 'MCQ Bank',            file: 'topics/mcq-bank.html'           },
-      { id: 'quiz',      label: 'Quiz Challenge',       file: 'topics/quiz-challenge.html'     },
+      { id: 'interview', label: 'Interview Questions', file: 'topics/practice/interview-questions.html' },
+      { id: 'mcq-bank',  label: 'MCQ Bank',            file: 'topics/practice/mcq-bank.html'           },
+      { id: 'quiz',      label: 'Quiz Challenge',       file: 'topics/practice/quiz-challenge.html'     },
     ],
   },
 ];

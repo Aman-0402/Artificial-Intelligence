@@ -45,27 +45,32 @@ AI.learn is a self-contained, browser-based eBook for learning Artificial Intell
 │   ├── topics.js            # Topic tree + flat list + adjacency helpers
 │   └── quiz-bank.js         # Shared quiz question bank
 ├── topics/
-│   ├── welcome.html         # Hero landing page
-│   ├── _template.html       # Base template for new topics
-│   ├── what-is-ai.html
-│   ├── history-of-ai.html
-│   ├── types-of-ai.html
-│   ├── ai-vs-ml.html
-│   ├── applications-ai.html
-│   ├── how-ai-works.html
-│   ├── branches-of-ai.html
-│   ├── supervised-learning.html
-│   ├── unsupervised-learning.html
-│   ├── reinforcement-learning.html
-│   ├── neural-networks.html
-│   ├── cnn-basics.html
-│   ├── rnn-lstm.html
-│   ├── nlp-intro.html
-│   ├── transformers.html
-│   ├── llms-chatgpt.html
-│   ├── interview-questions.html
-│   ├── mcq-bank.html
-│   └── quiz-challenge.html
+│   ├── welcome.html              # Hero landing page
+│   ├── _template.html            # Base template for new topics
+│   ├── intro/
+│   │   ├── what-is-ai.html
+│   │   ├── history-of-ai.html
+│   │   ├── types-of-ai.html
+│   │   ├── ai-vs-ml.html
+│   │   ├── applications-ai.html
+│   │   ├── how-ai-works.html
+│   │   └── branches-of-ai.html
+│   ├── ml/
+│   │   ├── supervised-learning.html
+│   │   ├── unsupervised-learning.html
+│   │   └── reinforcement-learning.html
+│   ├── dl/
+│   │   ├── neural-networks.html
+│   │   ├── cnn-basics.html
+│   │   └── rnn-lstm.html
+│   ├── nlp/
+│   │   ├── nlp-intro.html
+│   │   ├── transformers.html
+│   │   └── llms-chatgpt.html
+│   └── practice/
+│       ├── interview-questions.html
+│       ├── mcq-bank.html
+│       └── quiz-challenge.html
 └── assets/
     └── images/              # Topic diagrams and infographics
 ```
