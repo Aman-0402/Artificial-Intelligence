@@ -2,7 +2,7 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>History of AI — AI.learn</title>
+  <title>History of Artificial Intelligence — AI.learn</title>
   <link rel="stylesheet" href="../css/variables.css" /><link rel="stylesheet" href="../css/base.css" />
   <link rel="stylesheet" href="../css/animations.css" /><link rel="stylesheet" href="../css/components.css" />
   <link rel="stylesheet" href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
@@ -12,20 +12,26 @@
     body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body)}
     .topic-wrapper{width:100%;padding:var(--space-8) clamp(1.5rem,4vw,5rem) var(--space-16)}
     .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
-    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
+    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);line-height:1.2}
     .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
     .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
-    .topic-content p{line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
+    .topic-content h4{font-size:var(--text-lg);margin-top:var(--space-6);margin-bottom:var(--space-2);color:var(--text-secondary)}
+    .topic-content p{font-size:var(--text-base);line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
     .topic-content ul,.topic-content ol{margin-bottom:var(--space-4);padding-left:var(--space-6)}
     .topic-content li{margin-bottom:var(--space-2);line-height:var(--leading-relaxed);color:var(--text-secondary)}
-    /* Timeline */
-    .timeline{position:relative;padding-left:var(--space-8);margin:var(--space-6) 0}
-    .timeline::before{content:'';position:absolute;left:12px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--accent-cyan),var(--accent-purple))}
-    .timeline-item{position:relative;margin-bottom:var(--space-8)}
-    .timeline-item::before{content:'';position:absolute;left:calc(-1 * var(--space-8) + 8px);top:6px;width:10px;height:10px;border-radius:50%;background:var(--accent-cyan);border:2px solid var(--bg-primary);box-shadow:var(--glow-cyan-sm)}
-    .timeline-year{font-family:var(--font-heading);font-size:var(--text-sm);color:var(--accent-cyan);letter-spacing:.1em;margin-bottom:var(--space-1)}
-    .timeline-title{font-family:var(--font-nav);font-size:var(--text-base);font-weight:600;color:var(--text-primary);margin-bottom:var(--space-2)}
-    .timeline-desc{font-size:var(--text-sm);color:var(--text-secondary);line-height:var(--leading-relaxed)}
+    .topic-content strong{color:var(--text-primary)}
+    .topic-content table{width:100%;border-collapse:collapse;margin-bottom:var(--space-6);font-size:var(--text-sm)}
+    .topic-content th{background:var(--bg-secondary);color:var(--accent-cyan);font-family:var(--font-nav);font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:var(--space-3) var(--space-4);text-align:left;border-bottom:1px solid var(--border-glow)}
+    .topic-content td{padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);vertical-align:top}
+    .topic-content tr:hover td{background:rgba(0,212,255,.03)}
+    .topic-image{width:100%;display:block;margin:var(--space-6) auto;border-radius:var(--radius-xl);border:1px solid var(--border-default)}
+    .image-caption{text-align:center;font-size:var(--text-xs);color:var(--text-muted);font-family:var(--font-nav);margin-top:calc(-1 * var(--space-3));margin-bottom:var(--space-6);letter-spacing:.06em}
+    .scenario-block{background:var(--bg-card);border:1px solid var(--border-default);border-left:3px solid var(--accent-purple);border-radius:var(--radius-lg);padding:var(--space-5);margin-bottom:var(--space-5)}
+    .scenario-block h4{color:var(--accent-purple);margin-top:0;margin-bottom:var(--space-3)}
+    .scenario-block p,.scenario-block ul{margin-bottom:var(--space-2)}
+    .question-list{counter-reset:q-counter;list-style:none;padding-left:0}
+    .question-list li{counter-increment:q-counter;padding:var(--space-3) var(--space-4);margin-bottom:var(--space-2);background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);color:var(--text-secondary);position:relative;padding-left:var(--space-10)}
+    .question-list li::before{content:counter(q-counter);position:absolute;left:var(--space-3);top:50%;transform:translateY(-50%);font-family:var(--font-nav);font-size:var(--text-xs);font-weight:700;color:var(--accent-cyan);background:rgba(0,212,255,.1);border:1px solid var(--accent-cyan-border);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;line-height:1}
     .scroll-top-btn{position:fixed;bottom:var(--space-6);right:var(--space-6);width:42px;height:42px;background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-md);cursor:pointer;color:var(--accent-cyan);font-size:1.2rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-md),var(--glow-cyan-sm);opacity:0;transform:translateY(10px);pointer-events:none;transition:all .3s ease;z-index:50}
     .scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:all}
     @media(max-width:600px){.topic-wrapper{padding:var(--space-5) var(--space-4) var(--space-12)}}
@@ -39,167 +45,332 @@
 
   <div class="topic-content" id="topic-content">
 
-    <p data-aos="fade-up">The history of AI spans over 70 years — from theoretical foundations in logic and mathematics to today's large language models. Understanding this timeline helps appreciate both the progress made and the challenges that remain.</p>
+    <!-- ─── 1. Why AI Was Created ─── -->
+    <h2 data-aos="fade-up">1. Why AI Was Created?</h2>
+    <p data-aos="fade-up">Humans always wanted machines that could:</p>
+    <ul data-aos="fade-up">
+      <li>Think</li>
+      <li>Solve problems</li>
+      <li>Automate work</li>
+      <li>Learn from experience</li>
+    </ul>
+    <p data-aos="fade-up">The dream was: <em>"Can machines imitate human intelligence?"</em></p>
+    <p data-aos="fade-up">This idea existed even before computers were invented.</p>
 
-    <h2 data-aos="fade-up">The AI Timeline</h2>
+    <!-- ─── 2. Early Foundations ─── -->
+    <h2 data-aos="fade-up">2. Early Foundations of AI</h2>
+    <p data-aos="fade-up">Before AI existed, mathematicians and scientists were already exploring:</p>
+    <ul data-aos="fade-up">
+      <li>Logic</li>
+      <li>Human thinking</li>
+      <li>Computation</li>
+      <li>Decision making</li>
+    </ul>
+    <p data-aos="fade-up">These ideas became the base of AI.</p>
 
-    <div class="timeline">
-      <div class="timeline-item" data-aos="fade-up">
-        <div class="timeline-year">1943</div>
-        <div class="timeline-title">McCulloch & Pitts — First Neural Network Model</div>
-        <div class="timeline-desc">Warren McCulloch and Walter Pitts published a mathematical model of a neuron, laying the groundwork for artificial neural networks.</div>
-      </div>
-      <div class="timeline-item" data-aos="fade-up">
-        <div class="timeline-year">1950</div>
-        <div class="timeline-title">Alan Turing — "Computing Machinery and Intelligence"</div>
-        <div class="timeline-desc">Turing proposed the famous "Turing Test" — a method to determine if a machine can exhibit intelligent behaviour indistinguishable from a human. He asked: <em>"Can machines think?"</em></div>
-      </div>
-      <div class="timeline-item" data-aos="fade-up">
-        <div class="timeline-year">1956</div>
-        <div class="timeline-title">Dartmouth Conference — Birth of AI</div>
-        <div class="timeline-desc">John McCarthy, Marvin Minsky, Claude Shannon, and others organised the Dartmouth Summer Research Project. McCarthy coined the term <strong>"Artificial Intelligence"</strong> here. This is officially the birth of AI as a discipline.</div>
-      </div>
-      <div class="timeline-item" data-aos="fade-up">
-        <div class="timeline-year">1957–1974</div>
-        <div class="timeline-title">The Golden Age of AI</div>
-        <div class="timeline-desc">Early optimism. Programs like Logic Theorist, ELIZA (first chatbot), and SHRDLU showed machines could solve algebraic problems and understand simple English. Heavy government funding in USA and UK.</div>
-      </div>
-      <div class="timeline-item" data-aos="fade-up">
-        <div class="timeline-year">1974–1980</div>
-        <div class="timeline-title">First AI Winter</div>
-        <div class="timeline-desc">Progress stalled. Computers lacked speed and memory. Tasks like language translation proved far harder than expected. The Lighthill Report (UK) and US government funding cuts led to the first "AI Winter."</div>
-      </div>
-      <div class="timeline-item" data-aos="fade-up">
-        <div class="timeline-year">1980–1987</div>
-        <div class="timeline-title">Expert Systems Revival</div>
-        <div class="timeline-desc">Rule-based "expert systems" like XCON (DEC) brought AI to industry. Japan's Fifth Generation Computer project injected billions into AI research. The field revived commercially.</div>
-      </div>
-      <div class="timeline-item" data-aos="fade-up">
-        <div class="timeline-year">1987–1993</div>
-        <div class="timeline-title">Second AI Winter</div>
-        <div class="timeline-desc">Expert systems proved brittle and expensive to maintain. The Lisp Machine market collapsed. DARPA cut funding again. A second winter followed.</div>
-      </div>
-      <div class="timeline-item" data-aos="fade-up">
-        <div class="timeline-year">1997</div>
-        <div class="timeline-title">Deep Blue Defeats Kasparov</div>
-        <div class="timeline-desc">IBM's Deep Blue became the first computer to defeat a reigning world chess champion (Garry Kasparov) under tournament conditions. A landmark moment for narrow AI.</div>
-      </div>
-      <div class="timeline-item" data-aos="fade-up">
-        <div class="timeline-year">2006</div>
-        <div class="timeline-title">Deep Learning Revolution Begins</div>
-        <div class="timeline-desc">Geoffrey Hinton, Yann LeCun, and Yoshua Bengio demonstrated that deep neural networks could be trained effectively using improved techniques. The term "deep learning" was popularised.</div>
-      </div>
-      <div class="timeline-item" data-aos="fade-up">
-        <div class="timeline-year">2012</div>
-        <div class="timeline-title">AlexNet — ImageNet Breakthrough</div>
-        <div class="timeline-desc">AlexNet, a deep CNN by Hinton's team, won the ImageNet competition by a massive margin. This proved deep learning was vastly superior for image recognition, triggering a global AI gold rush.</div>
-      </div>
-      <div class="timeline-item" data-aos="fade-up">
-        <div class="timeline-year">2016–2017</div>
-        <div class="timeline-title">AlphaGo & Transformer Architecture</div>
-        <div class="timeline-desc">Google DeepMind's AlphaGo defeated world Go champion Lee Sedol — considered impossible at the time. Google also published <em>"Attention Is All You Need"</em>, introducing the Transformer architecture that powers modern LLMs.</div>
-      </div>
-      <div class="timeline-item" data-aos="fade-up">
-        <div class="timeline-year">2020–Present</div>
-        <div class="timeline-title">Large Language Models Era</div>
-        <div class="timeline-desc">GPT-3 (2020), DALL-E, ChatGPT (2022), GPT-4 (2023), Gemini, Claude, and others transformed how the world interacts with AI. Generative AI became mainstream.</div>
+    <h3 data-aos="fade-up">The Father of AI — Alan Turing</h3>
+    <p data-aos="fade-up">Alan Turing is considered one of the fathers of modern computing and AI. He asked a famous question:</p>
+
+    <div class="alert alert-info" data-aos="fade-up">
+      <span class="alert__icon">💭</span>
+      <div class="alert__content">
+        <div class="alert__title">Alan Turing's Question</div>
+        "Can machines think?"
       </div>
     </div>
 
-    <h2 data-aos="fade-up">Key Figures in AI History</h2>
+    <h3 data-aos="fade-up">The Turing Test</h3>
+    <p data-aos="fade-up">He proposed a test called <strong>"The Turing Test."</strong></p>
+    <p data-aos="fade-up"><strong>Idea:</strong> If a human talks to another human and a machine, and cannot identify which one is the machine — then the machine demonstrates intelligent behavior.</p>
+
+    <img
+      src="../assets/images/Human Judge gemini.png"
+      alt="Turing Test — Human judge cannot distinguish human from AI"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption" data-aos="fade-up">If the judge gets confused → AI passes the test.</p>
+
+    <p data-aos="fade-up">This became one of the earliest AI concepts.</p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <h4>Real-Life Analogy</h4>
+      <p>Imagine chatting online anonymously. If you cannot tell whether the reply is from a human or an AI chatbot — then the AI behaves intelligently.</p>
+      <p>Modern chatbots like OpenAI's ChatGPT are heavily inspired by this idea.</p>
+    </div>
+
+    <!-- ─── 3. Birth of AI ─── -->
+    <h2 data-aos="fade-up">3. Birth of Artificial Intelligence (1956)</h2>
+    <p data-aos="fade-up">The term <strong>"Artificial Intelligence"</strong> was officially introduced in <strong>1956</strong>.</p>
+
+    <h3 data-aos="fade-up">Dartmouth Conference</h3>
+    <p data-aos="fade-up">A group of researchers met at <strong>Dartmouth College</strong>. This event is called the <strong>Dartmouth Conference</strong> — considered the official birth of AI as a field.</p>
+
+    <h4 data-aos="fade-up">Key Scientists</h4>
     <ul data-aos="fade-up">
-      <li><strong>Alan Turing</strong> — theoretical foundations, Turing Test</li>
-      <li><strong>John McCarthy</strong> — coined "AI", created Lisp programming language</li>
-      <li><strong>Marvin Minsky</strong> — co-founder of MIT AI Lab, neural network pioneer</li>
-      <li><strong>Geoffrey Hinton</strong> — "Godfather of Deep Learning", backpropagation</li>
-      <li><strong>Yann LeCun</strong> — convolutional neural networks, computer vision</li>
-      <li><strong>Yoshua Bengio</strong> — deep learning theory, sequence models</li>
-      <li><strong>Andrej Karpathy</strong> — computer vision, modern LLM training</li>
+      <li><strong>John McCarthy</strong> — coined the term "Artificial Intelligence"</li>
+      <li><strong>Marvin Minsky</strong></li>
+      <li><strong>Claude Shannon</strong></li>
+      <li><strong>Allen Newell</strong></li>
     </ul>
 
-    <h2 data-aos="fade-up">Why AI Winters Happened</h2>
+    <!-- ─── 4. Early AI Systems ─── -->
+    <h2 data-aos="fade-up">4. Early AI Systems (1950s–1970s)</h2>
+    <p data-aos="fade-up">Scientists became very excited. They believed human-level AI could be built quickly. Early AI systems could:</p>
+    <ul data-aos="fade-up">
+      <li>Solve math problems</li>
+      <li>Play games</li>
+      <li>Follow logical rules</li>
+    </ul>
+
+    <h3 data-aos="fade-up">Example — Chess AI</h3>
+    <p data-aos="fade-up">One early AI goal was teaching computers to play chess. Why chess? Because chess requires strategy, planning, and decision making. This became a major AI research area.</p>
+
+    <h3 data-aos="fade-up">Rule-Based AI (Expert Systems)</h3>
+    <p data-aos="fade-up">Early AI mostly worked using <strong>rules</strong>. Example:</p>
+
+    <pre data-aos="fade-up"><code class="language-text">IF fever = high
+AND cough = yes
+THEN possible flu</code></pre>
+
+    <p data-aos="fade-up">This is called <strong>Rule-Based AI</strong>. Early medical expert systems helped doctors diagnose diseases using predefined rules.</p>
+
     <div class="alert alert-warning" data-aos="fade-up">
       <span class="alert__icon">⚠️</span>
       <div class="alert__content">
-        <div class="alert__title">Lesson from History</div>
-        AI Winters occurred because of overpromising (hype cycles), insufficient compute, lack of data, and brittle systems. Today's AI renaissance is more sustainable — backed by real commercial value, massive data, and cloud-scale compute.
+        <div class="alert__title">Limitation of Rule-Based AI</div>
+        Humans can learn from experience and adapt to new situations. But rule-based systems could not learn, needed manual programming, and failed in complex situations. This limitation later led to Machine Learning.
       </div>
     </div>
 
+    <!-- ─── 5. AI Winter ─── -->
+    <h2 data-aos="fade-up">5. AI Winter</h2>
+    <p data-aos="fade-up">Researchers made huge promises — human-like robots, super intelligence, fully intelligent machines. But computers at that time were slow, weak, and expensive. AI failed to meet expectations.</p>
+    <p data-aos="fade-up">Funding reduced. Interest dropped. This period is called <strong>AI Winter</strong>.</p>
+
+    <img
+      src="../assets/images/ARTIFICIAL AI TIMLIGENCE.png"
+      alt="AI Timeline — showing AI Winter periods and revivals"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption" data-aos="fade-up">Visual Timeline of AI history</p>
+
+    <!-- ─── 6. AI Revival ─── -->
+    <h2 data-aos="fade-up">6. AI Revival (1980s–2000s)</h2>
+    <p data-aos="fade-up">AI returned because computers became faster, more data became available, and better algorithms were developed. This period saw growth in Machine Learning, Neural Networks, and Robotics.</p>
+
+    <h3 data-aos="fade-up">Major Event — IBM Deep Blue</h3>
+    <p data-aos="fade-up">In <strong>1997</strong>, IBM's chess computer <strong>Deep Blue</strong> defeated world chess champion <strong>Garry Kasparov</strong>. This shocked the world.</p>
+
+    <div class="alert alert-tip" data-aos="fade-up">
+      <span class="alert__icon">🏆</span>
+      <div class="alert__content">
+        <div class="alert__title">Why This Was Important</div>
+        It proved: Machines can outperform humans in specialized tasks.
+      </div>
+    </div>
+
+    <!-- ─── 7. Deep Learning Revolution ─── -->
+    <h2 data-aos="fade-up">7. Deep Learning Revolution (2010+)</h2>
+    <p data-aos="fade-up">This was a MASSIVE turning point. Three things became available:</p>
+
+    <table data-aos="fade-up">
+      <thead>
+        <tr><th>Factor</th><th>Importance</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Big Data</td><td>AI needed lots of examples</td></tr>
+        <tr><td>GPUs</td><td>Faster computation</td></tr>
+        <tr><td>Better Algorithms</td><td>More accurate learning</td></tr>
+      </tbody>
+    </table>
+
+    <h3 data-aos="fade-up">Neural Networks Became Powerful</h3>
+    <p data-aos="fade-up">Deep Learning models started achieving incredible results in:</p>
+    <ul data-aos="fade-up">
+      <li>Image recognition</li>
+      <li>Speech recognition</li>
+      <li>Translation</li>
+      <li>Recommendation systems</li>
+    </ul>
+    <p data-aos="fade-up">AI could now recognize cats in images, understand speech, and translate languages with very high accuracy.</p>
+
+    <!-- ─── 8. Generative AI Era ─── -->
+    <h2 data-aos="fade-up">8. Generative AI Era (2020+)</h2>
+    <p data-aos="fade-up">Now we entered <strong>Generative AI</strong>. AI no longer just predicts — now it can CREATE:</p>
+    <ul data-aos="fade-up">
+      <li>Text</li>
+      <li>Images</li>
+      <li>Videos</li>
+      <li>Music</li>
+      <li>Code</li>
+    </ul>
+
+    <h3 data-aos="fade-up">Examples of Modern Generative AI</h3>
+    <table data-aos="fade-up">
+      <thead>
+        <tr><th>Tool</th><th>Purpose</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>ChatGPT</td><td>Text generation</td></tr>
+        <tr><td>Midjourney</td><td>AI images</td></tr>
+        <tr><td>GitHub Copilot</td><td>Code generation</td></tr>
+        <tr><td>Sora</td><td>AI video generation</td></tr>
+      </tbody>
+    </table>
+
+    <p data-aos="fade-up">Generative AI is changing Education, Software development, Marketing, Healthcare, Design, Film production, and Customer support. This is why learning AI today is incredibly powerful.</p>
+
+    <!-- ─── Notes ─── -->
+    <h2 data-aos="fade-up">Key Notes</h2>
+    <div class="alert alert-tip" data-aos="fade-up">
+      <span class="alert__icon">📝</span>
+      <div class="alert__content">
+        <ul style="margin:0;padding-left:var(--space-5)">
+          <li>AI officially began in 1956</li>
+          <li>Alan Turing proposed machine intelligence ideas</li>
+          <li>Early AI used rule-based systems</li>
+          <li>AI Winter happened due to limitations</li>
+          <li>Machine Learning revived AI</li>
+          <li>Deep Learning accelerated AI growth</li>
+          <li>Generative AI is the newest revolution</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ─── Scenario-Based Questions ─── -->
+    <h2 data-aos="fade-up">Scenario-Based Questions</h2>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <h4>Scenario 1 — 1970s Chatbot</h4>
+      <p>A company creates a chatbot in 1970 using only fixed rules.</p>
+      <p><strong>Question:</strong> What limitation might it face?</p>
+    </div>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <h4>Scenario 2 — Modern Image Generation</h4>
+      <p>Modern AI image generators can create realistic images.</p>
+      <p><strong>Question:</strong> Why was this impossible during early AI years?</p>
+      <p>Think about:</p>
+      <ul>
+        <li>Data</li>
+        <li>Computing power</li>
+        <li>Algorithms</li>
+      </ul>
+    </div>
+
+    <!-- ─── Interview Questions ─── -->
+    <h2 data-aos="fade-up">Interview Questions</h2>
+    <ol class="question-list" data-aos="fade-up">
+      <li>Explain the history of AI briefly.</li>
+      <li>What is the Turing Test?</li>
+      <li>What caused AI Winter?</li>
+      <li>Why did Deep Learning become successful after 2010?</li>
+      <li>Difference between early AI and modern AI?</li>
+    </ol>
+
+    <!-- ─── Think About It ─── -->
+    <h2 data-aos="fade-up">Think About It</h2>
+    <ol class="question-list" data-aos="fade-up">
+      <li>Why do you think AI failed during AI Winter?</li>
+      <li>What changed after 2010 that made AI powerful?</li>
+      <li>Why are GPUs important in AI?</li>
+      <li>Which AI era interests you most: Rule-based AI, Machine Learning, Deep Learning, or Generative AI?</li>
+    </ol>
+
   </div>
 
+  <!-- MCQ SECTION -->
   <section class="mcq-section">
     <h2 class="mcq-section__title">🧩 Practice MCQs</h2>
-    <p class="mcq-section__subtitle">Test your understanding — 5 questions</p>
+    <p class="mcq-section__subtitle">Test your understanding — 4 questions</p>
     <div id="mcq-mount"></div>
   </section>
 
   <script type="application/json" id="mcq-data">
   [
     {
-      "q": "At which conference was the term 'Artificial Intelligence' officially coined?",
-      "options": ["MIT Symposium 1950", "Dartmouth Conference 1956", "Turing Conference 1943", "NIPS 1987"],
+      "q": "Who is considered one of the fathers of AI?",
+      "options": ["Elon Musk", "Alan Turing", "Bill Gates", "Steve Jobs"],
       "answer": 1,
-      "explanation": "The Dartmouth Summer Research Project of 1956, organised by John McCarthy, is where the term 'Artificial Intelligence' was officially coined and AI was established as a discipline."
+      "explanation": "Alan Turing (1912–1954) is considered one of the fathers of modern computing and AI. He proposed the Turing Test and asked the foundational question: 'Can machines think?'"
     },
     {
-      "q": "What did Alan Turing propose in his 1950 paper 'Computing Machinery and Intelligence'?",
-      "options": ["The first neural network", "The concept of deep learning", "The Turing Test for machine intelligence", "The first AI programming language"],
+      "q": "What was the Dartmouth Conference famous for?",
+      "options": ["Internet invention", "Birth of AI field", "Deep Learning invention", "Robotics competition"],
+      "answer": 1,
+      "explanation": "The 1956 Dartmouth Conference, organised by John McCarthy and others, is considered the official birth of AI as a formal discipline. McCarthy coined the term 'Artificial Intelligence' here."
+    },
+    {
+      "q": "What caused AI Winter?",
+      "options": ["Too much success", "Lack of expectations", "Limited computing power and failed promises", "Internet shutdown"],
       "answer": 2,
-      "explanation": "Turing proposed the 'Imitation Game' (later called the Turing Test) — a benchmark for machine intelligence where a machine must be indistinguishable from a human in text conversation."
+      "explanation": "AI Winter was caused by a combination of overpromised results, insufficient computing power, lack of large datasets, and brittle rule-based systems that couldn't handle real-world complexity."
     },
     {
-      "q": "What was the main cause of the AI Winters in the 1970s and late 1980s?",
-      "options": [
-        "Lack of programming languages",
-        "Overhype, insufficient compute/data, and brittle systems failing real-world tasks",
-        "Government banning of AI research",
-        "Too many competing AI companies"
-      ],
-      "answer": 1,
-      "explanation": "AI Winters were caused by a combination of unrealistic expectations, hardware limitations (insufficient compute/memory), lack of large datasets, and expert systems that couldn't generalise beyond their narrow rules."
-    },
-    {
-      "q": "Which event in 2012 triggered the modern deep learning revolution?",
-      "options": ["GPT-1 release", "AlphaGo defeating Kasparov", "AlexNet winning the ImageNet competition", "Transformer paper publication"],
-      "answer": 2,
-      "explanation": "AlexNet (developed by Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton) won ImageNet 2012 by a massive margin using deep CNNs, proving that deep learning was transformatively superior for visual tasks."
-    },
-    {
-      "q": "Which research paper introduced the Transformer architecture that powers modern LLMs?",
-      "options": [
-        "\"Deep Residual Learning for Image Recognition\"",
-        "\"Attention Is All You Need\" (2017)",
-        "\"Playing Atari with Deep Reinforcement Learning\"",
-        "\"ImageNet Classification with Deep CNNs\""
-      ],
-      "answer": 1,
-      "explanation": "'Attention Is All You Need' by Vaswani et al. (Google, 2017) introduced the Transformer architecture — entirely based on self-attention mechanisms — which became the foundation for BERT, GPT, and all modern large language models."
+      "q": "Which technology greatly boosted Deep Learning?",
+      "options": ["GPUs", "USB drives", "Printers", "Keyboards"],
+      "answer": 0,
+      "explanation": "GPUs (Graphics Processing Units) enabled massive parallel computation required for training deep neural networks. Without GPU acceleration, training modern deep learning models would take years instead of hours."
     }
   ]
   </script>
 
-  <nav class="topic-nav">
-    <button class="topic-nav__btn" id="btn-prev" onclick="window.parent.postMessage({type:'navigate',data:{id:'what-is-ai'}},'*')">
-      <span>←</span><span><span class="topic-nav__label">Previous</span><span class="topic-nav__title">What is AI?</span></span>
+  <nav class="topic-nav" id="topic-nav">
+    <button class="topic-nav__btn topic-nav__btn--prev" id="btn-prev" style="display:none">
+      <span>←</span>
+      <span><span class="topic-nav__label">Previous</span><span class="topic-nav__title" id="prev-title"></span></span>
     </button>
-    <button class="topic-nav__btn topic-nav__btn--next" id="btn-next" onclick="window.parent.postMessage({type:'navigate',data:{id:'applications'}},'*')">
-      <span><span class="topic-nav__label">Next</span><span class="topic-nav__title">Applications of AI</span></span><span>→</span>
+    <button class="topic-nav__btn topic-nav__btn--next" id="btn-next" style="display:none">
+      <span><span class="topic-nav__label">Next</span><span class="topic-nav__title" id="next-title"></span></span>
+      <span>→</span>
     </button>
   </nav>
 </article>
 
-<button class="scroll-top-btn" id="scroll-top">↑</button>
+<button class="scroll-top-btn" id="scroll-top" aria-label="Scroll to top">↑</button>
+
 <script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
 <script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script src="../js/mcq.js"></script>
 <script>
-  AOS.init({duration:500,once:true,offset:40});
-  window.addEventListener('scroll',()=>{const el=document.documentElement;window.parent.postMessage({type:'scroll-progress',data:{percent:(el.scrollTop/(el.scrollHeight-el.clientHeight))*100||0}},'*');document.getElementById('scroll-top')?.classList.toggle('visible',window.scrollY>300);},{passive:true});
-  document.getElementById('scroll-top')?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-  const ttsBtn=document.getElementById('tts-btn');let speaking=false;
-  ttsBtn?.addEventListener('click',()=>{if(!window.speechSynthesis)return;if(speaking){window.speechSynthesis.cancel();speaking=false;ttsBtn.textContent='🔊 Read Aloud';return;}const u=new SpeechSynthesisUtterance(document.getElementById('topic-content')?.innerText||'');u.rate=0.95;u.onend=()=>{speaking=false;ttsBtn.textContent='🔊 Read Aloud';};window.speechSynthesis.speak(u);speaking=true;ttsBtn.textContent='⏹ Stop';});
+  AOS.init({ duration: 500, once: true, offset: 40 });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const data = JSON.parse(document.getElementById('mcq-data').textContent || '[]');
+    if (data.length) MCQEngine.init('mcq-mount', data);
+  });
+
+  window.addEventListener('message', e => {
+    if (e.data?.type === 'topic-context') {
+      const { prev, next } = e.data;
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      if (prev && btnPrev) {
+        document.getElementById('prev-title').textContent = prev.label;
+        btnPrev.style.display = 'flex';
+        btnPrev.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: prev.id } }, '*');
+      }
+      if (next && btnNext) {
+        document.getElementById('next-title').textContent = next.label;
+        btnNext.style.display = 'flex';
+        btnNext.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: next.id } }, '*');
+      }
+    }
+  });
+
+  window.addEventListener('scroll', () => {
+    const el = document.documentElement;
+    const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+    window.parent.postMessage({ type: 'scroll-progress', data: { percent: pct || 0 } }, '*');
+    document.getElementById('scroll-top')?.classList.toggle('visible', window.scrollY > 300);
+  }, { passive: true });
+
+  document.getElementById('scroll-top')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 </script>
 </body>
 </html>
