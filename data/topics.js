@@ -10,7 +10,8 @@ const TOPICS = [
       { id: 'ai-vs-ml',       label: 'AI vs ML vs Deep Learning vs Generative AI',         file: 'topics/intro/ai-vs-ml.html'        },
       { id: 'applications',   label: 'Real-World Applications of Artificial Intelligence', file: 'topics/intro/applications-ai.html' },
       { id: 'how-ai-works',   label: 'How AI Actually Works',                              file: 'topics/intro/how-ai-works.html'    },
-      { id: 'branches-ai',    label: 'Branches of Artificial Intelligence',                file: 'topics/intro/branches-of-ai.html'  },
+      { id: 'branches-ai',    label: 'Branches of Artificial Intelligence',                file: 'topics/intro/branches-of-ai.html'         },
+      { id: 'adv-limit-ai',  label: 'Advantages and Limitations of AI',                  file: 'topics/intro/advantages-limitations-ai.html' },
     ],
   },
   {

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advantages and Limitations of AI — AI.learn</title>
+  <link rel="stylesheet" href="../../css/variables.css" />
+  <link rel="stylesheet" href="../../css/base.css" />
+  <link rel="stylesheet" href="../../css/animations.css" />
+  <link rel="stylesheet" href="../../css/components.css" />
+  <link rel="stylesheet" href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body);overflow-x:hidden}
+    .topic-wrapper{width:100%;padding:var(--space-8) clamp(1.5rem,4vw,5rem) var(--space-16)}
+    .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
+    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
+    .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
+    .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
+    .topic-content h4{font-size:var(--text-lg);margin-top:var(--space-6);margin-bottom:var(--space-2);color:var(--text-secondary)}
+    .topic-content p{font-size:var(--text-base);line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
+    .topic-content ul,.topic-content ol{margin-bottom:var(--space-4);padding-left:var(--space-6)}
+    .topic-content li{margin-bottom:var(--space-2);line-height:var(--leading-relaxed);color:var(--text-secondary)}
+
+    /* Table */
+    .topic-content table{width:100%;border-collapse:collapse;margin-bottom:var(--space-6);font-size:var(--text-sm)}
+    .topic-content th{background:var(--bg-card);color:var(--accent-cyan);text-align:left;padding:var(--space-3) var(--space-4);border:1px solid var(--border-default);font-weight:600}
+    .topic-content td{padding:var(--space-3) var(--space-4);border:1px solid var(--border-default);color:var(--text-secondary);vertical-align:top}
+    .topic-content tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+
+    /* Image */
+    .topic-image{width:100%;max-width:720px;border-radius:var(--radius-lg);border:1px solid var(--border-default);margin:var(--space-6) auto;display:block;object-fit:contain}
+    .image-caption{text-align:center;font-size:var(--text-sm);color:var(--text-muted);margin-top:calc(-1 * var(--space-4));margin-bottom:var(--space-6)}
+
+    /* Scenario block */
+    .scenario-block{background:var(--bg-card);border-left:3px solid var(--accent-cyan);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:var(--space-4) var(--space-5);margin-bottom:var(--space-4)}
+    .scenario-block__label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.1em;color:var(--accent-cyan);margin-bottom:var(--space-2);font-weight:600}
+    .scenario-block p{margin-bottom:var(--space-2);font-size:var(--text-sm)}
+    .scenario-block p:last-child{margin-bottom:0}
+
+    /* Highlight box */
+    .highlight-box{background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-lg);padding:var(--space-5);margin-bottom:var(--space-6)}
+    .highlight-box p{margin-bottom:0;font-size:var(--text-sm)}
+
+    /* Warning box */
+    .warning-box{background:rgba(255,170,0,0.06);border:1px solid rgba(255,170,0,0.3);border-radius:var(--radius-lg);padding:var(--space-5);margin-bottom:var(--space-6)}
+    .warning-box p{margin-bottom:0;font-size:var(--text-sm);color:var(--text-secondary)}
+    .warning-box__title{font-size:var(--text-sm);font-weight:700;color:#ffaa00;margin-bottom:var(--space-2)}
+
+    /* Two-column advantage/limit grid */
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);margin-bottom:var(--space-6)}
+    @media(max-width:640px){.two-col{grid-template-columns:1fr}}
+    .col-card{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-lg);padding:var(--space-5)}
+    .col-card__label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.1em;margin-bottom:var(--space-3);font-weight:600}
+    .col-card--green .col-card__label{color:#4ade80}
+    .col-card--red .col-card__label{color:#f87171}
+    .col-card--green{border-color:rgba(74,222,128,0.2)}
+    .col-card--red{border-color:rgba(248,113,113,0.2)}
+    .col-card ul{margin:0;padding-left:1.2rem}
+    .col-card li{font-size:var(--text-sm);color:var(--text-secondary);margin-bottom:var(--space-1)}
+
+    /* Question list */
+    .question-list{list-style:none;padding-left:0;counter-reset:q-counter}
+    .question-list li{counter-increment:q-counter;padding-left:var(--space-8);position:relative;margin-bottom:var(--space-3)}
+    .question-list li::before{content:counter(q-counter) ".";position:absolute;left:0;color:var(--accent-cyan);font-weight:700;font-family:var(--font-mono)}
+
+    /* Scroll to top */
+    .scroll-top-btn{position:fixed;bottom:var(--space-6);right:var(--space-6);width:42px;height:42px;background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-md);cursor:pointer;color:var(--accent-cyan);font-size:1.2rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-md),var(--glow-cyan-sm);opacity:0;transform:translateY(10px);pointer-events:none;transition:all .3s ease;z-index:50}
+    .scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:all}
+    @media(max-width:600px){.topic-wrapper{padding:var(--space-5) var(--space-4) var(--space-12)}}
+  </style>
+</head>
+<body>
+<article class="topic-wrapper">
+  <header class="topic-header">
+    <h1 class="topic-title">Advantages and Limitations of AI</h1>
+  </header>
+
+  <div class="topic-content" id="topic-content">
+
+    <!-- ─── ADVANTAGES ────────────────────────────────────── -->
+    <h2 data-aos="fade-up">Advantages of AI</h2>
+
+    <!-- 1. Automation -->
+    <h3 data-aos="fade-up">1. Automation of Repetitive Tasks</h3>
+    <p data-aos="fade-up">AI can automate repetitive work much faster than humans — without fatigue, without error accumulation, and at massive scale.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Task</th><th>AI Usage</th></tr></thead>
+      <tbody>
+        <tr><td>Email filtering</td><td>Spam detection at millions-per-second scale</td></tr>
+        <tr><td>Customer support</td><td>Chatbots handling common queries 24/7</td></tr>
+        <tr><td>Manufacturing</td><td>Industrial robots for sorting, welding, assembly</td></tr>
+        <tr><td>Data entry</td><td>Automated extraction and processing systems</td></tr>
+      </tbody>
+    </table>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Analogy</div>
+      <p>Imagine manually checking 1 million emails for spam. Humans would take weeks. AI does it in seconds.</p>
+    </div>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Industry Example — Amazon Warehouses</div>
+      <p>Amazon uses AI-powered robots for sorting, packaging, and inventory movement — running continuously with no breaks, reducing costs and fulfilment time dramatically.</p>
+    </div>
+
+    <!-- 2. Faster Decisions -->
+    <h3 data-aos="fade-up">2. Faster Decision Making</h3>
+    <p data-aos="fade-up">AI can analyse huge amounts of data and reach decisions in milliseconds — far faster than any human analyst.</p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Example — Banking Fraud Detection</div>
+      <p>A bank AI system analyses thousands of transactions simultaneously, flags suspicious activity in real time, and blocks potential fraud — often before the transaction even completes.</p>
+    </div>
+
+    <img
+      src="../../assets/images/AI processes massive data for intelligent predictions.png"
+      alt="AI processing massive data for intelligent predictions"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">Massive data in → AI processes → intelligent predictions out, at speeds no human team can match</p>
+
+    <p data-aos="fade-up">Industries benefiting most: Finance, Healthcare, Logistics, Cybersecurity.</p>
+
+    <!-- 3. 24/7 -->
+    <h3 data-aos="fade-up">3. 24/7 Availability</h3>
+    <p data-aos="fade-up">AI systems do not sleep, get tired, or need breaks. They operate continuously — serving users at 3am as reliably as at 3pm.</p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Real-Life Example</div>
+      <p>Companies deploy AI chatbots to handle basic customer queries, order tracking, and FAQs around the clock — without additional staffing costs.</p>
+    </div>
+
+    <!-- 4. Reduced Error -->
+    <h3 data-aos="fade-up">4. Reduced Human Error</h3>
+    <p data-aos="fade-up">Humans make mistakes due to fatigue, stress, and distraction. AI systems maintain consistent performance on well-defined tasks regardless of conditions.</p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Example</div>
+      <p>AI-assisted medical imaging can detect tiny abnormalities a tired radiologist might miss on their hundredth scan of the day.</p>
+    </div>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">Important:</strong> AI reduces certain types of errors — but does NOT eliminate all mistakes. AI has its own failure modes.</p>
+    </div>
+
+    <!-- 5. Personalisation -->
+    <h3 data-aos="fade-up">5. Personalisation</h3>
+    <p data-aos="fade-up">AI analyses individual behaviour patterns to deliver experiences tailored to each user — at a scale no human team could achieve manually.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Platform</th><th>AI Personalisation</th></tr></thead>
+      <tbody>
+        <tr><td>Netflix</td><td>Movie and show recommendations</td></tr>
+        <tr><td>Spotify</td><td>Music suggestions and weekly playlists</td></tr>
+        <tr><td>YouTube</td><td>Personalised video feed</td></tr>
+        <tr><td>Instagram</td><td>Content and ad targeting</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 6. Massive Data Handling -->
+    <h3 data-aos="fade-up">6. Handling Massive Data</h3>
+    <p data-aos="fade-up">Humans cannot process millions of records, images, or documents at once. AI excels at exactly this — making sense of datasets too large for any human team.</p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Example</div>
+      <p>Social media platforms process billions of posts, images, and videos daily using AI — for content moderation, ranking, and recommendations.</p>
+    </div>
+
+    <!-- 7. Dangerous Tasks -->
+    <h3 data-aos="fade-up">7. Dangerous Task Handling</h3>
+    <p data-aos="fade-up">AI-powered robots can operate in environments too dangerous for humans — hazardous factories, nuclear environments, space missions, and deep-sea exploration.</p>
+    <ul data-aos="fade-up">
+      <li>Bomb disposal robots</li>
+      <li>Mars rovers (NASA Perseverance)</li>
+      <li>Nuclear facility inspection robots</li>
+      <li>Deep-sea exploration drones</li>
+    </ul>
+
+    <!-- 8. Innovation Support -->
+    <h3 data-aos="fade-up">8. Innovation &amp; Creativity Support</h3>
+    <p data-aos="fade-up">Generative AI accelerates creative and technical work — helping individuals and teams produce at a pace previously impossible.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Tool</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>ChatGPT</td><td>Writing, summarising, brainstorming</td></tr>
+        <tr><td>Midjourney</td><td>AI-generated artwork and visuals</td></tr>
+        <tr><td>GitHub Copilot</td><td>Code generation and review</td></tr>
+        <tr><td>Sora</td><td>Video generation from text prompts</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ─── LIMITATIONS ────────────────────────────────────── -->
+    <h2 data-aos="fade-up">Limitations of AI</h2>
+    <p data-aos="fade-up">Understanding where AI struggles is just as important as knowing where it excels. A good AI engineer knows both.</p>
+
+    <!-- 1. Lacks Understanding -->
+    <h3 data-aos="fade-up">1. AI Lacks True Human Understanding</h3>
+    <p data-aos="fade-up">AI does not truly "understand" the way humans do. It learns statistical patterns mathematically — not meaning, context, or common sense.</p>
+
+    <div class="warning-box" data-aos="fade-up">
+      <div class="warning-box__title">⚠️ Important Reality</div>
+      <p>AI has no consciousness, no emotions, and no common sense reasoning like humans. Chatbots can generate confidently wrong answers because they predict likely patterns — not verified truth.</p>
+    </div>
+
+    <!-- 2. Data Dependency -->
+    <h3 data-aos="fade-up">2. AI Depends Heavily on Data Quality</h3>
+    <p data-aos="fade-up"><strong>Bad Data → Bad AI.</strong> If training data is incorrect, biased, or incomplete, the model learns flawed patterns — and produces flawed outputs.</p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Real-Life Example</div>
+      <p>If a facial recognition AI is trained mostly on one demographic, it will perform significantly worse on others — a documented real-world problem in several deployed systems.</p>
+    </div>
+
+    <!-- 3. Compute Cost -->
+    <h3 data-aos="fade-up">3. High Computational Cost</h3>
+    <p data-aos="fade-up">Advanced AI requires powerful GPUs, massive storage, and enormous electricity consumption. Training large models costs millions of dollars.</p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Example</div>
+      <p>Training Large Language Models like GPT-4 requires massive data centres running for weeks. Companies like OpenAI, Google, and Microsoft spend billions on AI infrastructure annually.</p>
+    </div>
+
+    <!-- 4. Creativity Gap -->
+    <h3 data-aos="fade-up">4. Limited Creativity Compared to Humans</h3>
+    <p data-aos="fade-up">AI can generate content, but human creativity runs deeper. Humans draw from emotions, culture, lived experience, and original insight. AI creativity is largely pattern remixing from training data — sophisticated, but fundamentally different.</p>
+
+    <!-- 5. Job Displacement -->
+    <h3 data-aos="fade-up">5. Job Displacement Concerns</h3>
+    <p data-aos="fade-up">AI can automate tasks involving repetition, basic analysis, and routine workflows — creating real displacement risk for certain job categories.</p>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">But:</strong> AI also creates new careers — AI engineers, prompt engineers, AI product managers, and automation consultants. People who use AI effectively will likely outperform those who ignore it.</p>
+    </div>
+
+    <!-- 6. Security & Privacy -->
+    <h3 data-aos="fade-up">6. Security &amp; Privacy Risks</h3>
+    <p data-aos="fade-up">AI systems can be misused for deepfakes, fake content generation, scams, mass surveillance, and cyber attacks. AI-generated fake voices and videos are becoming increasingly realistic and harder to detect.</p>
+
+    <!-- 7. Bias -->
+    <h3 data-aos="fade-up">7. AI Can Be Biased</h3>
+    <p data-aos="fade-up">AI learns from human-generated data. If that data contains existing societal biases or discrimination, the AI model inherits and may amplify those patterns.</p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Real-Life Concern</div>
+      <p>Biased hiring AI trained on historical records may systematically disadvantage certain candidate groups — perpetuating past discrimination at scale and speed.</p>
+    </div>
+
+    <!-- 8. Human Judgment -->
+    <h3 data-aos="fade-up">8. AI Cannot Fully Replace Human Judgment</h3>
+    <p data-aos="fade-up">In critical domains — medicine, law, ethics, and leadership — human judgment remains irreplaceable. The stakes are too high and the context too nuanced for AI alone.</p>
+
+    <img
+      src="../../assets/images/synergy between Human Intelligence and Artificial Intelligence.png"
+      alt="Synergy between Human Intelligence and Artificial Intelligence"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">Best outcomes come from Human + AI collaboration — not AI replacing humans entirely</p>
+
+    <!-- Quick Comparison -->
+    <h2 data-aos="fade-up">Advantages vs Limitations — At a Glance</h2>
+    <div class="two-col" data-aos="fade-up">
+      <div class="col-card col-card--green">
+        <div class="col-card__label">✓ Advantages</div>
+        <ul>
+          <li>Fast data processing and decisions</li>
+          <li>Automates repetitive work</li>
+          <li>Available 24/7, no fatigue</li>
+          <li>Reduces certain human errors</li>
+          <li>Handles massive datasets</li>
+          <li>Personalises at scale</li>
+          <li>Operates in dangerous environments</li>
+        </ul>
+      </div>
+      <div class="col-card col-card--red">
+        <div class="col-card__label">✗ Limitations</div>
+        <ul>
+          <li>No true understanding or common sense</li>
+          <li>Depends on high-quality data</li>
+          <li>Expensive to train and run</li>
+          <li>Can inherit and amplify bias</li>
+          <li>Privacy and security risks</li>
+          <li>No real emotions or creativity</li>
+          <li>Cannot replace human judgment fully</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Real-World Perspective -->
+    <h2 data-aos="fade-up">Real-World Perspective</h2>
+    <p data-aos="fade-up">AI is extremely powerful — and still imperfect. A smart AI engineer understands when AI should be used, when its limitations require human oversight, and when AI and humans are stronger together.</p>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">Most likely future:</strong> AI-Augmented Humans — people using AI tools intelligently to multiply their capability. Not wholesale replacement, but powerful collaboration.</p>
+    </div>
+
+    <!-- Notes -->
+    <h2 data-aos="fade-up">Key Notes</h2>
+    <ul data-aos="fade-up">
+      <li>AI automates repetitive tasks, saving time and reducing cost.</li>
+      <li>AI improves speed, efficiency, and 24/7 availability.</li>
+      <li>AI depends heavily on data quality — bad data = bad AI.</li>
+      <li>AI lacks true human understanding, consciousness, and common sense.</li>
+      <li>AI can introduce and amplify bias from training data.</li>
+      <li>AI requires large computational power and energy.</li>
+      <li>Human + AI collaboration produces the best results.</li>
+      <li>AI creates both new opportunities and new challenges simultaneously.</li>
+    </ul>
+
+    <!-- Scenario-Based Questions -->
+    <h2 data-aos="fade-up">Scenario-Based Questions</h2>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Scenario 1</div>
+      <p>A hospital uses AI for disease detection from scans, but doctors still review every AI result before acting on it.</p>
+      <p><strong>Question:</strong> Why is human involvement still critical here — even with a high-accuracy AI system?</p>
+    </div>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Scenario 2</div>
+      <p>An AI hiring system trained on a company's past hiring decisions is found to unfairly reject certain candidate groups.</p>
+      <p><strong>Question:</strong> Which AI limitation is most likely causing this — and why?</p>
+    </div>
+
+    <!-- Interview Questions -->
+    <h2 data-aos="fade-up">Interview Questions</h2>
+    <ol class="question-list" data-aos="fade-up">
+      <li>What are the major advantages of AI? Give three examples with real-world context.</li>
+      <li>What are the key limitations of AI that engineers must be aware of?</li>
+      <li>Why is data quality so critical to AI performance?</li>
+      <li>What is AI bias, and how does it arise?</li>
+      <li>Will AI completely replace humans — what is your reasoned view?</li>
+    </ol>
+
+    <!-- Think About It -->
+    <h2 data-aos="fade-up">Think About It</h2>
+    <ol class="question-list" data-aos="fade-up">
+      <li>Which AI limitation concerns you most — and why?</li>
+      <li>Which AI advantage do you think is the most powerful in practice?</li>
+      <li>Do you think AI will create more jobs or eliminate more jobs overall?</li>
+      <li>Why is human judgment still essential in high-stakes domains like medicine and law?</li>
+    </ol>
+
+  </div><!-- /topic-content -->
+
+  <!-- MCQ Section -->
+  <section class="mcq-section" id="mcq-section" aria-label="Practice Questions">
+    <h2 class="mcq-section__title">🧩 Practice MCQs</h2>
+    <p class="mcq-section__subtitle">Test your understanding — 4 questions</p>
+    <div id="mcq-mount"></div>
+  </section>
+
+  <script type="application/json" id="mcq-data">
+  [
+    {
+      "q": "Which of the following is a major advantage of AI?",
+      "options": ["AI needs regular sleep cycles", "AI works slowly on complex tasks", "AI automates repetitive tasks at scale", "AI gets tired easily under load"],
+      "answer": 2,
+      "explanation": "Automation of repetitive tasks is one of AI's most impactful advantages — enabling systems to process millions of data points, filter spam, handle queries, and run assembly lines faster and more consistently than humans."
+    },
+    {
+      "q": "Which is a fundamental limitation of current AI systems?",
+      "options": ["Too much human-like emotion interferes with logic", "Lack of true understanding — AI learns patterns, not meaning", "AI takes too many vacation days", "AI cannot process any data"],
+      "answer": 1,
+      "explanation": "AI learns statistical patterns mathematically — it has no genuine understanding, consciousness, or common sense. This is why AI can produce confident but wrong outputs, and why human oversight remains important."
+    },
+    {
+      "q": "What happens when an AI system is trained on biased data?",
+      "options": ["The AI achieves perfect accuracy", "The AI produces biased and unfair predictions", "The AI trains faster", "The AI becomes more creative"],
+      "answer": 1,
+      "explanation": "AI inherits patterns from its training data. If that data contains societal biases — in hiring records, crime data, facial images — the model learns and often amplifies those biases in its predictions."
+    },
+    {
+      "q": "Which statement best describes the future relationship between AI and humans?",
+      "options": ["AI will fully replace all humans in every domain", "AI works best as a collaborative tool that augments human capability", "AI never makes mistakes so humans are no longer needed", "AI understands emotions perfectly and can replace doctors and judges"],
+      "answer": 1,
+      "explanation": "The most realistic and evidence-backed view is AI-augmented humans — people using AI tools to multiply their capability. In high-stakes domains requiring judgment, ethics, and context, human involvement remains critical."
+    }
+  ]
+  </script>
+
+  <!-- Topic Navigation -->
+  <nav class="topic-nav" id="topic-nav" aria-label="Topic navigation">
+    <button class="topic-nav__btn topic-nav__btn--prev" id="btn-prev" style="display:none">
+      <span>←</span><span><span class="topic-nav__label">Previous</span><span class="topic-nav__title" id="prev-title"></span></span>
+    </button>
+    <button class="topic-nav__btn topic-nav__btn--next" id="btn-next" style="display:none">
+      <span><span class="topic-nav__label">Next</span><span class="topic-nav__title" id="next-title"></span></span><span>→</span>
+    </button>
+  </nav>
+</article>
+
+<button class="scroll-top-btn" id="scroll-top" aria-label="Back to top">↑</button>
+
+<script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="../../js/mcq.js"></script>
+<script>
+  AOS.init({ duration: 500, once: true, offset: 40 });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const data = JSON.parse(document.getElementById('mcq-data').textContent || '[]');
+    if (data.length) MCQEngine.init('mcq-mount', data);
+  });
+
+  window.addEventListener('scroll', () => {
+    const btn = document.getElementById('scroll-top');
+    btn?.classList.toggle('visible', window.scrollY > 300);
+    const el = document.documentElement;
+    const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+    window.parent.postMessage({ type: 'scroll-progress', data: { percent: pct || 0 } }, '*');
+  }, { passive: true });
+
+  document.getElementById('scroll-top')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  window.addEventListener('message', (e) => {
+    if (e.data?.type === 'topic-context') {
+      const { prev, next } = e.data;
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      if (prev && btnPrev) {
+        document.getElementById('prev-title').textContent = prev.label;
+        btnPrev.style.display = 'flex';
+        btnPrev.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: prev.id } }, '*');
+      }
+      if (next && btnNext) {
+        document.getElementById('next-title').textContent = next.label;
+        btnNext.style.display = 'flex';
+        btnNext.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: next.id } }, '*');
+      }
+    }
+  });
+</script>
+</body>
+</html>
