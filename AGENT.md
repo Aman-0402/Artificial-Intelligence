@@ -61,9 +61,7 @@ Full design spec: `docs/superpowers/specs/2026-05-24-ai-ebook-platform-design.md
     │   ├── branches-of-ai.html           ✅ content
     │   └── advantages-limitations-ai.html ✅ content
     ├── ml/
-    │   ├── supervised-learning.html      🔲 placeholder
-    │   ├── unsupervised-learning.html    🔲 placeholder
-    │   └── reinforcement-learning.html   🔲 placeholder
+    │   └── (topics TBD)
     ├── dl/
     │   ├── neural-networks.html          🔲 placeholder
     │   ├── cnn-basics.html               🔲 placeholder
@@ -98,7 +96,7 @@ Full design spec: `docs/superpowers/specs/2026-05-24-ai-ebook-platform-design.md
 | Group | Topics | Status |
 |-------|--------|--------|
 | Intro to AI | 8 topics | ✅ All done |
-| Machine Learning | 3 topics | 🔲 Pending |
+| Machine Learning | TBD topics | 🔄 In progress |
 | Deep Learning | 3 topics | 🔲 Pending |
 | NLP & Transformers | 3 topics | 🔲 Pending |
 | Practice & Resources | 3 topics | 🔲 Pending |
@@ -133,7 +131,7 @@ File paths use subfolder pattern: `'topics/intro/what-is-ai.html'`
 ```js
 intro    (8) — what-is-ai, history-of-ai, types-of-ai, ai-vs-ml,
                applications, how-ai-works, branches-ai, adv-limit-ai
-ml       (3) — supervised, unsupervised, reinforcement
+ml       (TBD)
 dl       (3) — neural-networks, cnn, rnn-lstm
 nlp      (3) — nlp-intro, transformers, llms
 practice (3) — interview, mcq-bank, quiz
