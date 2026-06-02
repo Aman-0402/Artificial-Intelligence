@@ -28,7 +28,8 @@ const TOPICS = [
     icon: '📊',
     children: [
       { id: 'what-is-ml',   label: 'Introduction to Machine Learning', file: 'topics/ml/what-is-ml.html'   },
-      { id: 'types-of-ml', label: 'Types of Machine Learning',        file: 'topics/ml/types-of-ml.html'  },
+      { id: 'types-of-ml',        label: 'Types of Machine Learning', file: 'topics/ml/types-of-ml.html'         },
+      { id: 'supervised-learning', label: 'Supervised Learning',       file: 'topics/ml/supervised-learning.html' },
     ],
   },
   {
