@@ -14,6 +14,7 @@ const TOPICS = [
       { id: 'adv-limit-ai',  label: 'Advantages and Limitations of AI',                  file: 'topics/intro/advantages-limitations-ai.html'    },
       { id: 'ai-lifecycle',  label: 'AI Development Lifecycle',                          file: 'topics/intro/ai-development-lifecycle.html'     },
       { id: 'ai-humans',     label: 'AI, Humans, and Intelligence',                      file: 'topics/intro/ai-humans-intelligence.html'        },
+      { id: 'ai-terms',      label: 'Important AI Terminologies & Keywords',              file: 'topics/intro/ai-terminologies.html'              },
     ],
   },
   {
