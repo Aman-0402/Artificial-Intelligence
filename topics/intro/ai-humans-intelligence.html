@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI, Humans, and Intelligence — AI.learn</title>
+  <link rel="stylesheet" href="../../css/variables.css" />
+  <link rel="stylesheet" href="../../css/base.css" />
+  <link rel="stylesheet" href="../../css/animations.css" />
+  <link rel="stylesheet" href="../../css/components.css" />
+  <link rel="stylesheet" href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body);overflow-x:hidden}
+    .topic-wrapper{width:100%;padding:var(--space-8) clamp(1.5rem,4vw,5rem) var(--space-16)}
+    .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
+    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
+    .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
+    .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
+    .topic-content h4{font-size:var(--text-lg);margin-top:var(--space-6);margin-bottom:var(--space-2);color:var(--text-secondary)}
+    .topic-content p{font-size:var(--text-base);line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
+    .topic-content ul,.topic-content ol{margin-bottom:var(--space-4);padding-left:var(--space-6)}
+    .topic-content li{margin-bottom:var(--space-2);line-height:var(--leading-relaxed);color:var(--text-secondary)}
+    .topic-content pre[class*="language-"]{border-radius:var(--radius-lg);border:1px solid var(--border-default);font-size:var(--text-sm);margin-bottom:var(--space-6)}
+
+    /* Table */
+    .topic-content table{width:100%;border-collapse:collapse;margin-bottom:var(--space-6);font-size:var(--text-sm)}
+    .topic-content th{background:var(--bg-card);color:var(--accent-cyan);text-align:left;padding:var(--space-3) var(--space-4);border:1px solid var(--border-default);font-weight:600}
+    .topic-content td{padding:var(--space-3) var(--space-4);border:1px solid var(--border-default);color:var(--text-secondary);vertical-align:top}
+    .topic-content tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+
+    /* Image */
+    .topic-image{width:100%;max-width:720px;border-radius:var(--radius-lg);border:1px solid var(--border-default);margin:var(--space-6) auto;display:block;object-fit:contain}
+    .image-caption{text-align:center;font-size:var(--text-sm);color:var(--text-muted);margin-top:calc(-1 * var(--space-4));margin-bottom:var(--space-6)}
+
+    /* Scenario block */
+    .scenario-block{background:var(--bg-card);border-left:3px solid var(--accent-cyan);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:var(--space-4) var(--space-5);margin-bottom:var(--space-4)}
+    .scenario-block__label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.1em;color:var(--accent-cyan);margin-bottom:var(--space-2);font-weight:600}
+    .scenario-block p{margin-bottom:var(--space-2);font-size:var(--text-sm)}
+    .scenario-block p:last-child{margin-bottom:0}
+
+    /* Highlight box */
+    .highlight-box{background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-lg);padding:var(--space-5);margin-bottom:var(--space-6)}
+    .highlight-box p{margin-bottom:0;font-size:var(--text-sm)}
+
+    /* Compare grid */
+    .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);margin-bottom:var(--space-6)}
+    @media(max-width:640px){.compare-grid{grid-template-columns:1fr}}
+    .compare-card{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-lg);padding:var(--space-5)}
+    .compare-card__label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.1em;color:var(--accent-cyan);margin-bottom:var(--space-2);font-weight:600}
+    .compare-card__title{font-size:var(--text-base);font-weight:600;color:var(--text-primary);margin-bottom:var(--space-3)}
+    .compare-card p{font-size:var(--text-sm);color:var(--text-secondary);margin-bottom:var(--space-2)}
+    .compare-card ul{margin:0;padding-left:1.2rem}
+    .compare-card li{font-size:var(--text-sm);color:var(--text-secondary);margin-bottom:var(--space-1)}
+
+    /* Code explanation step */
+    .code-step{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-md);padding:var(--space-4) var(--space-5);margin-bottom:var(--space-3)}
+    .code-step__label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.1em;color:var(--accent-cyan);margin-bottom:var(--space-2);font-weight:600}
+    .code-step p{font-size:var(--text-sm);color:var(--text-secondary);margin-bottom:var(--space-2)}
+    .code-step p:last-child{margin-bottom:0}
+
+    /* Question list */
+    .question-list{list-style:none;padding-left:0;counter-reset:q-counter}
+    .question-list li{counter-increment:q-counter;padding-left:var(--space-8);position:relative;margin-bottom:var(--space-3)}
+    .question-list li::before{content:counter(q-counter) ".";position:absolute;left:0;color:var(--accent-cyan);font-weight:700;font-family:var(--font-mono)}
+
+    /* Scroll to top */
+    .scroll-top-btn{position:fixed;bottom:var(--space-6);right:var(--space-6);width:42px;height:42px;background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-md);cursor:pointer;color:var(--accent-cyan);font-size:1.2rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-md),var(--glow-cyan-sm);opacity:0;transform:translateY(10px);pointer-events:none;transition:all .3s ease;z-index:50}
+    .scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:all}
+    @media(max-width:600px){.topic-wrapper{padding:var(--space-5) var(--space-4) var(--space-12)}}
+  </style>
+</head>
+<body>
+<article class="topic-wrapper">
+  <header class="topic-header">
+    <h1 class="topic-title">AI, Humans, and Intelligence</h1>
+  </header>
+
+  <div class="topic-content" id="topic-content">
+
+    <!-- What is Intelligence -->
+    <h2 data-aos="fade-up">What is Intelligence?</h2>
+    <p data-aos="fade-up">Intelligence means <strong>the ability to learn, understand, reason, and solve problems</strong>. It is not just about storing facts — it is about using knowledge effectively in new situations.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Human Ability</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Learning</td><td>Learning to ride a cycle from scratch</td></tr>
+        <tr><td>Reasoning</td><td>Solving a puzzle by trying different approaches</td></tr>
+        <tr><td>Memory</td><td>Remembering a friend's name years later</td></tr>
+        <tr><td>Creativity</td><td>Writing a story with original characters</td></tr>
+        <tr><td>Decision Making</td><td>Choosing the best option under uncertainty</td></tr>
+        <tr><td>Adaptation</td><td>Handling completely new, unexpected situations</td></tr>
+      </tbody>
+    </table>
+
+    <img
+      src="../../assets/images/Learning from experience with safety.png"
+      alt="Learning from experience with safety — human intelligence in action"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+
+    <!-- Human Brain vs AI -->
+    <h2 data-aos="fade-up">Human Brain vs AI</h2>
+
+    <img
+      src="../../assets/images/Human brain vs AI system decision-making.png"
+      alt="Human brain vs AI system decision-making comparison"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">Human brain uses intuition, emotion, and context. AI uses mathematical pattern matching.</p>
+
+    <div class="compare-grid" data-aos="fade-up">
+      <div class="compare-card">
+        <div class="compare-card__label">Humans</div>
+        <ul>
+          <li>Understand meaning deeply</li>
+          <li>Have emotions and empathy</li>
+          <li>Use common sense naturally</li>
+          <li>Learn from very few examples</li>
+          <li>Transfer knowledge across domains</li>
+        </ul>
+      </div>
+      <div class="compare-card">
+        <div class="compare-card__label">AI</div>
+        <ul>
+          <li>Learns statistical patterns</li>
+          <li>Needs huge amounts of data</li>
+          <li>Has no emotions</li>
+          <li>Lacks true understanding</li>
+          <li>Struggles with general transfer</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Example Comparison</div>
+      <p><strong>Human:</strong> A child sees 2–3 dogs and immediately understands "this is a dog" — generalising to any new dog.</p>
+      <p><strong>AI:</strong> May need thousands of labelled dog images to achieve reliable recognition.</p>
+    </div>
+
+    <!-- Types of Human Intelligence -->
+    <h2 data-aos="fade-up">Types of Human Intelligence</h2>
+    <p data-aos="fade-up">Psychologists have identified multiple distinct forms of intelligence — not all of which AI can replicate.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Intelligence Type</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Logical-Mathematical</td><td>Solving equations, reasoning about numbers</td></tr>
+        <tr><td>Linguistic</td><td>Writing, speaking, storytelling</td></tr>
+        <tr><td>Spatial</td><td>Designing, reading maps, visualising structures</td></tr>
+        <tr><td>Musical</td><td>Composing, recognising patterns in sound</td></tr>
+        <tr><td>Emotional (EQ)</td><td>Understanding and managing emotions</td></tr>
+        <tr><td>Physical / Kinesthetic</td><td>Sports, dance, fine motor control</td></tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">AI Limitation:</strong> Modern AI is strong at pattern recognition, computation, and prediction — but weaker at emotional understanding, common sense reasoning, and real-world situational awareness.</p>
+    </div>
+
+    <!-- Intelligence vs Knowledge -->
+    <h2 data-aos="fade-up">Intelligence vs Knowledge</h2>
+    <p data-aos="fade-up">This distinction is critical — and often misunderstood.</p>
+
+    <div class="compare-grid" data-aos="fade-up">
+      <div class="compare-card">
+        <div class="compare-card__label">Knowledge</div>
+        <div class="compare-card__title">Information stored</div>
+        <p>Knowing that the capital of France is Paris. Remembering a chemical formula. Storing facts.</p>
+      </div>
+      <div class="compare-card">
+        <div class="compare-card__label">Intelligence</div>
+        <div class="compare-card__title">Using knowledge effectively</div>
+        <p>Solving a new problem using known facts. Adapting learned principles to an unknown situation.</p>
+      </div>
+    </div>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Classic Example</div>
+      <p><strong>Knowledge:</strong> "Tomatoes are technically fruits."</p>
+      <p><strong>Intelligence:</strong> "Don't put tomatoes in fruit salad." — practical reasoning applied to a real situation.</p>
+    </div>
+
+    <!-- Common Sense Problem -->
+    <h2 data-aos="fade-up">AI and the Common Sense Problem</h2>
+    <p data-aos="fade-up">Despite impressive capabilities, AI still struggles significantly with common sense — the kind of basic reasoning every human applies effortlessly.</p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Famous Example</div>
+      <p>Sentence: <em>"The trophy didn't fit in the suitcase because it was too big."</em></p>
+      <p><strong>Question:</strong> What was too big — the trophy or the suitcase?</p>
+      <p>Humans answer instantly: <strong>the trophy</strong>. AI systems can struggle with this — they lack the real-world physical intuition that makes the answer obvious to any child.</p>
+    </div>
+
+    <!-- Why AI Needs Huge Data -->
+    <h2 data-aos="fade-up">Why AI Needs Huge Data</h2>
+    <p data-aos="fade-up">Humans learn efficiently from few examples because we bring prior knowledge, context, and physical experience. AI has none of these — it learns purely from statistical patterns in data, so it needs far more examples to reach comparable performance.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Human Learning</th><th>AI Learning</th></tr></thead>
+      <tbody>
+        <tr><td>Few examples often enough</td><td>Requires massive datasets</td></tr>
+        <tr><td>Emotional and contextual understanding</td><td>Pure pattern recognition</td></tr>
+        <tr><td>Common sense applied automatically</td><td>Statistical learning only</td></tr>
+        <tr><td>Flexible, cross-domain reasoning</td><td>Mostly task-specific</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Can AI Become Truly Intelligent -->
+    <h2 data-aos="fade-up">Can AI Become Truly Intelligent?</h2>
+    <p data-aos="fade-up">This is one of the most debated questions in AI research. Current AI can generate text, create images, write code, drive cars, and beat humans at complex games — but it still lacks consciousness, self-awareness, and genuine understanding.</p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">The AGI Question</div>
+      <p><strong>Artificial General Intelligence (AGI)</strong> refers to AI that can perform any intellectual task a human can — flexibly, across domains, with common sense. Some experts believe it is achievable; others argue human intelligence is fundamentally different. The debate is ongoing.</p>
+    </div>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">Most important beginner concept:</strong> AI <em>simulates</em> intelligence — it does not truly "think" like humans. ChatGPT writes essays and answers questions because it learned patterns from massive text data. It does not "understand" in the human sense.</p>
+    </div>
+
+    <!-- Strengths comparison -->
+    <h2 data-aos="fade-up">Where Each Excels</h2>
+
+    <div class="compare-grid" data-aos="fade-up">
+      <div class="compare-card">
+        <div class="compare-card__label">AI is Better At</div>
+        <ul>
+          <li>Speed and scale of processing</li>
+          <li>Tireless repetition</li>
+          <li>Large-scale pattern detection</li>
+          <li>Consistent performance under load</li>
+          <li>Analysing millions of data points</li>
+        </ul>
+      </div>
+      <div class="compare-card">
+        <div class="compare-card__label">Humans are Better At</div>
+        <ul>
+          <li>Creativity and imagination</li>
+          <li>Empathy and emotional reasoning</li>
+          <li>Ethical and moral judgment</li>
+          <li>Common sense in new situations</li>
+          <li>Learning from very few examples</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Human + AI Collaboration -->
+    <h2 data-aos="fade-up">Human + AI Collaboration</h2>
+    <p data-aos="fade-up">The most powerful outcomes come not from AI replacing humans, but from both working together — each covering the other's weaknesses.</p>
+
+    <img
+      src="../../assets/images/Humans and AI driving productivity.png"
+      alt="Humans and AI driving productivity together"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">Human judgment + AI scale = results neither achieves alone</p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Real-World Example — Healthcare</div>
+      <p>AI analyses thousands of medical scans rapidly and flags anomalies. The doctor applies clinical judgment, patient context, and ethical reasoning. Together they produce better outcomes than either would alone.</p>
+    </div>
+
+    <!-- Code Example -->
+    <h2 data-aos="fade-up">Simple Coding Example — Decision-Making Logic</h2>
+    <p data-aos="fade-up">Let's simulate a tiny "intelligent" decision-making system in Python — the simplest form of AI logic.</p>
+
+<pre data-aos="fade-up"><code class="language-python"># Simple AI Decision-Making Example
+
+hungry = True
+pizza_available = True
+
+if hungry and pizza_available:
+    print("AI says: Order pizza immediately! 🍕")
+else:
+    print("AI says: Keep learning AI instead 💻")</code></pre>
+
+    <h3 data-aos="fade-up">Code Explanation</h3>
+
+    <div class="code-step" data-aos="fade-up">
+      <div class="code-step__label">Step 1 — Variables (Inputs)</div>
+      <p><code style="font-family:var(--font-mono);color:var(--accent-cyan)">hungry = True</code> and <code style="font-family:var(--font-mono);color:var(--accent-cyan)">pizza_available = True</code> — these store the current conditions, just like real AI systems receive input data.</p>
+    </div>
+
+    <div class="code-step" data-aos="fade-up">
+      <div class="code-step__label">Step 2 — Condition Check (Pattern Matching)</div>
+      <p><code style="font-family:var(--font-mono);color:var(--accent-cyan)">if hungry and pizza_available:</code> — the system checks both conditions simultaneously, similar to how real AI evaluates multiple features.</p>
+    </div>
+
+    <div class="code-step" data-aos="fade-up">
+      <div class="code-step__label">Step 3 — Decision (Output)</div>
+      <p>Based on the conditions, the system makes a decision and outputs it. Real AI does the same — at massively larger scale with advanced mathematics.</p>
+    </div>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">Important:</strong> This simple code is not real AI. But it introduces <em>decision-making logic</em> — the foundational building block of all AI systems. Real AI uses the same pattern: inputs → analysis → prediction/decision.</p>
+    </div>
+
+    <!-- Notes -->
+    <h2 data-aos="fade-up">Key Notes</h2>
+    <ul data-aos="fade-up">
+      <li>Intelligence = ability to learn, understand, reason, and solve problems.</li>
+      <li>Humans and AI learn in fundamentally different ways.</li>
+      <li>AI lacks emotions, consciousness, and common sense.</li>
+      <li>AI mainly learns patterns mathematically — not meaning.</li>
+      <li>Humans generalise from few examples; AI needs massive datasets.</li>
+      <li>AI excels at speed, scale, and pattern detection.</li>
+      <li>AGI (Artificial General Intelligence) aims for human-level intelligence — still unsolved.</li>
+      <li>Human + AI collaboration produces the best real-world outcomes.</li>
+    </ul>
+
+    <!-- Scenario-Based Questions -->
+    <h2 data-aos="fade-up">Scenario-Based Questions</h2>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Scenario 1</div>
+      <p>A chatbot produces a grammatically perfect, fluent response — but the answer makes no real-world sense in context.</p>
+      <p><strong>Question:</strong> Which AI limitation does this reveal?</p>
+    </div>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Scenario 2</div>
+      <p>A child correctly identifies a cat after seeing only three examples. An AI system needs tens of thousands of labelled cat images to achieve the same accuracy.</p>
+      <p><strong>Question:</strong> What does this difference reveal about human intelligence?</p>
+    </div>
+
+    <!-- Interview Questions -->
+    <h2 data-aos="fade-up">Interview Questions</h2>
+    <ol class="question-list" data-aos="fade-up">
+      <li>What is intelligence, and how does it differ from knowledge?</li>
+      <li>What are the key differences between human intelligence and AI?</li>
+      <li>Why does AI typically need large datasets while humans learn from few examples?</li>
+      <li>What is common sense reasoning, and why is it hard for AI?</li>
+      <li>What is Artificial General Intelligence (AGI)?</li>
+    </ol>
+
+    <!-- Think About It -->
+    <h2 data-aos="fade-up">Think About It</h2>
+    <ol class="question-list" data-aos="fade-up">
+      <li>Why do humans learn faster than AI in many real-world scenarios?</li>
+      <li>Do you think AI can ever truly think and understand like a human — or is it always simulation?</li>
+      <li>What is the single biggest difference between human and AI intelligence in your view?</li>
+      <li>Why is common sense — something every human has automatically — so difficult for AI to acquire?</li>
+    </ol>
+
+  </div><!-- /topic-content -->
+
+  <!-- MCQ Section -->
+  <section class="mcq-section" id="mcq-section" aria-label="Practice Questions">
+    <h2 class="mcq-section__title">🧩 Practice MCQs</h2>
+    <p class="mcq-section__subtitle">Test your understanding — 4 questions</p>
+    <div id="mcq-mount"></div>
+  </section>
+
+  <script type="application/json" id="mcq-data">
+  [
+    {
+      "q": "What is the best definition of intelligence?",
+      "options": ["Only the ability to memorise large amounts of information", "The ability to learn, understand, reason, and solve problems", "Fast access to the internet", "The ability to type quickly"],
+      "answer": 1,
+      "explanation": "Intelligence is far more than memory — it includes reasoning, problem-solving, adaptation, and the ability to apply knowledge to new situations. Memorisation alone is knowledge, not intelligence."
+    },
+    {
+      "q": "How does AI primarily learn?",
+      "options": ["Through emotions and lived experience", "Through dreams and intuition", "By finding mathematical patterns in large datasets", "Through human consciousness transfer"],
+      "answer": 2,
+      "explanation": "AI systems learn by finding statistical patterns in data through mathematical optimisation — not through emotions, intuition, or real-world experience the way humans do."
+    },
+    {
+      "q": "In which area do humans generally outperform current AI?",
+      "options": ["Processing millions of calculations per second", "Common sense reasoning in new situations", "Storing and retrieving large amounts of data", "Repetitive pattern detection at scale"],
+      "answer": 1,
+      "explanation": "Common sense reasoning — applying implicit real-world knowledge to new situations — remains a major weakness of AI. Humans apply it effortlessly; AI systems often fail on simple common-sense questions."
+    },
+    {
+      "q": "What does AGI stand for, and what does it mean?",
+      "options": ["Artificial Game Intelligence — AI that plays games", "Artificial General Intelligence — AI with human-level general problem-solving ability", "Advanced Graphics Interface — a type of display hardware", "AI hardware processor"],
+      "answer": 1,
+      "explanation": "AGI (Artificial General Intelligence) refers to a hypothetical AI system that can perform any intellectual task a human can — flexibly, across all domains, with genuine understanding. No such system exists yet."
+    }
+  ]
+  </script>
+
+  <!-- Topic Navigation -->
+  <nav class="topic-nav" id="topic-nav" aria-label="Topic navigation">
+    <button class="topic-nav__btn topic-nav__btn--prev" id="btn-prev" style="display:none">
+      <span>←</span><span><span class="topic-nav__label">Previous</span><span class="topic-nav__title" id="prev-title"></span></span>
+    </button>
+    <button class="topic-nav__btn topic-nav__btn--next" id="btn-next" style="display:none">
+      <span><span class="topic-nav__label">Next</span><span class="topic-nav__title" id="next-title"></span></span><span>→</span>
+    </button>
+  </nav>
+</article>
+
+<button class="scroll-top-btn" id="scroll-top" aria-label="Back to top">↑</button>
+
+<script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="../../js/mcq.js"></script>
+<script src="../../js/lightbox.js"></script>
+<script>
+  AOS.init({ duration: 500, once: true, offset: 40 });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const data = JSON.parse(document.getElementById('mcq-data').textContent || '[]');
+    if (data.length) MCQEngine.init('mcq-mount', data);
+  });
+
+  window.addEventListener('scroll', () => {
+    const btn = document.getElementById('scroll-top');
+    btn?.classList.toggle('visible', window.scrollY > 300);
+    const el = document.documentElement;
+    const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+    window.parent.postMessage({ type: 'scroll-progress', data: { percent: pct || 0 } }, '*');
+  }, { passive: true });
+
+  document.getElementById('scroll-top')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  window.addEventListener('message', (e) => {
+    if (e.data?.type === 'topic-context') {
+      const { prev, next } = e.data;
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      if (prev && btnPrev) {
+        document.getElementById('prev-title').textContent = prev.label;
+        btnPrev.style.display = 'flex';
+        btnPrev.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: prev.id } }, '*');
+      }
+      if (next && btnNext) {
+        document.getElementById('next-title').textContent = next.label;
+        btnNext.style.display = 'flex';
+        btnNext.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: next.id } }, '*');
+      }
+    }
+  });
+</script>
+</body>
+</html>

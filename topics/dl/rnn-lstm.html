@@ -348,5 +348,6 @@ print(f"Test accuracy: {test_acc:.4f}")   # ~0.87
   const ttsBtn=document.getElementById('tts-btn');let speaking=false;
   ttsBtn?.addEventListener('click',()=>{if(!window.speechSynthesis)return;if(speaking){window.speechSynthesis.cancel();speaking=false;ttsBtn.textContent='🔊 Read Aloud';return;}const u=new SpeechSynthesisUtterance(document.getElementById('topic-content')?.innerText||'');u.rate=0.95;u.onend=()=>{speaking=false;ttsBtn.textContent='🔊 Read Aloud';};window.speechSynthesis.speak(u);speaking=true;ttsBtn.textContent='⏹ Stop';});
 </script>
+<script src="../../js/lightbox.js"></script>
 </body>
 </html>

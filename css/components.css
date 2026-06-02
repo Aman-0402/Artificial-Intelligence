@@ -649,3 +649,66 @@
     right: var(--space-4);
   }
 }
+
+/* --------------------------------------------------
+   LIGHTBOX
+-------------------------------------------------- */
+.topic-image {
+  cursor: zoom-in;
+}
+
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  z-index: 9999;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  padding: 4rem 1.5rem 2rem;
+}
+
+.lightbox-overlay.is-open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.lightbox-overlay__img {
+  max-width: 90vw;
+  width: auto;
+  height: auto;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 0 60px rgba(0, 212, 255, 0.2), var(--shadow-md);
+  display: block;
+  margin: auto;
+}
+
+.lightbox-close {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 42px;
+  height: 42px;
+  background: var(--bg-card);
+  border: 1px solid var(--accent-cyan-border);
+  border-radius: 50%;
+  color: var(--accent-cyan);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 10000;
+  line-height: 1;
+}
+
+.lightbox-close:hover {
+  background: var(--accent-cyan-glow);
+  box-shadow: var(--glow-cyan-sm);
+  transform: scale(1.1);
+}
