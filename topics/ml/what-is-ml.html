@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introduction to Machine Learning — AI.learn</title>
+  <link rel="stylesheet" href="../../css/variables.css" />
+  <link rel="stylesheet" href="../../css/base.css" />
+  <link rel="stylesheet" href="../../css/animations.css" />
+  <link rel="stylesheet" href="../../css/components.css" />
+  <link rel="stylesheet" href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body);overflow-x:hidden}
+    .topic-wrapper{width:100%;padding:var(--space-8) clamp(1.5rem,4vw,5rem) var(--space-16)}
+    .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
+    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
+    .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
+    .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
+    .topic-content h4{font-size:var(--text-lg);margin-top:var(--space-6);margin-bottom:var(--space-2);color:var(--text-secondary)}
+    .topic-content p{font-size:var(--text-base);line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
+    .topic-content ul,.topic-content ol{margin-bottom:var(--space-4);padding-left:var(--space-6)}
+    .topic-content li{margin-bottom:var(--space-2);line-height:var(--leading-relaxed);color:var(--text-secondary)}
+
+    /* Table */
+    .topic-content table{width:100%;border-collapse:collapse;margin-bottom:var(--space-6);font-size:var(--text-sm)}
+    .topic-content th{background:var(--bg-card);color:var(--accent-cyan);text-align:left;padding:var(--space-3) var(--space-4);border:1px solid var(--border-default);font-weight:600}
+    .topic-content td{padding:var(--space-3) var(--space-4);border:1px solid var(--border-default);color:var(--text-secondary);vertical-align:top}
+    .topic-content tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+
+    /* Image */
+    .topic-image{width:100%;max-width:720px;border-radius:var(--radius-lg);border:1px solid var(--border-default);margin:var(--space-6) auto;display:block;object-fit:contain}
+    .image-caption{text-align:center;font-size:var(--text-sm);color:var(--text-muted);margin-top:calc(-1 * var(--space-4));margin-bottom:var(--space-6)}
+
+    /* Scenario block */
+    .scenario-block{background:var(--bg-card);border-left:3px solid var(--accent-cyan);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:var(--space-4) var(--space-5);margin-bottom:var(--space-4)}
+    .scenario-block__label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.1em;color:var(--accent-cyan);margin-bottom:var(--space-2);font-weight:600}
+    .scenario-block p{margin-bottom:var(--space-2);font-size:var(--text-sm)}
+    .scenario-block p:last-child{margin-bottom:0}
+
+    /* Compare grid */
+    .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);margin-bottom:var(--space-6)}
+    @media(max-width:640px){.compare-grid{grid-template-columns:1fr}}
+    .compare-card{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-lg);padding:var(--space-5)}
+    .compare-card__label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.1em;color:var(--accent-cyan);margin-bottom:var(--space-2);font-weight:600}
+    .compare-card__title{font-size:var(--text-base);font-weight:600;color:var(--text-primary);margin-bottom:var(--space-3)}
+    .compare-card p{font-size:var(--text-sm);color:var(--text-secondary);margin-bottom:0}
+    .compare-card code{font-family:var(--font-mono);font-size:var(--text-sm);color:var(--accent-cyan);display:block;margin:var(--space-2) 0;white-space:pre-line}
+
+    /* Highlight box */
+    .highlight-box{background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-lg);padding:var(--space-5);margin-bottom:var(--space-6)}
+    .highlight-box p{margin-bottom:0;font-size:var(--text-sm)}
+
+    /* Workflow */
+    .workflow{display:flex;flex-direction:column;gap:0;margin-bottom:var(--space-6)}
+    .workflow__step{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-md);padding:var(--space-3) var(--space-5);display:flex;align-items:center;gap:var(--space-4)}
+    .workflow__step-num{font-family:var(--font-mono);font-size:var(--text-sm);color:var(--accent-cyan);font-weight:700;min-width:1.5rem}
+    .workflow__step-label{font-size:var(--text-sm);color:var(--text-secondary)}
+    .workflow__arrow{text-align:center;color:var(--accent-cyan);font-size:1rem;line-height:1.4;margin:0 auto}
+
+    /* Question list */
+    .question-list{list-style:none;padding-left:0;counter-reset:q-counter}
+    .question-list li{counter-increment:q-counter;padding-left:var(--space-8);position:relative;margin-bottom:var(--space-3)}
+    .question-list li::before{content:counter(q-counter) ".";position:absolute;left:0;color:var(--accent-cyan);font-weight:700;font-family:var(--font-mono)}
+
+    /* Scroll to top */
+    .scroll-top-btn{position:fixed;bottom:var(--space-6);right:var(--space-6);width:42px;height:42px;background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-md);cursor:pointer;color:var(--accent-cyan);font-size:1.2rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-md),var(--glow-cyan-sm);opacity:0;transform:translateY(10px);pointer-events:none;transition:all .3s ease;z-index:50}
+    .scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:all}
+    @media(max-width:600px){.topic-wrapper{padding:var(--space-5) var(--space-4) var(--space-12)}}
+  </style>
+</head>
+<body>
+<article class="topic-wrapper">
+  <header class="topic-header">
+    <h1 class="topic-title">Introduction to Machine Learning</h1>
+  </header>
+
+  <div class="topic-content" id="topic-content">
+
+    <!-- What is ML -->
+    <h2 data-aos="fade-up">What is Machine Learning?</h2>
+    <p data-aos="fade-up">Machine Learning is <strong>a branch of AI where machines learn patterns from data</strong> instead of being explicitly programmed with rules.</p>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">Key Idea:</strong> Instead of a programmer writing every rule, the machine finds the rules itself — by studying examples.</p>
+    </div>
+
+    <!-- Traditional vs ML -->
+    <h2 data-aos="fade-up">Traditional Programming vs Machine Learning</h2>
+
+    <img
+      src="../../assets/images/ML/Programming vs machine learning comparison.png"
+      alt="Comparison diagram of traditional programming versus machine learning approach"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">Traditional programming: humans write rules. Machine Learning: machines learn rules from data.</p>
+
+    <div class="compare-grid" data-aos="fade-up">
+      <div class="compare-card">
+        <div class="compare-card__label">Traditional Programming</div>
+        <div class="compare-card__title">Rules + Data → Output</div>
+        <p>Programmer manually writes every rule the computer must follow. Works for simple, well-defined problems. Breaks when rules become too complex.</p>
+        <code>Rules + Data → Output</code>
+      </div>
+      <div class="compare-card">
+        <div class="compare-card__label">Machine Learning</div>
+        <div class="compare-card__title">Data + Answers → Rules → Predictions</div>
+        <p>The machine studies examples and learns its own rules. Handles complex, real-world variation that no human could fully hand-code.</p>
+        <code>Data + Answers
+  → ML learns rules
+  → Predictions</code>
+      </div>
+    </div>
+
+    <!-- Real-Life Analogy -->
+    <h2 data-aos="fade-up">Real-Life Analogy</h2>
+    <p data-aos="fade-up">Imagine teaching a child.</p>
+
+    <div class="compare-grid" data-aos="fade-up">
+      <div class="compare-card">
+        <div class="compare-card__label">Traditional Programming</div>
+        <div class="compare-card__title">Manual Rules</div>
+        <p>You manually explain <strong>every single rule</strong> — the child only knows what you explicitly told it.</p>
+      </div>
+      <div class="compare-card">
+        <div class="compare-card__label">Machine Learning</div>
+        <div class="compare-card__title">Learning from Experience</div>
+        <p>You give the child examples, experience, and practice. The child <strong>learns patterns naturally</strong> — and generalises to new situations. ML works similarly.</p>
+      </div>
+    </div>
+
+    <!-- Spam Detection Example -->
+    <h2 data-aos="fade-up">Real-Life Example — Spam Detection</h2>
+    <p data-aos="fade-up">Suppose we want AI to detect spam emails.</p>
+
+    <div class="compare-grid" data-aos="fade-up">
+      <div class="compare-card">
+        <div class="compare-card__label">Traditional Approach</div>
+        <div class="compare-card__title">Manual Rules</div>
+        <p>Programmer writes specific rules like <code>if "win money" in email: mark as spam</code>. Very limited — easy to bypass, hard to maintain.</p>
+      </div>
+      <div class="compare-card">
+        <div class="compare-card__label">Machine Learning Approach</div>
+        <div class="compare-card__title">Learned Rules</div>
+        <p>We provide thousands of spam emails and thousands of safe emails. ML <strong>automatically learns</strong> suspicious patterns, word combinations, and email structures — without writing a single rule.</p>
+      </div>
+    </div>
+
+    <!-- Why ML Became Revolutionary -->
+    <h2 data-aos="fade-up">Why Machine Learning Became Revolutionary</h2>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Factor</th><th>Why It Mattered</th></tr></thead>
+      <tbody>
+        <tr><td>Huge data became available</td><td>Internet and smartphones generated massive training material</td></tr>
+        <tr><td>Computers became faster</td><td>GPUs enabled training in hours instead of years</td></tr>
+        <tr><td>Algorithms improved</td><td>Deep Learning architectures dramatically increased accuracy</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Real-World Applications -->
+    <h2 data-aos="fade-up">Real-World Applications of ML</h2>
+
+    <img
+      src="../../assets/images/ML/Real-world applications of machine learning.png"
+      alt="Infographic showing real-world applications of machine learning across industries"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">ML powers recommendations, fraud detection, medical diagnosis, autonomous vehicles, and more.</p>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">Important:</strong> Machine Learning is <strong>data-driven learning</strong>. The machine improves by analysing examples — not by following instructions.</p>
+    </div>
+
+    <!-- Core ML Workflow -->
+    <h2 data-aos="fade-up">Core ML Workflow</h2>
+
+    <img
+      src="../../assets/images/ML/How machine learning works infographic.png"
+      alt="Infographic showing how machine learning works end-to-end"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">This is the heart of ML: data in → pattern learning → predictions out.</p>
+
+    <div class="workflow" data-aos="fade-up">
+      <div class="workflow__step"><span class="workflow__step-num">1</span><span class="workflow__step-label">Collect Data — gather labelled examples</span></div>
+      <div class="workflow__arrow">↓</div>
+      <div class="workflow__step"><span class="workflow__step-num">2</span><span class="workflow__step-label">Train Model — ML finds patterns in the data</span></div>
+      <div class="workflow__arrow">↓</div>
+      <div class="workflow__step"><span class="workflow__step-num">3</span><span class="workflow__step-label">Make Prediction — model outputs answer for new input</span></div>
+    </div>
+
+    <!-- Step-by-Step Understanding -->
+    <h2 data-aos="fade-up">Step-by-Step ML Understanding</h2>
+
+    <h3 data-aos="fade-up">Step 1 — Collect Data</h3>
+    <p data-aos="fade-up">Example: house prices. This becomes the <strong>training data</strong>.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>House Size</th><th>Price</th></tr></thead>
+      <tbody>
+        <tr><td>1000 sq ft</td><td>₹20 lakh</td></tr>
+        <tr><td>1500 sq ft</td><td>₹30 lakh</td></tr>
+        <tr><td>2000 sq ft</td><td>₹40 lakh</td></tr>
+      </tbody>
+    </table>
+
+    <h3 data-aos="fade-up">Step 2 — ML Learns the Pattern</h3>
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Pattern Discovered</div>
+      <p>Larger house → Higher price</p>
+    </div>
+
+    <h3 data-aos="fade-up">Step 3 — Prediction</h3>
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">New Input</div>
+      <p>House Size = 1800 sq ft</p>
+      <p>ML predicts: <strong>Approx ₹36 lakh</strong></p>
+      <p>That is Machine Learning prediction.</p>
+    </div>
+
+    <!-- ML Terminologies -->
+    <h2 data-aos="fade-up">Important ML Terminologies</h2>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td>Data</td><td>Learning material — the examples ML trains on</td></tr>
+        <tr><td>Features</td><td>Input information (e.g. house size, number of rooms)</td></tr>
+        <tr><td>Labels</td><td>Correct answers (e.g. house price)</td></tr>
+        <tr><td>Model</td><td>Learned intelligence — the output of training</td></tr>
+        <tr><td>Training</td><td>The learning process — ML finding patterns in data</td></tr>
+        <tr><td>Prediction</td><td>Output generation — model answering new inputs</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Types of ML -->
+    <h2 data-aos="fade-up">Types of Machine Learning</h2>
+    <p data-aos="fade-up">Three major ML categories — each explored deeply in later topics.</p>
+
+    <div class="compare-grid" data-aos="fade-up">
+      <div class="compare-card">
+        <div class="compare-card__label">1. Supervised Learning</div>
+        <div class="compare-card__title">Learns with correct answers</div>
+        <p>Trains using input data paired with correct labels. Examples: spam detection, house price prediction.</p>
+      </div>
+      <div class="compare-card">
+        <div class="compare-card__label">2. Unsupervised Learning</div>
+        <div class="compare-card__title">Finds hidden patterns</div>
+        <p>Learns from data without labels — discovers hidden structures. Example: customer grouping.</p>
+      </div>
+    </div>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">3. Reinforcement Learning</div>
+      <p>Learns through rewards and punishments. Used in self-driving AI and game AI. The agent improves by trial and error.</p>
+    </div>
+
+    <!-- Why ML is Powerful -->
+    <h2 data-aos="fade-up">Why ML is So Powerful</h2>
+    <ul data-aos="fade-up">
+      <li>Learns complex patterns humans cannot hand-code</li>
+      <li>Improves automatically with more data</li>
+      <li>Handles massive datasets at speed</li>
+      <li>Makes predictions faster than any human</li>
+    </ul>
+
+    <!-- Netflix Example -->
+    <h2 data-aos="fade-up">Real-Life Example — Netflix</h2>
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">How Netflix ML Works</div>
+      <p>Netflix ML analyses: watch history, likes, and user behaviour patterns.</p>
+      <p>Then predicts: <strong>"You may like this movie."</strong></p>
+      <p>Every recommendation is a ML prediction.</p>
+    </div>
+
+    <!-- ML vs Traditional Table -->
+    <h2 data-aos="fade-up">ML vs Traditional Programming</h2>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Traditional Programming</th><th>Machine Learning</th></tr></thead>
+      <tbody>
+        <tr><td>Rules written manually</td><td>Rules learned automatically from data</td></tr>
+        <tr><td>Limited flexibility</td><td>Learns and adapts from data</td></tr>
+        <tr><td>Hard to scale</td><td>Improves with more data</td></tr>
+        <tr><td>Static behaviour</td><td>Adaptive learning</td></tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">Important:</strong> Machine Learning does NOT "think." It mainly <strong>finds mathematical patterns in data</strong>.</p>
+    </div>
+
+    <!-- More Real-World Examples -->
+    <h2 data-aos="fade-up">Real-World ML Examples</h2>
+
+    <div class="compare-grid" data-aos="fade-up">
+      <div class="compare-card">
+        <div class="compare-card__label">YouTube Recommendations</div>
+        <p>ML predicts which videos you are likely to watch next based on your history.</p>
+      </div>
+      <div class="compare-card">
+        <div class="compare-card__label">Google Maps</div>
+        <p>ML predicts traffic, fastest route, and travel time using historical and live data.</p>
+      </div>
+    </div>
+
+    <div class="compare-grid" data-aos="fade-up">
+      <div class="compare-card">
+        <div class="compare-card__label">Fraud Detection</div>
+        <p>ML predicts whether a transaction is suspicious by learning patterns from millions of past transactions.</p>
+      </div>
+      <div class="compare-card">
+        <div class="compare-card__label">Medical AI</div>
+        <p>ML predicts disease probability from patient data, scan images, and medical history.</p>
+      </div>
+    </div>
+
+    <!-- AI vs ML Relationship -->
+    <h2 data-aos="fade-up">AI vs ML Relationship</h2>
+
+    <img
+      src="../../assets/images/ML/AI vs ML relationship explained visually.png"
+      alt="Visual diagram explaining the relationship between AI and Machine Learning"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">ML is a subset of AI. Not all AI is ML — but most modern AI heavily relies on ML.</p>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">Remember:</strong> Not all AI is Machine Learning. But most modern AI heavily uses ML to power its capabilities.</p>
+    </div>
+
+    <!-- Why ML Engineers Are In Demand -->
+    <h2 data-aos="fade-up">Why ML Engineers Are In Demand</h2>
+    <p data-aos="fade-up">Companies want systems that:</p>
+    <ul data-aos="fade-up">
+      <li>Learn automatically without manual rule updates</li>
+      <li>Improve predictions over time</li>
+      <li>Personalise experiences at scale</li>
+      <li>Automate complex decisions</li>
+    </ul>
+    <p data-aos="fade-up">ML makes all of this possible.</p>
+
+    <!-- Coding Example -->
+    <h2 data-aos="fade-up">Coding Example</h2>
+    <p data-aos="fade-up">Simulating tiny ML-like prediction behaviour:</p>
+
+    <pre data-aos="fade-up"><code class="language-python"># Tiny ML-style Pizza Predictor
+
+study_hours = 8
+
+if study_hours > 6:
+    print("Prediction: Aman deserves pizza 🍕")
+else:
+    print("Prediction: More studying needed 📚")</code></pre>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Output</div>
+      <p>Prediction: Aman deserves pizza 🍕</p>
+    </div>
+
+    <p data-aos="fade-up">The system checks input data (<code>study_hours</code>), applies learned logic, and generates a prediction. Real ML works similarly — but with large datasets, mathematical models, and advanced algorithms.</p>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">Key Concept:</strong> ML systems improve when <strong>more quality data</strong> becomes available.</p>
+    </div>
+
+    <!-- Notes -->
+    <h2 data-aos="fade-up">Key Notes</h2>
+    <ul data-aos="fade-up">
+      <li>Machine Learning is a branch of AI</li>
+      <li>ML learns patterns from data — not from manually written rules</li>
+      <li>Data is the foundation of every ML system</li>
+      <li>ML models make predictions on new, unseen data</li>
+      <li>ML improves automatically with better and more data</li>
+      <li>Three types: Supervised, Unsupervised, Reinforcement Learning</li>
+      <li>ML powers recommendations, predictions, fraud detection, and more</li>
+      <li>Most modern AI systems heavily depend on ML</li>
+    </ul>
+
+    <!-- Scenario-Based Questions -->
+    <h2 data-aos="fade-up">Scenario-Based Questions</h2>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Scenario 1</div>
+      <p>A company wants AI to predict future sales using historical sales data.</p>
+      <p><strong>Question:</strong> Why is Machine Learning suitable here?</p>
+    </div>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Scenario 2</div>
+      <p>An AI system improves its recommendation quality after observing more user behaviour.</p>
+      <p><strong>Question:</strong> What ML strength is visible here?</p>
+    </div>
+
+    <!-- Interview Questions -->
+    <h2 data-aos="fade-up">Interview Questions</h2>
+    <ol class="question-list" data-aos="fade-up">
+      <li>What is Machine Learning?</li>
+      <li>What is the difference between AI and ML?</li>
+      <li>Why is data important in ML?</li>
+      <li>Explain traditional programming vs Machine Learning.</li>
+      <li>Give real-world examples of ML applications.</li>
+    </ol>
+
+    <!-- Think About It -->
+    <h2 data-aos="fade-up">Think About It</h2>
+    <ol class="question-list" data-aos="fade-up">
+      <li>Why do you think Machine Learning became so popular?</li>
+      <li>Which ML example impressed you most — and why?</li>
+      <li>Why is ML better than manually writing rules?</li>
+      <li>Can you explain Machine Learning in your own words?</li>
+    </ol>
+
+  </div><!-- /topic-content -->
+
+  <!-- MCQ Section -->
+  <section class="mcq-section" id="mcq-section" aria-label="Practice Questions">
+    <h2 class="mcq-section__title">🧩 Practice MCQs</h2>
+    <p class="mcq-section__subtitle">Test your understanding — 4 questions</p>
+    <div id="mcq-mount"></div>
+  </section>
+
+  <script type="application/json" id="mcq-data">
+  [
+    {
+      "q": "Machine Learning is a subset of:",
+      "options": ["Deep Learning", "Robotics", "Artificial Intelligence", "Databases"],
+      "answer": 2,
+      "explanation": "Machine Learning is a branch of Artificial Intelligence. AI is the broader field; ML is one of its most important and widely used subsets."
+    },
+    {
+      "q": "Machine Learning mainly learns from:",
+      "options": ["Random guessing", "Data", "Emotions", "Hardware only"],
+      "answer": 1,
+      "explanation": "Data is the foundation of ML. The machine studies examples (data) to find patterns, instead of following manually written rules."
+    },
+    {
+      "q": "Which of the following is a Machine Learning application?",
+      "options": ["Fraud detection", "YouTube recommendations", "House price prediction", "All of the above"],
+      "answer": 3,
+      "explanation": "All three are classic ML applications. ML powers fraud detection, recommendation systems, and price prediction — among hundreds of other real-world uses."
+    },
+    {
+      "q": "In Machine Learning, rules are:",
+      "options": ["Always manually written by programmers", "Learned automatically from data", "Stored in keyboard firmware", "Generated randomly"],
+      "answer": 1,
+      "explanation": "This is the core difference between ML and traditional programming. In ML, the system learns its own rules by analysing patterns in data — no manual rule-writing required."
+    }
+  ]
+  </script>
+
+  <!-- Topic Navigation -->
+  <nav class="topic-nav" id="topic-nav" aria-label="Topic navigation">
+    <button class="topic-nav__btn topic-nav__btn--prev" id="btn-prev" style="display:none">
+      <span>←</span><span><span class="topic-nav__label">Previous</span><span class="topic-nav__title" id="prev-title"></span></span>
+    </button>
+    <button class="topic-nav__btn topic-nav__btn--next" id="btn-next" style="display:none">
+      <span><span class="topic-nav__label">Next</span><span class="topic-nav__title" id="next-title"></span></span><span>→</span>
+    </button>
+  </nav>
+</article>
+
+<button class="scroll-top-btn" id="scroll-top" aria-label="Back to top">↑</button>
+
+<script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="../../js/mcq.js"></script>
+<script>
+  AOS.init({ duration: 500, once: true, offset: 40 });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const data = JSON.parse(document.getElementById('mcq-data').textContent || '[]');
+    if (data.length) MCQEngine.init('mcq-mount', data);
+  });
+
+  window.addEventListener('scroll', () => {
+    const btn = document.getElementById('scroll-top');
+    btn?.classList.toggle('visible', window.scrollY > 300);
+    const el = document.documentElement;
+    const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+    window.parent.postMessage({ type: 'scroll-progress', data: { percent: pct || 0 } }, '*');
+  }, { passive: true });
+
+  document.getElementById('scroll-top')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  window.addEventListener('message', (e) => {
+    if (e.data?.type === 'topic-context') {
+      const { prev, next } = e.data;
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      if (prev && btnPrev) {
+        document.getElementById('prev-title').textContent = prev.label;
+        btnPrev.style.display = 'flex';
+        btnPrev.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: prev.id } }, '*');
+      }
+      if (next && btnNext) {
+        document.getElementById('next-title').textContent = next.label;
+        btnNext.style.display = 'flex';
+        btnNext.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: next.id } }, '*');
+      }
+    }
+  });
+</script>
+<script src="../../js/lightbox.js"></script>
+</body>
+</html>

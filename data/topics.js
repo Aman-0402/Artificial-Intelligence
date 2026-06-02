@@ -27,9 +27,7 @@ const TOPICS = [
     label: 'Machine Learning',
     icon: '📊',
     children: [
-      { id: 'supervised',    label: 'Supervised Learning',    file: 'topics/ml/supervised-learning.html'    },
-      { id: 'unsupervised',  label: 'Unsupervised Learning',  file: 'topics/ml/unsupervised-learning.html'  },
-      { id: 'reinforcement', label: 'Reinforcement Learning', file: 'topics/ml/reinforcement-learning.html' },
+      { id: 'what-is-ml', label: 'Introduction to Machine Learning', file: 'topics/ml/what-is-ml.html' },
     ],
   },
   {
