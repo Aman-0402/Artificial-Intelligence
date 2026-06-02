@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Ethics, Bias, Privacy &amp; Responsible AI — AI.learn</title>
+  <link rel="stylesheet" href="../../css/variables.css" />
+  <link rel="stylesheet" href="../../css/base.css" />
+  <link rel="stylesheet" href="../../css/animations.css" />
+  <link rel="stylesheet" href="../../css/components.css" />
+  <link rel="stylesheet" href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body);overflow-x:hidden}
+    .topic-wrapper{width:100%;padding:var(--space-8) clamp(1.5rem,4vw,5rem) var(--space-16)}
+    .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
+    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
+    .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
+    .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
+    .topic-content h4{font-size:var(--text-lg);margin-top:var(--space-6);margin-bottom:var(--space-2);color:var(--text-secondary)}
+    .topic-content p{font-size:var(--text-base);line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
+    .topic-content ul,.topic-content ol{margin-bottom:var(--space-4);padding-left:var(--space-6)}
+    .topic-content li{margin-bottom:var(--space-2);line-height:var(--leading-relaxed);color:var(--text-secondary)}
+    .topic-content pre[class*="language-"]{border-radius:var(--radius-lg);border:1px solid var(--border-default);font-size:var(--text-sm);margin-bottom:var(--space-6)}
+
+    /* Table */
+    .topic-content table{width:100%;border-collapse:collapse;margin-bottom:var(--space-6);font-size:var(--text-sm)}
+    .topic-content th{background:var(--bg-card);color:var(--accent-cyan);text-align:left;padding:var(--space-3) var(--space-4);border:1px solid var(--border-default);font-weight:600}
+    .topic-content td{padding:var(--space-3) var(--space-4);border:1px solid var(--border-default);color:var(--text-secondary);vertical-align:top}
+    .topic-content tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+
+    /* Image */
+    .topic-image{width:100%;max-width:720px;border-radius:var(--radius-lg);border:1px solid var(--border-default);margin:var(--space-6) auto;display:block;object-fit:contain}
+    .image-caption{text-align:center;font-size:var(--text-sm);color:var(--text-muted);margin-top:calc(-1 * var(--space-4));margin-bottom:var(--space-6)}
+
+    /* Scenario block */
+    .scenario-block{background:var(--bg-card);border-left:3px solid var(--accent-cyan);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:var(--space-4) var(--space-5);margin-bottom:var(--space-4)}
+    .scenario-block__label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.1em;color:var(--accent-cyan);margin-bottom:var(--space-2);font-weight:600}
+    .scenario-block p{margin-bottom:var(--space-2);font-size:var(--text-sm)}
+    .scenario-block p:last-child{margin-bottom:0}
+
+    /* Highlight box */
+    .highlight-box{background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-lg);padding:var(--space-5);margin-bottom:var(--space-6)}
+    .highlight-box p{margin-bottom:0;font-size:var(--text-sm)}
+
+    /* Warning box */
+    .warning-box{background:rgba(255,170,0,0.06);border:1px solid rgba(255,170,0,0.3);border-radius:var(--radius-lg);padding:var(--space-5);margin-bottom:var(--space-6)}
+    .warning-box p{margin-bottom:0;font-size:var(--text-sm);color:var(--text-secondary)}
+    .warning-box__title{font-size:var(--text-sm);font-weight:700;color:#ffaa00;margin-bottom:var(--space-2)}
+
+    /* Danger box */
+    .danger-box{background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.3);border-radius:var(--radius-lg);padding:var(--space-5);margin-bottom:var(--space-6)}
+    .danger-box p{margin-bottom:0;font-size:var(--text-sm);color:var(--text-secondary)}
+    .danger-box__title{font-size:var(--text-sm);font-weight:700;color:#f87171;margin-bottom:var(--space-2)}
+
+    /* Question list */
+    .question-list{list-style:none;padding-left:0;counter-reset:q-counter}
+    .question-list li{counter-increment:q-counter;padding-left:var(--space-8);position:relative;margin-bottom:var(--space-3)}
+    .question-list li::before{content:counter(q-counter) ".";position:absolute;left:0;color:var(--accent-cyan);font-weight:700;font-family:var(--font-mono)}
+
+    /* Scroll to top */
+    .scroll-top-btn{position:fixed;bottom:var(--space-6);right:var(--space-6);width:42px;height:42px;background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-md);cursor:pointer;color:var(--accent-cyan);font-size:1.2rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-md),var(--glow-cyan-sm);opacity:0;transform:translateY(10px);pointer-events:none;transition:all .3s ease;z-index:50}
+    .scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:all}
+    @media(max-width:600px){.topic-wrapper{padding:var(--space-5) var(--space-4) var(--space-12)}}
+  </style>
+</head>
+<body>
+<article class="topic-wrapper">
+  <header class="topic-header">
+    <h1 class="topic-title">AI Ethics, Bias, Privacy &amp; Responsible AI</h1>
+  </header>
+
+  <div class="topic-content" id="topic-content">
+
+    <!-- What is AI Ethics -->
+    <h2 data-aos="fade-up">What is AI Ethics?</h2>
+    <p data-aos="fade-up">AI Ethics means <strong>building and using AI responsibly and fairly</strong> — ensuring AI systems help people without causing harm, discrimination, or injustice.</p>
+
+    <img
+      src="../../assets/images/AI/Main goals of AI ethics.png"
+      alt="Main goals of AI ethics — fairness, safety, privacy, transparency"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">AI Ethics: fairness, safety, privacy, transparency, and accountability — not optional features, but core requirements</p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Analogy</div>
+      <p>Imagine creating a powerful robot. You must ensure it helps people, does not harm anyone, and behaves fairly. AI systems carry the same responsibility — because they affect real lives at scale.</p>
+    </div>
+
+    <!-- 1. Bias -->
+    <h2 data-aos="fade-up">1. AI Bias</h2>
+    <p data-aos="fade-up">Bias means <strong>AI behaves unfairly toward certain groups</strong>. AI is not born biased — it learns bias from data, humans, and system design.</p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Why Bias Happens</div>
+      <p>AI learns from human-generated data. If that data contains historical discrimination, inequality, or underrepresentation, the AI learns those same patterns — and can amplify them at scale.</p>
+    </div>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Real-Life Example — Hiring AI</div>
+      <p>Historical hiring data mostly contains male employees. AI incorrectly learns "men are better candidates" — and systematically disadvantages qualified women in screening. The bias in the data becomes bias in the output.</p>
+    </div>
+
+    <img
+      src="../../assets/images/AI/Biased AI and unfair hiring outcomes.png"
+      alt="Biased AI and unfair hiring outcomes"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">Biased training data → biased model → unfair real-world decisions affecting real people</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>AI System</th><th>Documented Bias Risk</th></tr></thead>
+      <tbody>
+        <tr><td>Hiring AI</td><td>Gender and racial bias from historical hiring patterns</td></tr>
+        <tr><td>Face Recognition</td><td>Lower accuracy on darker skin tones — underrepresented in training data</td></tr>
+        <tr><td>Loan Approval AI</td><td>Financial discrimination based on zip code or demographic proxies</td></tr>
+        <tr><td>Recommendation AI</td><td>Echo chambers — reinforcing existing beliefs rather than broadening exposure</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 2. Privacy -->
+    <h2 data-aos="fade-up">2. AI Privacy Issues</h2>
+    <p data-aos="fade-up">AI systems often require large amounts of personal user data to function — creating real privacy responsibilities.</p>
+
+    <ul data-aos="fade-up">
+      <li>Face images and biometric data</li>
+      <li>Voice recordings from smart speakers</li>
+      <li>Location history and movement patterns</li>
+      <li>Medical records and health data</li>
+      <li>Search and browsing history</li>
+    </ul>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Example — Voice Assistants</div>
+      <p>Amazon Alexa and Google Assistant process voice data to understand commands. Users legitimately ask: "How is my voice data stored, who can access it, and for how long?" These are real, unresolved concerns for millions of users.</p>
+    </div>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">Principle:</strong> User data must be protected — collected only with consent, stored securely, used only for its stated purpose, and deleted when no longer needed.</p>
+    </div>
+
+    <!-- 3. Deepfakes -->
+    <h2 data-aos="fade-up">3. Deepfakes</h2>
+    <p data-aos="fade-up">Deepfakes are <strong>AI-generated fake videos, voices, or images</strong> that appear realistic. Generative AI makes creating convincing fakes faster, cheaper, and more accessible than ever.</p>
+
+    <div class="danger-box" data-aos="fade-up">
+      <div class="danger-box__title">⚠️ Real Dangers</div>
+      <p>Deepfakes are used for scams, fake news, political misinformation, identity fraud, and non-consensual synthetic media. Detecting AI-generated content is becoming increasingly difficult as models improve.</p>
+    </div>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Real-World Example</div>
+      <p>Voice cloning AI can mimic someone's voice from a few seconds of audio. Scammers have used cloned family member voices to deceive victims into sending money — a rapidly growing fraud category.</p>
+    </div>
+
+    <!-- 4. Transparency -->
+    <h2 data-aos="fade-up">4. Transparency in AI</h2>
+    <p data-aos="fade-up">Transparency means <strong>being able to understand how and why AI makes decisions</strong>. Many modern AI models are "black boxes" — even their developers cannot fully explain individual decisions.</p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Example</div>
+      <p>AI rejects a loan application. The user asks: "Why was I rejected?" A transparent AI should be able to explain which factors influenced the decision — income level, credit history, location. An opaque black-box model cannot.</p>
+    </div>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">Explainable AI (XAI)</strong> is the research field dedicated to making AI decision-making understandable to humans — especially critical in healthcare, finance, and legal applications where opaque decisions have real consequences.</p>
+    </div>
+
+    <!-- 5. Accountability -->
+    <h2 data-aos="fade-up">5. Accountability</h2>
+    <p data-aos="fade-up">When AI makes a harmful mistake, accountability asks: <strong>who is responsible?</strong></p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Example — Self-Driving Car Accident</div>
+      <p>A self-driving car causes an accident. Is the car manufacturer responsible? The software developer? The AI training team? The user who engaged autopilot? Current law struggles to answer these questions clearly — and the AI industry is working with regulators to define accountability frameworks.</p>
+    </div>
+
+    <!-- 6. AI and Jobs -->
+    <h2 data-aos="fade-up">6. AI and Job Impact</h2>
+    <p data-aos="fade-up">AI automates repetitive tasks — data entry, basic customer support, simple content generation — creating real displacement risk for certain job categories.</p>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">The opportunity:</strong> AI also creates new careers — AI engineers, prompt engineers, MLOps engineers, AI safety researchers, AI product managers. People who learn AI will likely work <em>with</em> AI, not against it. The risk is not "AI vs humans" but "humans using AI vs humans not using AI."</p>
+    </div>
+
+    <!-- 7. AI Hallucination -->
+    <h2 data-aos="fade-up">7. AI Hallucination</h2>
+    <p data-aos="fade-up">Hallucination is when AI <strong>confidently generates wrong or completely fabricated information</strong>. This is one of the most important limitations of current Generative AI systems.</p>
+
+    <div class="danger-box" data-aos="fade-up">
+      <div class="danger-box__title">⚠️ Why This Is Dangerous</div>
+      <p>Generative AI predicts likely word patterns — not verified truth. ChatGPT may invent fake research references, give incorrect medical dosages, or fabricate legal cases — while sounding entirely confident and authoritative.</p>
+    </div>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Example</div>
+      <p>A lawyer submitted a legal brief citing case precedents generated by ChatGPT. The cases did not exist. The AI invented plausible-sounding but completely fabricated citations — a real incident with real consequences.</p>
+    </div>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">Rule:</strong> AI output in high-stakes domains — medicine, law, finance, safety — must always be verified by qualified humans before acting on it.</p>
+    </div>
+
+    <!-- 8. Responsible AI -->
+    <h2 data-aos="fade-up">8. Responsible AI Principles</h2>
+    <p data-aos="fade-up">Leading AI organisations have adopted core principles to guide responsible AI development and deployment.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Principle</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td>Fairness</td><td>Avoid discrimination — treat all groups equitably</td></tr>
+        <tr><td>Safety</td><td>Prevent physical, psychological, and societal harm</td></tr>
+        <tr><td>Privacy</td><td>Protect user data — collect only what is necessary</td></tr>
+        <tr><td>Transparency</td><td>Explain AI decisions and limitations honestly</td></tr>
+        <tr><td>Accountability</td><td>Define clear responsibility for AI outcomes</td></tr>
+        <tr><td>Reliability</td><td>Consistent, predictable, tested performance</td></tr>
+      </tbody>
+    </table>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Companies Working on Responsible AI</div>
+      <p><strong>OpenAI</strong> — safety research and policy team alongside model development.<br>
+      <strong>Google DeepMind</strong> — AI safety research, alignment, and interpretability.<br>
+      <strong>Anthropic</strong> — founded specifically around AI safety as core mission.</p>
+    </div>
+
+    <!-- Regulations -->
+    <h2 data-aos="fade-up">AI Regulations &amp; Laws</h2>
+    <p data-aos="fade-up">Governments worldwide are introducing AI regulations to control dangerous use, privacy violations, and misinformation.</p>
+
+    <ul data-aos="fade-up">
+      <li>EU AI Act — classifies AI systems by risk level and imposes requirements accordingly</li>
+      <li>Facial recognition bans in public spaces across several cities</li>
+      <li>Medical AI certification requirements before clinical deployment</li>
+      <li>AI-generated media labelling requirements</li>
+      <li>Autonomous vehicle safety standards</li>
+    </ul>
+
+    <!-- Healthcare Example -->
+    <h2 data-aos="fade-up">Human-Centered AI in Practice</h2>
+    <p data-aos="fade-up">Modern AI philosophy focuses on AI <em>assisting</em> humans — not replacing human judgment in high-stakes decisions.</p>
+
+    <img
+      src="../../assets/images/AI/AI and healthcare a safer future.png"
+      alt="AI and healthcare — a safer future through human-AI collaboration"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">AI flags anomalies in scans → doctor applies clinical judgment → better outcomes than either alone</p>
+
+    <!-- Coding Example -->
+    <h2 data-aos="fade-up">Coding Example — Simulating Bias</h2>
+    <p data-aos="fade-up">A deliberately silly example to illustrate how bias enters an AI system:</p>
+
+<pre data-aos="fade-up"><code class="language-python"># Biased AI — unfairly favours pizza lovers
+
+favourite_food = "pizza"
+
+if favourite_food == "pizza":
+    print("AI says: Best candidate ever! ✅")
+else:
+    print("AI says: Suspicious. Not recommended. ❌")</code></pre>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Why This Is "Biased"</div>
+      <p>The AI unfairly penalises anyone whose favourite food is not pizza — based on an irrelevant, arbitrary feature. Real AI bias works the same way: a feature that should be irrelevant (gender, postcode, name ethnicity) influences the output because it was correlated with outcomes in biased training data.</p>
+    </div>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">Important:</strong> AI engineers are not only coders — they are responsible for the safety, fairness, ethics, and human impact of the systems they build. This responsibility grows with the scale of deployment.</p>
+    </div>
+
+    <!-- Notes -->
+    <h2 data-aos="fade-up">Key Notes</h2>
+    <ul data-aos="fade-up">
+      <li>AI ethics = building and deploying AI responsibly and fairly.</li>
+      <li>Bias comes from biased data — AI inherits and amplifies human prejudice.</li>
+      <li>AI systems handle personal data — privacy protection is a core obligation.</li>
+      <li>Deepfakes use Generative AI to create convincing fake media — a growing threat.</li>
+      <li>Transparency and Explainable AI (XAI) help make AI decisions understandable.</li>
+      <li>Accountability: someone must be responsible when AI causes harm.</li>
+      <li>AI hallucination = confidently wrong output — always verify in high-stakes use.</li>
+      <li>Responsible AI principles: fairness, safety, privacy, transparency, accountability.</li>
+      <li>AI regulations are emerging globally to manage risk.</li>
+      <li>Human oversight remains critical in consequential AI decisions.</li>
+    </ul>
+
+    <!-- Scenario-Based Questions -->
+    <h2 data-aos="fade-up">Scenario-Based Questions</h2>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Scenario 1</div>
+      <p>A hiring AI systematically rejects candidates from certain universities and postcodes — not because they are less qualified, but because historical hiring data was geographically skewed.</p>
+      <p><strong>Question:</strong> Which AI ethics problem is occurring — and what caused it?</p>
+    </div>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Scenario 2</div>
+      <p>A medical chatbot confidently recommends a specific drug dosage to a patient — but the dosage it provides is incorrect and potentially dangerous.</p>
+      <p><strong>Question:</strong> Which Generative AI issue is visible here — and what safeguard should exist?</p>
+    </div>
+
+    <!-- Interview Questions -->
+    <h2 data-aos="fade-up">Interview Questions</h2>
+    <ol class="question-list" data-aos="fade-up">
+      <li>What is Responsible AI, and why does it matter?</li>
+      <li>Explain AI bias — how does it arise and what are the consequences?</li>
+      <li>What are deepfakes, and why are they considered dangerous?</li>
+      <li>What is AI hallucination — and in which contexts is it most dangerous?</li>
+      <li>Why is transparency important in AI systems used for high-stakes decisions?</li>
+    </ol>
+
+    <!-- Think About It -->
+    <h2 data-aos="fade-up">Think About It</h2>
+    <ol class="question-list" data-aos="fade-up">
+      <li>Why is AI bias particularly dangerous when deployed at scale in hiring, lending, or healthcare?</li>
+      <li>Should every significant AI decision require human review — or would that defeat the purpose of AI?</li>
+      <li>Why are deepfakes becoming an increasingly serious societal concern?</li>
+      <li>What responsibilities do AI engineers carry beyond writing working code?</li>
+    </ol>
+
+  </div><!-- /topic-content -->
+
+  <!-- MCQ Section -->
+  <section class="mcq-section" id="mcq-section" aria-label="Practice Questions">
+    <h2 class="mcq-section__title">🧩 Practice MCQs</h2>
+    <p class="mcq-section__subtitle">Test your understanding — 4 questions</p>
+    <div id="mcq-mount"></div>
+  </section>
+
+  <script type="application/json" id="mcq-data">
+  [
+    {
+      "q": "What is AI bias?",
+      "options": ["Faster AI training speeds", "Unfair AI behaviour that disadvantages certain groups", "Improved prediction accuracy", "GPU hardware optimisation"],
+      "answer": 1,
+      "explanation": "AI bias occurs when a model systematically produces unfair outcomes for certain groups — typically because the training data contained historical inequalities, underrepresentation, or discriminatory patterns that the model learned and reproduced."
+    },
+    {
+      "q": "What are deepfakes?",
+      "options": ["AI-generated fake media that appears realistic", "Special GPU hardware components", "A type of deep learning algorithm", "Database management systems"],
+      "answer": 0,
+      "explanation": "Deepfakes are AI-generated synthetic media — videos, audio, or images — that convincingly imitate real people. They are created using Generative AI and pose serious risks for scams, misinformation, identity fraud, and political manipulation."
+    },
+    {
+      "q": "What is AI hallucination?",
+      "options": ["AI entering a low-power sleep mode", "AI confidently generating false or fabricated information", "A physical AI hardware failure", "Internet connection instability during inference"],
+      "answer": 1,
+      "explanation": "AI hallucination occurs when Generative AI produces plausible-sounding but incorrect or completely fabricated information — fake citations, wrong facts, invented details — while presenting it with full confidence. It happens because AI predicts likely text patterns, not verified truth."
+    },
+    {
+      "q": "What is a primary goal of Responsible AI?",
+      "options": ["Increase model bias for efficiency", "Reduce system transparency to protect IP", "Ensure AI systems are fair, safe, and protect users", "Replace all human workers as quickly as possible"],
+      "answer": 2,
+      "explanation": "Responsible AI aims to ensure that AI systems are fair (free from discrimination), safe (prevent harm), transparent (explainable decisions), private (data protection), and accountable (clear responsibility). These are foundational principles adopted by leading AI organisations."
+    }
+  ]
+  </script>
+
+  <!-- Topic Navigation -->
+  <nav class="topic-nav" id="topic-nav" aria-label="Topic navigation">
+    <button class="topic-nav__btn topic-nav__btn--prev" id="btn-prev" style="display:none">
+      <span>←</span><span><span class="topic-nav__label">Previous</span><span class="topic-nav__title" id="prev-title"></span></span>
+    </button>
+    <button class="topic-nav__btn topic-nav__btn--next" id="btn-next" style="display:none">
+      <span><span class="topic-nav__label">Next</span><span class="topic-nav__title" id="next-title"></span></span><span>→</span>
+    </button>
+  </nav>
+</article>
+
+<button class="scroll-top-btn" id="scroll-top" aria-label="Back to top">↑</button>
+
+<script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="../../js/mcq.js"></script>
+<script src="../../js/lightbox.js"></script>
+<script>
+  AOS.init({ duration: 500, once: true, offset: 40 });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const data = JSON.parse(document.getElementById('mcq-data').textContent || '[]');
+    if (data.length) MCQEngine.init('mcq-mount', data);
+  });
+
+  window.addEventListener('scroll', () => {
+    const btn = document.getElementById('scroll-top');
+    btn?.classList.toggle('visible', window.scrollY > 300);
+    const el = document.documentElement;
+    const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+    window.parent.postMessage({ type: 'scroll-progress', data: { percent: pct || 0 } }, '*');
+  }, { passive: true });
+
+  document.getElementById('scroll-top')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  window.addEventListener('message', (e) => {
+    if (e.data?.type === 'topic-context') {
+      const { prev, next } = e.data;
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      if (prev && btnPrev) {
+        document.getElementById('prev-title').textContent = prev.label;
+        btnPrev.style.display = 'flex';
+        btnPrev.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: prev.id } }, '*');
+      }
+      if (next && btnNext) {
+        document.getElementById('next-title').textContent = next.label;
+        btnNext.style.display = 'flex';
+        btnNext.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: next.id } }, '*');
+      }
+    }
+  });
+</script>
+</body>
+</html>
