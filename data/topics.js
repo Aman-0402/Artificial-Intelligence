@@ -17,6 +17,7 @@ const TOPICS = [
       { id: 'ai-terms',      label: 'Important AI Terminologies & Keywords',              file: 'topics/intro/ai-terminologies.html'              },
       { id: 'learning-types', label: 'Types of Learning in AI',                          file: 'topics/intro/types-of-learning.html'             },
       { id: 'data-in-ai',    label: 'Data in Artificial Intelligence',                   file: 'topics/intro/data-in-ai.html'                    },
+      { id: 'cpu-gpu-tpu',   label: 'CPU vs GPU vs TPU in AI',                           file: 'topics/intro/cpu-gpu-tpu.html'                   },
     ],
   },
   {

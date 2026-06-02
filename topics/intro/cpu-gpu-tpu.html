@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CPU vs GPU vs TPU in AI — AI.learn</title>
+  <link rel="stylesheet" href="../../css/variables.css" />
+  <link rel="stylesheet" href="../../css/base.css" />
+  <link rel="stylesheet" href="../../css/animations.css" />
+  <link rel="stylesheet" href="../../css/components.css" />
+  <link rel="stylesheet" href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body);overflow-x:hidden}
+    .topic-wrapper{width:100%;padding:var(--space-8) clamp(1.5rem,4vw,5rem) var(--space-16)}
+    .topic-header{margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--border-default)}
+    .topic-title{font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;letter-spacing:.04em;color:var(--text-primary);margin-bottom:var(--space-4);line-height:1.2}
+    .topic-content h2{font-size:var(--text-2xl);margin-top:var(--space-10);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border-default);color:var(--accent-cyan)}
+    .topic-content h3{font-size:var(--text-xl);margin-top:var(--space-8);margin-bottom:var(--space-3);color:var(--text-primary)}
+    .topic-content h4{font-size:var(--text-lg);margin-top:var(--space-6);margin-bottom:var(--space-2);color:var(--text-secondary)}
+    .topic-content p{font-size:var(--text-base);line-height:var(--leading-relaxed);color:var(--text-secondary);margin-bottom:var(--space-4)}
+    .topic-content ul,.topic-content ol{margin-bottom:var(--space-4);padding-left:var(--space-6)}
+    .topic-content li{margin-bottom:var(--space-2);line-height:var(--leading-relaxed);color:var(--text-secondary)}
+    .topic-content pre[class*="language-"]{border-radius:var(--radius-lg);border:1px solid var(--border-default);font-size:var(--text-sm);margin-bottom:var(--space-6)}
+
+    /* Table */
+    .topic-content table{width:100%;border-collapse:collapse;margin-bottom:var(--space-6);font-size:var(--text-sm)}
+    .topic-content th{background:var(--bg-card);color:var(--accent-cyan);text-align:left;padding:var(--space-3) var(--space-4);border:1px solid var(--border-default);font-weight:600}
+    .topic-content td{padding:var(--space-3) var(--space-4);border:1px solid var(--border-default);color:var(--text-secondary);vertical-align:top}
+    .topic-content tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+
+    /* Image */
+    .topic-image{width:100%;max-width:720px;border-radius:var(--radius-lg);border:1px solid var(--border-default);margin:var(--space-6) auto;display:block;object-fit:contain}
+    .image-caption{text-align:center;font-size:var(--text-sm);color:var(--text-muted);margin-top:calc(-1 * var(--space-4));margin-bottom:var(--space-6)}
+
+    /* Hardware overview cards */
+    .hw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4);margin-bottom:var(--space-6)}
+    @media(max-width:640px){.hw-grid{grid-template-columns:1fr}}
+    .hw-card{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-lg);padding:var(--space-5);text-align:center}
+    .hw-card__chip{font-family:var(--font-mono);font-size:var(--text-lg);font-weight:700;color:var(--accent-cyan);margin-bottom:var(--space-2)}
+    .hw-card__role{font-size:var(--text-sm);color:var(--text-secondary);line-height:1.5}
+
+    /* Scenario block */
+    .scenario-block{background:var(--bg-card);border-left:3px solid var(--accent-cyan);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:var(--space-4) var(--space-5);margin-bottom:var(--space-4)}
+    .scenario-block__label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.1em;color:var(--accent-cyan);margin-bottom:var(--space-2);font-weight:600}
+    .scenario-block p{margin-bottom:var(--space-2);font-size:var(--text-sm)}
+    .scenario-block p:last-child{margin-bottom:0}
+
+    /* Highlight box */
+    .highlight-box{background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-lg);padding:var(--space-5);margin-bottom:var(--space-6)}
+    .highlight-box p{margin-bottom:0;font-size:var(--text-sm)}
+
+    /* Code step */
+    .code-step{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-md);padding:var(--space-4) var(--space-5);margin-bottom:var(--space-3)}
+    .code-step__label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.1em;color:var(--accent-cyan);margin-bottom:var(--space-2);font-weight:600}
+    .code-step p{font-size:var(--text-sm);color:var(--text-secondary);margin-bottom:0}
+
+    /* Question list */
+    .question-list{list-style:none;padding-left:0;counter-reset:q-counter}
+    .question-list li{counter-increment:q-counter;padding-left:var(--space-8);position:relative;margin-bottom:var(--space-3)}
+    .question-list li::before{content:counter(q-counter) ".";position:absolute;left:0;color:var(--accent-cyan);font-weight:700;font-family:var(--font-mono)}
+
+    /* Scroll to top */
+    .scroll-top-btn{position:fixed;bottom:var(--space-6);right:var(--space-6);width:42px;height:42px;background:var(--bg-card);border:1px solid var(--accent-cyan-border);border-radius:var(--radius-md);cursor:pointer;color:var(--accent-cyan);font-size:1.2rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-md),var(--glow-cyan-sm);opacity:0;transform:translateY(10px);pointer-events:none;transition:all .3s ease;z-index:50}
+    .scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:all}
+    @media(max-width:600px){.topic-wrapper{padding:var(--space-5) var(--space-4) var(--space-12)}}
+  </style>
+</head>
+<body>
+<article class="topic-wrapper">
+  <header class="topic-header">
+    <h1 class="topic-title">CPU vs GPU vs TPU in AI</h1>
+  </header>
+
+  <div class="topic-content" id="topic-content">
+
+    <!-- Overview -->
+    <h2 data-aos="fade-up">Overview</h2>
+    <p data-aos="fade-up">AI systems — especially Deep Learning and Generative AI — require massive mathematical calculations that normal computers struggle to handle. The hardware underneath determines how fast, and even whether, AI can be trained at all.</p>
+
+    <div class="hw-grid" data-aos="fade-up">
+      <div class="hw-card">
+        <div class="hw-card__chip">CPU</div>
+        <div class="hw-card__role">Central Processing Unit — general-purpose computing brain</div>
+      </div>
+      <div class="hw-card">
+        <div class="hw-card__chip">GPU</div>
+        <div class="hw-card__role">Graphics Processing Unit — massively parallel AI computation</div>
+      </div>
+      <div class="hw-card">
+        <div class="hw-card__chip">TPU</div>
+        <div class="hw-card__role">Tensor Processing Unit — specialised AI acceleration chip</div>
+      </div>
+    </div>
+
+    <!-- CPU -->
+    <h2 data-aos="fade-up">1. CPU — Central Processing Unit</h2>
+    <p data-aos="fade-up">The CPU is the brain of every computer. It handles general tasks: running the operating system, executing applications, browsing the web, logic operations, and sequential computation.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Task</th><th>CPU Usage</th></tr></thead>
+      <tbody>
+        <tr><td>Running Windows / macOS</td><td>Yes — primary role</td></tr>
+        <tr><td>Opening browser tabs</td><td>Yes</td></tr>
+        <tr><td>Writing and running code</td><td>Yes</td></tr>
+        <tr><td>Excel calculations</td><td>Yes</td></tr>
+        <tr><td>Training a large neural network</td><td>Too slow for practical use</td></tr>
+      </tbody>
+    </table>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Analogy</div>
+      <p><strong>CPU = Smart office manager.</strong> Excellent at handling many different types of tasks carefully and sequentially — but not optimised for doing millions of identical calculations simultaneously.</p>
+    </div>
+
+    <img
+      src="../../assets/images/Why CPUs struggle with AI processing.png"
+      alt="Why CPUs struggle with AI processing — sequential vs parallel"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">CPU: few powerful cores, great for sequential logic. AI needs thousands of parallel operations — a different problem entirely.</p>
+
+    <p data-aos="fade-up">A modern CPU might have 4–16 powerful cores optimised for versatility. Deep Learning requires millions — sometimes billions — of simultaneous matrix operations. CPUs are not built for this.</p>
+
+    <!-- GPU -->
+    <h2 data-aos="fade-up">2. GPU — Graphics Processing Unit</h2>
+    <p data-aos="fade-up">GPUs were originally built for rendering game graphics and 3D visuals. Researchers discovered their massive parallel architecture was perfectly suited for Deep Learning — and the AI revolution accelerated dramatically.</p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Analogy</div>
+      <p><strong>CPU = smart office manager.</strong> <strong>GPU = huge factory with thousands of workers</strong> — each worker handles a small, simple task simultaneously. Together they complete massive workloads far faster.</p>
+    </div>
+
+    <img
+      src="../../assets/images/How GPUs power AI advancements.png"
+      alt="How GPUs power AI advancements — parallel computation for deep learning"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">GPUs contain thousands of smaller cores designed for parallel computation — exactly what neural network training requires</p>
+
+    <h3 data-aos="fade-up">Why AI Loves GPUs</h3>
+    <p data-aos="fade-up">Deep Learning is built on matrix multiplication and vector operations — the same maths GPUs were optimised for in graphics rendering. Training ChatGPT-level models would be practically impossible without GPUs.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Feature</th><th>CPU</th><th>GPU</th></tr></thead>
+      <tbody>
+        <tr><td>Purpose</td><td>General-purpose tasks</td><td>Parallel numerical computation</td></tr>
+        <tr><td>Number of cores</td><td>4–64 powerful cores</td><td>Thousands of smaller cores</td></tr>
+        <tr><td>Best for</td><td>Sequential logic, flexibility</td><td>AI training, graphics, simulations</td></tr>
+        <tr><td>AI training speed</td><td>Very slow</td><td>Much faster</td></tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">NVIDIA's rise:</strong> NVIDIA became one of the world's most valuable companies because AI training depends heavily on GPUs — and NVIDIA builds the best AI GPUs. Their H100/A100 chips power most large AI models today.</p>
+    </div>
+
+    <!-- TPU -->
+    <h2 data-aos="fade-up">3. TPU — Tensor Processing Unit</h2>
+    <p data-aos="fade-up">TPUs are specialised hardware chips built <em>specifically</em> for AI — designed by Google for Deep Learning and TensorFlow workloads. Even GPUs eventually became a bottleneck for Google's largest AI systems.</p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Analogy</div>
+      <p>If CPU = office manager and GPU = giant factory — then <strong>TPU = ultra-specialised AI super factory</strong> optimised for one thing only: AI tensor calculations. Narrower focus, dramatically better performance on that specific task.</p>
+    </div>
+
+    <img
+      src="../../assets/images/Why TPUs were created An AI comparison.png"
+      alt="Why TPUs were created — AI hardware comparison CPU GPU TPU"
+      class="topic-image"
+      data-aos="fade-up"
+      onerror="this.style.display='none'"
+    />
+    <p class="image-caption">TPUs: Google-designed AI accelerators optimised for tensor operations, neural network training, and massive-scale inference</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Feature</th><th>CPU</th><th>GPU</th><th>TPU</th></tr></thead>
+      <tbody>
+        <tr><td>Designed for</td><td>General computing</td><td>Parallel graphics + AI</td><td>AI tensors only</td></tr>
+        <tr><td>Flexibility</td><td>Very high</td><td>High</td><td>Low — AI-specific</td></tr>
+        <tr><td>AI performance</td><td>Slowest</td><td>Fast</td><td>Fastest (for AI)</td></tr>
+        <tr><td>Creator</td><td>Intel, AMD</td><td>NVIDIA, AMD</td><td>Google</td></tr>
+        <tr><td>Primary use</td><td>Everything</td><td>Deep Learning, gaming</td><td>Large-scale AI training</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Parallel Processing -->
+    <h2 data-aos="fade-up">Parallel Processing — The Key Concept</h2>
+    <p data-aos="fade-up">Parallel processing means performing many calculations simultaneously instead of one after another. This is why GPUs and TPUs transformed AI.</p>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Analogy</div>
+      <p><strong>Sequential (CPU style):</strong> One person solves 100 math problems, one at a time → takes 100 units of time.<br>
+      <strong>Parallel (GPU style):</strong> 100 people each solve 1 problem simultaneously → takes 1 unit of time.<br>
+      Same result. Dramatically different speed.</p>
+    </div>
+
+    <p data-aos="fade-up">Neural network training is inherently parallelisable — billions of weight updates per training step can happen simultaneously. GPUs and TPUs exploit this.</p>
+
+    <!-- Training Time -->
+    <h2 data-aos="fade-up">Real-World Training Time Impact</h2>
+    <table data-aos="fade-up">
+      <thead><tr><th>Hardware</th><th>Training Time (Large Model)</th></tr></thead>
+      <tbody>
+        <tr><td>CPU only</td><td>Months to years — impractical</td></tr>
+        <tr><td>Consumer GPU</td><td>Days to weeks</td></tr>
+        <tr><td>Cluster of AI GPUs</td><td>Hours to days</td></tr>
+        <tr><td>TPU pod (Google)</td><td>Hours — highly optimised</td></tr>
+      </tbody>
+    </table>
+
+    <!-- AI Infrastructure -->
+    <h2 data-aos="fade-up">AI Data Centers &amp; Infrastructure</h2>
+    <p data-aos="fade-up">Modern AI companies build massive data centers containing thousands of GPUs and TPUs, high-speed networking, and enormous cooling systems.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Company</th><th>AI Infrastructure</th></tr></thead>
+      <tbody>
+        <tr><td>OpenAI</td><td>Thousands of NVIDIA GPUs for LLM training</td></tr>
+        <tr><td>Google</td><td>TPU pods powering Gemini and Search AI</td></tr>
+        <tr><td>Microsoft</td><td>Azure AI cloud — GPU clusters for enterprise AI</td></tr>
+        <tr><td>Meta</td><td>AI Research SuperCluster for Llama model training</td></tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">Energy reality:</strong> Training large language models consumes enormous electricity — comparable to thousands of homes for weeks. AI's energy footprint is a growing environmental concern.</p>
+    </div>
+
+    <!-- Cloud -->
+    <h2 data-aos="fade-up">AI and Cloud Computing</h2>
+    <p data-aos="fade-up">Most AI engineers and companies rent GPU/TPU access from cloud providers instead of buying hardware — because high-end AI GPUs cost tens of thousands of dollars each.</p>
+
+    <table data-aos="fade-up">
+      <thead><tr><th>Platform</th><th>AI Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>Google Cloud</td><td>TPU access, Vertex AI, Gemini APIs</td></tr>
+        <tr><td>Amazon Web Services</td><td>GPU instances (EC2 P4/P5), SageMaker</td></tr>
+        <tr><td>Microsoft Azure</td><td>AI model deployment, GPU clusters</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Coding Example -->
+    <h2 data-aos="fade-up">Coding Example — Sequential vs Parallel</h2>
+    <p data-aos="fade-up">A simple Python simulation illustrating CPU (sequential) vs GPU (parallel) thinking:</p>
+
+<pre data-aos="fade-up"><code class="language-python"># CPU vs GPU: Pizza Delivery Analogy
+
+pizza_orders = ["Aman", "Rahul", "Priya", "Neha"]
+
+# CPU style — sequential, one at a time
+print("CPU Style Delivery 🐢")
+for person in pizza_orders:
+    print(f"  Delivering pizza to {person}...")
+
+# GPU style — all at once, parallel
+print("\nGPU Style Delivery ⚡")
+print(f"  Delivering pizzas to {', '.join(pizza_orders)} simultaneously!")</code></pre>
+
+    <div class="code-step" data-aos="fade-up">
+      <div class="code-step__label">CPU Style — Sequential</div>
+      <p>The <code style="font-family:var(--font-mono);color:var(--accent-cyan)">for</code> loop processes each item one at a time. This is how CPUs execute most general tasks — one instruction after another.</p>
+    </div>
+
+    <div class="code-step" data-aos="fade-up">
+      <div class="code-step__label">GPU Style — Parallel</div>
+      <p>All deliveries happen at once. Real GPUs run thousands of neural network operations simultaneously — this is the core reason AI training is dramatically faster with GPU hardware.</p>
+    </div>
+
+    <div class="highlight-box" data-aos="fade-up">
+      <p><strong style="color:var(--accent-cyan)">Key insight:</strong> Modern AI progress became possible largely because GPU hardware improved dramatically — and cloud computing made that hardware accessible without billion-dollar infrastructure investment.</p>
+    </div>
+
+    <!-- Notes -->
+    <h2 data-aos="fade-up">Key Notes</h2>
+    <ul data-aos="fade-up">
+      <li>CPU handles general-purpose computing — versatile but not parallel enough for AI.</li>
+      <li>GPU is optimised for parallel computation — the workhorse of Deep Learning.</li>
+      <li>TPU is Google's specialised AI chip — fastest for tensor/neural network operations.</li>
+      <li>Deep Learning requires billions of simultaneous matrix calculations — only GPUs/TPUs handle this efficiently.</li>
+      <li>GPUs accelerated the AI revolution — NVIDIA became critical AI infrastructure.</li>
+      <li>Parallel processing = doing many calculations at once = dramatically faster AI training.</li>
+      <li>AI data centers contain thousands of GPUs/TPUs and consume massive energy.</li>
+      <li>Cloud platforms let engineers access GPU/TPU power without owning hardware.</li>
+    </ul>
+
+    <!-- Scenario-Based Questions -->
+    <h2 data-aos="fade-up">Scenario-Based Questions</h2>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Scenario 1</div>
+      <p>A Deep Learning model that takes 6 months to train on CPU completes in 3 days after switching to GPU clusters.</p>
+      <p><strong>Question:</strong> Why does GPU provide such a dramatic speedup for this specific workload?</p>
+    </div>
+
+    <div class="scenario-block" data-aos="fade-up">
+      <div class="scenario-block__label">Scenario 2</div>
+      <p>A company trains massive neural networks used by billions of users globally and needs hardware optimised specifically for AI tensor operations at the lowest possible cost per computation.</p>
+      <p><strong>Question:</strong> Why would TPUs be preferable to GPUs in this scenario?</p>
+    </div>
+
+    <!-- Interview Questions -->
+    <h2 data-aos="fade-up">Interview Questions</h2>
+    <ol class="question-list" data-aos="fade-up">
+      <li>What is the key difference between CPU and GPU architecture?</li>
+      <li>Why are GPUs so important for AI and Deep Learning specifically?</li>
+      <li>What is a TPU, and why did Google create it?</li>
+      <li>What is parallel processing, and why does AI need it?</li>
+      <li>Why does Generative AI require such powerful and expensive hardware?</li>
+    </ol>
+
+    <!-- Think About It -->
+    <h2 data-aos="fade-up">Think About It</h2>
+    <ol class="question-list" data-aos="fade-up">
+      <li>Why do Deep Learning models specifically need GPUs — what is it about neural network maths that suits GPU architecture?</li>
+      <li>Why are TPUs more specialised than GPUs — what do they sacrifice for that performance?</li>
+      <li>Ranking CPU, GPU, and TPU for AI training — which is most powerful, and why?</li>
+      <li>Why do AI companies build such enormous data centers instead of using consumer hardware?</li>
+    </ol>
+
+  </div><!-- /topic-content -->
+
+  <!-- MCQ Section -->
+  <section class="mcq-section" id="mcq-section" aria-label="Practice Questions">
+    <h2 class="mcq-section__title">🧩 Practice MCQs</h2>
+    <p class="mcq-section__subtitle">Test your understanding — 4 questions</p>
+    <div id="mcq-mount"></div>
+  </section>
+
+  <script type="application/json" id="mcq-data">
+  [
+    {
+      "q": "Which hardware is specifically optimised for parallel AI computation?",
+      "options": ["CPU", "GPU", "RAM", "SSD storage"],
+      "answer": 1,
+      "explanation": "GPUs contain thousands of smaller cores designed for parallel computation — ideal for the matrix multiplications and vector operations at the heart of neural network training. CPUs have far fewer, more powerful cores designed for sequential general-purpose tasks."
+    },
+    {
+      "q": "Who created the Tensor Processing Unit (TPU)?",
+      "options": ["NVIDIA", "Intel", "Google", "Tesla"],
+      "answer": 2,
+      "explanation": "Google developed TPUs specifically to accelerate TensorFlow workloads and Deep Learning at scale. Even GPUs became insufficient for Google's largest AI systems, so they built custom silicon optimised purely for tensor operations."
+    },
+    {
+      "q": "Why are GPUs critically important for AI training?",
+      "options": ["They provide faster internet connections", "They enable massive parallel processing of matrix operations", "They increase storage capacity for datasets", "They provide antivirus protection during training"],
+      "answer": 1,
+      "explanation": "Deep Learning training involves billions of matrix multiplications that must run simultaneously. GPUs with thousands of parallel cores process these operations dramatically faster than CPUs — reducing training time from months to days."
+    },
+    {
+      "q": "Which hardware type is most specialised for AI workloads?",
+      "options": ["CPU", "GPU", "TPU", "Standard keyboard"],
+      "answer": 2,
+      "explanation": "TPUs (Tensor Processing Units) are custom ASIC chips designed exclusively for AI tensor operations. They sacrifice general-purpose flexibility for maximum performance on the specific mathematical operations neural networks require."
+    }
+  ]
+  </script>
+
+  <!-- Topic Navigation -->
+  <nav class="topic-nav" id="topic-nav" aria-label="Topic navigation">
+    <button class="topic-nav__btn topic-nav__btn--prev" id="btn-prev" style="display:none">
+      <span>←</span><span><span class="topic-nav__label">Previous</span><span class="topic-nav__title" id="prev-title"></span></span>
+    </button>
+    <button class="topic-nav__btn topic-nav__btn--next" id="btn-next" style="display:none">
+      <span><span class="topic-nav__label">Next</span><span class="topic-nav__title" id="next-title"></span></span><span>→</span>
+    </button>
+  </nav>
+</article>
+
+<button class="scroll-top-btn" id="scroll-top" aria-label="Back to top">↑</button>
+
+<script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="../../js/mcq.js"></script>
+<script src="../../js/lightbox.js"></script>
+<script>
+  AOS.init({ duration: 500, once: true, offset: 40 });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const data = JSON.parse(document.getElementById('mcq-data').textContent || '[]');
+    if (data.length) MCQEngine.init('mcq-mount', data);
+  });
+
+  window.addEventListener('scroll', () => {
+    const btn = document.getElementById('scroll-top');
+    btn?.classList.toggle('visible', window.scrollY > 300);
+    const el = document.documentElement;
+    const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+    window.parent.postMessage({ type: 'scroll-progress', data: { percent: pct || 0 } }, '*');
+  }, { passive: true });
+
+  document.getElementById('scroll-top')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  window.addEventListener('message', (e) => {
+    if (e.data?.type === 'topic-context') {
+      const { prev, next } = e.data;
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      if (prev && btnPrev) {
+        document.getElementById('prev-title').textContent = prev.label;
+        btnPrev.style.display = 'flex';
+        btnPrev.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: prev.id } }, '*');
+      }
+      if (next && btnNext) {
+        document.getElementById('next-title').textContent = next.label;
+        btnNext.style.display = 'flex';
+        btnNext.onclick = () => window.parent.postMessage({ type: 'navigate', data: { id: next.id } }, '*');
+      }
+    }
+  });
+</script>
+</body>
+</html>
