@@ -11,7 +11,8 @@ const TOPICS = [
       { id: 'applications',   label: 'Real-World Applications of Artificial Intelligence', file: 'topics/intro/applications-ai.html' },
       { id: 'how-ai-works',   label: 'How AI Actually Works',                              file: 'topics/intro/how-ai-works.html'    },
       { id: 'branches-ai',    label: 'Branches of Artificial Intelligence',                file: 'topics/intro/branches-of-ai.html'         },
-      { id: 'adv-limit-ai',  label: 'Advantages and Limitations of AI',                  file: 'topics/intro/advantages-limitations-ai.html' },
+      { id: 'adv-limit-ai',  label: 'Advantages and Limitations of AI',                  file: 'topics/intro/advantages-limitations-ai.html'    },
+      { id: 'ai-lifecycle',  label: 'AI Development Lifecycle',                          file: 'topics/intro/ai-development-lifecycle.html'     },
     ],
   },
   {
