@@ -15,6 +15,7 @@ const TOPICS = [
       { id: 'ai-lifecycle',  label: 'AI Development Lifecycle',                          file: 'topics/intro/ai-development-lifecycle.html'     },
       { id: 'ai-humans',     label: 'AI, Humans, and Intelligence',                      file: 'topics/intro/ai-humans-intelligence.html'        },
       { id: 'ai-terms',      label: 'Important AI Terminologies & Keywords',              file: 'topics/intro/ai-terminologies.html'              },
+      { id: 'learning-types', label: 'Types of Learning in AI',                          file: 'topics/intro/types-of-learning.html'             },
     ],
   },
   {
