@@ -19,6 +19,7 @@ const TOPICS = [
       { id: 'data-in-ai',    label: 'Data in Artificial Intelligence',                   file: 'topics/intro/data-in-ai.html'                    },
       { id: 'cpu-gpu-tpu',   label: 'CPU vs GPU vs TPU in AI',                           file: 'topics/intro/cpu-gpu-tpu.html'                   },
       { id: 'ai-ethics',     label: 'AI Ethics, Bias, Privacy & Responsible AI',         file: 'topics/intro/ai-ethics.html'                     },
+      { id: 'future-ai',     label: 'Future of AI & AI Career Opportunities',            file: 'topics/intro/future-of-ai.html'                  },
     ],
   },
   {
